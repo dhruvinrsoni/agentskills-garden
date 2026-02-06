@@ -1,0 +1,142 @@
+{
+  "$schema": "../../schemas/skill.schema.json",
+  "id": "detect_smells",
+  "name": "Detect Code Smells and Survivor Patterns",
+  "version": "0.1.0",
+  "level": 2,
+  "domain": "code_understanding",
+  "description": {
+    "short": "Identifies code smells and patterns that 'survived for a reason' in legacy code.",
+    "long": "Analyzes code to detect potential issues and unusual patterns, but goes beyond simple linting to understand why certain patterns exist. Combines static analysis with contextual awareness to distinguish between problematic code and intentional workarounds. Part of Gap #3: Understanding Legacy Code."
+  },
+  "interface": {
+    "inputs": {
+      "code": {
+        "type": "string",
+        "description": "Source code to analyze",
+        "required": true
+      },
+      "language": {
+        "type": "string",
+        "description": "Programming language",
+        "required": false,
+        "enum": ["python", "javascript", "typescript", "java", "auto"]
+      },
+      "context": {
+        "type": "object",
+        "description": "Additional context about the code",
+        "required": false,
+        "properties": {
+          "file_path": {"type": "string"},
+          "age_years": {"type": "number"},
+          "framework": {"type": "string"},
+          "is_generated": {"type": "boolean"}
+        }
+      },
+      "severity_threshold": {
+        "type": "string",
+        "description": "Minimum severity to report",
+        "enum": ["info", "warning", "error"],
+        "default": "info"
+      }
+    },
+    "outputs": {
+      "summary": {
+        "type": "string",
+        "description": "Overall assessment of code quality"
+      },
+      "smells": {
+        "type": "array",
+        "description": "Detected code smells",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {"type": "string", "description": "Unique identifier for the smell type"},
+            "name": {"type": "string", "description": "Human-readable name"},
+            "severity": {"type": "string", "enum": ["info", "warning", "error"]},
+            "line": {"type": "integer", "description": "Line number where detected"},
+            "description": {"type": "string", "description": "What was detected"},
+            "likely_reason": {"type": "string", "description": "Why this pattern might exist"},
+            "is_survivor": {"type": "boolean", "description": "Whether this looks intentional"},
+            "suggestion": {"type": "string", "description": "Improvement suggestion if applicable"}
+          }
+        }
+      },
+      "survivor_patterns": {
+        "type": "array",
+        "description": "Patterns that look intentional despite appearing problematic",
+        "items": {
+          "type": "object",
+          "properties": {
+            "pattern": {"type": "string"},
+            "evidence": {"type": "string"},
+            "respect_recommendation": {"type": "string"}
+          }
+        }
+      },
+      "metrics": {
+        "type": "object",
+        "description": "Code quality metrics",
+        "properties": {
+          "cyclomatic_complexity": {"type": "integer"},
+          "lines_of_code": {"type": "integer"},
+          "comment_ratio": {"type": "number"},
+          "function_count": {"type": "integer"},
+          "max_nesting_depth": {"type": "integer"}
+        }
+      },
+      "health_score": {
+        "type": "integer",
+        "description": "Overall health score 0-100",
+        "minimum": 0,
+        "maximum": 100
+      }
+    },
+    "context_required": ["code_summary", "history_analysis"]
+  },
+  "dependencies": ["summarize_code", "analyze_history"],
+  "validation": {
+    "test_cases": [
+      {
+        "name": "detect_god_class",
+        "input": {
+          "code": "class GodClass:\\n    # 50+ methods...",
+          "language": "python"
+        },
+        "expected_behavior": "Should detect 'god class' smell with explanation"
+      },
+      {
+        "name": "detect_intentional_workaround",
+        "input": {
+          "code": "# WORKAROUND: API bug\\nerror_prone_call() or fallback()",
+          "language": "python"
+        },
+        "expected_behavior": "Should identify as survivor pattern due to comment"
+      },
+      {
+        "name": "clean_code",
+        "input": {
+          "code": "def add(a, b):\\n    return a + b",
+          "language": "python"
+        },
+        "expected_behavior": "Should return empty smells list and high health score"
+      }
+    ],
+    "invariants": [
+      "health_score must be between 0 and 100",
+      "survivor_patterns should be subset of smells marked is_survivor=true",
+      "All smells must have valid line numbers within code range"
+    ]
+  },
+  "metadata": {
+    "author": "agentskills-garden",
+    "tags": ["code-quality", "static-analysis", "refactoring", "legacy"],
+    "changelog": [
+      {
+        "version": "0.1.0",
+        "date": "2025-01-20",
+        "changes": ["Initial implementation with common smell detection"]
+      }
+    ]
+  }
+}
