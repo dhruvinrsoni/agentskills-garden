@@ -1,3 +1,46 @@
+**AgentSkills Garden — Quick Start**
+
+Purpose: A small library of composable AI "skills" (HTTP microservices + schemas) for code understanding and translating business needs. Focus: fast onboarding and predictable unit tests.
+
+**Quick Setup**
+- Requires: Python 3.11+. Create a venv and activate it:
+
+```bash
+python -m venv .venv
+.venv\\Scripts\\activate    # Windows
+# or: source .venv/bin/activate  # macOS/Linux
+```
+
+- Run tests (recommended):
+
+```bash
+pytest skills/ --cov
+```
+
+**Run a single skill (dev)**
+- Start a skill's FastAPI app (example: analyze_history):
+
+```bash
+cd skills/01_code_understanding/analyze_history
+uvicorn main:app --reload --port 8001
+```
+
+- Health: `GET /health`  Describe: `GET /describe`  Execute: `POST /execute` with `{ "inputs": { ... } }`
+
+**Integration helpers**
+- MCP server (local): `python integrations/mcp/server.py` (implements the MCP bridge)
+- OpenAI function generator: `python integrations/openai/generate.py`
+
+**When to commit changes**
+- Commit any changes to `skills/*/main.py` or `skills/*/test_main.py`.
+- `__init__.py` files in `skills/*` are intentionally present so pytest collects package-relative imports.
+
+**FAQ (short)**
+- Q: Tests failing with "import mismatch"?  A: Use package-relative imports in tests (`from .main import ...`) and add an `__init__.py` to the skill folder.
+- Q: Should I push directly to `main`?  A: Prefer a feature branch + PR for review.
+- Q: How to run full coverage? A: `pytest --cov=skills --cov-report=html` then open `htmlcov/index.html`.
+
+Need a full developer guide or a PR with these docs added? Tell me and I will push and/or open a PR.
 # AgentSkills Garden 🌱
 
 > *A composable library of AI agent skills designed to bridge the gaps AI cannot replicate.*
