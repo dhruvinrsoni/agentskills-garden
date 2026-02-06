@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  # Example: Code Understanding Skills
+  # Uncomment and modify as skills are implemented
+  
+  # summarize_code:
+  #   build:
+  #     context: ../skills/01_code_understanding/summarize_code
+  #     dockerfile: Dockerfile
+  #   container_name: agentskills-summarize-code
+  #   ports:
+  #     - "8001:8000"
+  #   environment:
+  #     - SKILL_ID=summarize_code
+  #     - LOG_LEVEL=info
+  #   volumes:
+  #     - ../skills/01_code_understanding/summarize_code:/app:ro
+  #   restart: unless-stopped
+  #   networks:
+  #     - agentskills-net
+  
+  # analyze_history:
+  #   build:
+  #     context: ../skills/01_code_understanding/analyze_history
+  #     dockerfile: Dockerfile
+  #   container_name: agentskills-analyze-history
+  #   ports:
+  #     - "8002:8000"
+  #   environment:
+  #     - SKILL_ID=analyze_history
+  #     - LOG_LEVEL=info
+  #   volumes:
+  #     - ../skills/01_code_understanding/analyze_history:/app:ro
+  #     - ~/.gitconfig:/home/agentskill/.gitconfig:ro  # Git config for history access
+  #   restart: unless-stopped
+  #   networks:
+  #     - agentskills-net
+
+  # Example: Translate Needs Skills
+  
+  # clarify_requirement:
+  #   build:
+  #     context: ../skills/02_translate_needs/clarify_requirement
+  #     dockerfile: Dockerfile
+  #   container_name: agentskills-clarify-requirement
+  #   ports:
+  #     - "8003:8000"
+  #   environment:
+  #     - SKILL_ID=clarify_requirement
+  #     - LOG_LEVEL=info
+  #   restart: unless-stopped
+  #   networks:
+  #     - agentskills-net
+
+networks:
+  agentskills-net:
+    driver: bridge
+    name: agentskills-network
+
+# Usage:
+# docker-compose -f infra/docker-compose.yml up -d
+# docker-compose -f infra/docker-compose.yml ps
+# docker-compose -f infra/docker-compose.yml logs -f <service-name>
+# docker-compose -f infra/docker-compose.yml down
