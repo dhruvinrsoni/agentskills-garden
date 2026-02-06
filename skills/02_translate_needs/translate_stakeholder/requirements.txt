@@ -1,0 +1,8 @@
+# translate_stakeholder skill dependencies
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.0.0
+
+# Testing
+pytest>=7.4.0
+httpx>=0.25.0

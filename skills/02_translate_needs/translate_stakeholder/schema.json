@@ -1,0 +1,145 @@
+{
+  "$schema": "../../../schemas/skill.schema.json",
+  "id": "translate_stakeholder",
+  "name": "Translate for Stakeholder",
+  "version": "0.1.0",
+  "level": 2,
+  "domain": "translate_needs",
+  "description": "Translates technical information into stakeholder-appropriate language. Adapts content for executives, product managers, engineers, or non-technical audiences while preserving essential meaning and impact.",
+  "tags": ["communication", "translation", "stakeholder", "documentation"],
+  "dependencies": [],
+  "composable_with": ["summarize_code", "analyze_tradeoffs", "clarify_requirement"],
+  "interface": {
+    "inputs": {
+      "type": "object",
+      "required": ["technical_content"],
+      "properties": {
+        "technical_content": {
+          "type": "string",
+          "description": "The technical content to translate (code explanation, architecture description, bug report, etc.)"
+        },
+        "target_audience": {
+          "type": "string",
+          "enum": ["executive", "product_manager", "engineer", "non_technical", "mixed"],
+          "default": "non_technical",
+          "description": "The target audience for the translation"
+        },
+        "context": {
+          "type": "object",
+          "description": "Additional context about the communication",
+          "properties": {
+            "purpose": {
+              "type": "string",
+              "enum": ["inform", "persuade", "request_resources", "status_update", "incident_report", "proposal"],
+              "description": "The purpose of the communication"
+            },
+            "urgency": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"],
+              "description": "Urgency level of the communication"
+            },
+            "project_name": {
+              "type": "string",
+              "description": "Name of the project for context"
+            },
+            "known_concerns": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Known stakeholder concerns to address"
+            }
+          }
+        },
+        "format": {
+          "type": "string",
+          "enum": ["email", "presentation", "document", "slack_message", "executive_summary"],
+          "default": "document",
+          "description": "The output format for the translation"
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "required": ["translated_content", "key_takeaways", "audience_focus"],
+      "properties": {
+        "translated_content": {
+          "type": "string",
+          "description": "The technical content translated for the target audience"
+        },
+        "key_takeaways": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Bullet points of key takeaways for the audience"
+        },
+        "audience_focus": {
+          "type": "object",
+          "description": "What the audience cares about most",
+          "properties": {
+            "primary_concerns": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "secondary_concerns": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "technical_terms_explained": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "term": {"type": "string"},
+              "simple_explanation": {"type": "string"}
+            }
+          },
+          "description": "Technical terms with simplified explanations"
+        },
+        "action_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action": {"type": "string"},
+              "owner": {"type": "string"},
+              "priority": {"type": "string"}
+            }
+          },
+          "description": "Suggested action items based on the content"
+        },
+        "follow_up_questions": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Questions the audience might ask"
+        },
+        "elevator_pitch": {
+          "type": "string",
+          "description": "30-second summary suitable for quick conversations"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "name": "Bug report to executive",
+      "inputs": {
+        "technical_content": "NullPointerException in PaymentService.processTransaction() due to race condition in connection pool. Root cause: HikariCP maxLifetime exceeded during peak load. Fix: Increase pool size from 10 to 25 and add retry logic. ETA: 2 hours.",
+        "target_audience": "executive",
+        "context": {
+          "purpose": "incident_report",
+          "urgency": "high"
+        }
+      }
+    },
+    {
+      "name": "Architecture to product manager",
+      "inputs": {
+        "technical_content": "Migrating from monolith to microservices using event-driven architecture. Implementing CQRS pattern with Kafka for async communication. Breaking into 5 bounded contexts: user, order, inventory, payment, notification.",
+        "target_audience": "product_manager",
+        "context": {
+          "purpose": "proposal"
+        }
+      }
+    }
+  ]
+}
