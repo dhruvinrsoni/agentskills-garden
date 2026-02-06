@@ -1,0 +1,23 @@
+{
+  "name": "agentskills-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing AgentSkills-Garden skills as tools",
+  "main": "server.py",
+  "integrations": {
+    "mcp": {
+      "protocol_version": "2024-11-05",
+      "capabilities": {
+        "tools": true,
+        "resources": false,
+        "prompts": true
+      }
+    }
+  },
+  "dependencies": {
+    "mcp": ">=1.0.0",
+    "httpx": ">=0.25.0",
+    "pydantic": ">=2.0.0"
+  },
+  "skills_endpoint": "http://localhost:8000",
+  "readme": "This MCP server dynamically discovers and exposes all AgentSkills-Garden skills as MCP tools. Each skill's /execute endpoint becomes an MCP tool, and skill schemas are automatically converted to MCP tool definitions."
+}
