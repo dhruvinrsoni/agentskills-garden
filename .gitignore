@@ -1,4 +1,41 @@
-# Python
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Pytest / test artifacts
+.pytest_cache/
+.cache/
+
+# Coverage reports
+.coverage
+htmlcov/
+
+# Virtualenvs
+venv/
+.venv/
+
+# Environment files
+.env
+.env.*
+
+# Build / packaging
+dist/
+build/
+*.egg-info/
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Optional: pyright / mypy caches
+.mypy_cache/
+.pyright/# Python
 __pycache__/
 *.py[cod]
 *$py.class
