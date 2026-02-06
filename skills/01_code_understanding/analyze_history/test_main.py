@@ -370,7 +370,8 @@ class TestSchemaInvariants:
         )
         
         output_dict = output.model_dump()
-        schema_outputs = schema["interface"]["outputs"]
+        # Get the properties from the schema outputs object
+        schema_outputs = schema["interface"]["outputs"]["properties"]
         
         for key in schema_outputs:
             assert key in output_dict, f"Missing output field: {key}"

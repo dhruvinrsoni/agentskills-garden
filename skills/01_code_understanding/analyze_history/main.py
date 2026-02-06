@@ -251,18 +251,21 @@ def classify_commit_message(message: str) -> str:
     """Classify commit message to determine change type."""
     message_lower = message.lower()
 
-    if any(word in message_lower for word in ["fix", "bug", "issue", "error", "crash"]):
-        return "bugfix"
-    elif any(word in message_lower for word in ["feat", "add", "new", "implement"]):
-        return "feature"
-    elif any(word in message_lower for word in ["refactor", "clean", "improve", "optimize"]):
-        return "refactor"
-    elif any(word in message_lower for word in ["doc", "comment", "readme"]):
-        return "documentation"
+    # Check more specific patterns first to avoid false matches
+    # e.g., "merge" should be checked before "feat" because "feature" contains "feat"
+    if any(word in message_lower for word in ["merge", "revert"]):
+        return "merge"
     elif any(word in message_lower for word in ["test", "spec"]):
         return "testing"
-    elif any(word in message_lower for word in ["merge", "revert"]):
-        return "merge"
+    elif any(word in message_lower for word in ["doc", "comment", "readme"]):
+        return "documentation"
+    elif any(word in message_lower for word in ["fix", "bug", "issue", "error", "crash"]):
+        return "bugfix"
+    elif any(word in message_lower for word in ["refactor", "clean", "improve", "optimize"]):
+        return "refactor"
+    elif any(word in message_lower for word in ["feat:", "add", "new", "implement"]):
+        # Use "feat:" with colon to avoid matching "feature" in merge messages
+        return "feature"
     else:
         return "update"
 
