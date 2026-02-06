@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     translate_stakeholder,
     extract_technical_terms,
@@ -477,3 +477,4 @@ class TestEdgeCases:
             )
             result = translate_stakeholder(inputs)
             assert result.key_takeaways
+

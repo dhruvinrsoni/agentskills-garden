@@ -8,7 +8,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     detect_smells,
     detect_survivor_comments,
@@ -410,3 +410,4 @@ password = 'not real'
         code = "def foo(): pass"
         result = detect_smells(ExecuteInputs(code=code, language="auto"))
         assert result.metrics.function_count == 1
+

@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     analyze_tradeoffs,
     extract_options_from_context,
@@ -148,7 +148,7 @@ class TestGenerateRecommendation:
     """Tests for recommendation generation."""
 
     def test_single_option(self):
-        from main import ComparisonEntry
+        from .main import ComparisonEntry
         
         comparisons = [
             ComparisonEntry(
@@ -163,7 +163,7 @@ class TestGenerateRecommendation:
         assert result.option == "PostgreSQL"
 
     def test_multiple_options(self):
-        from main import ComparisonEntry
+        from .main import ComparisonEntry
         
         comparisons = [
             ComparisonEntry(
@@ -451,3 +451,4 @@ class TestEdgeCases:
             )
             result = analyze_tradeoffs(inputs)
             assert len(result.stakeholder_talking_points) >= 1
+

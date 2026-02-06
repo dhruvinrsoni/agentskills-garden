@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     clarify_requirement,
     extract_user_story_components,
@@ -409,3 +409,4 @@ class TestEdgeCases:
                 )
             )
             assert result.confidence_score >= 0
+

@@ -11,7 +11,8 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from . import main
+from .main import (
     app,
     classify_commit_message,
     is_git_repo,
@@ -187,7 +188,7 @@ class TestIsGitRepo:
 class TestAnalyzeFileHistoryMocked:
     """Tests for file history analysis with mocked git commands."""
 
-    @patch("main.is_git_repo")
+    @patch.object(main, "is_git_repo")
     def test_not_git_repo(self, mock_is_repo):
         mock_is_repo.return_value = False
         
@@ -197,8 +198,8 @@ class TestAnalyzeFileHistoryMocked:
         assert "not a git repository" in result.summary.lower()
         assert result.change_patterns.total_commits == 0
 
-    @patch("main.is_git_repo")
-    @patch("main.get_file_commits")
+    @patch.object(main, "is_git_repo")
+    @patch.object(main, "get_file_commits")
     def test_no_history(self, mock_commits, mock_is_repo):
         mock_is_repo.return_value = True
         mock_commits.return_value = []
@@ -209,10 +210,10 @@ class TestAnalyzeFileHistoryMocked:
         assert "no git history" in result.summary.lower()
         assert result.change_patterns.total_commits == 0
 
-    @patch("main.is_git_repo")
-    @patch("main.get_file_commits")
-    @patch("main.get_blame_info")
-    @patch("main.get_related_files")
+    @patch.object(main, "is_git_repo")
+    @patch.object(main, "get_file_commits")
+    @patch.object(main, "get_blame_info")
+    @patch.object(main, "get_related_files")
     def test_full_analysis(self, mock_related, mock_blame, mock_commits, mock_is_repo):
         mock_is_repo.return_value = True
         mock_commits.return_value = [
@@ -278,7 +279,7 @@ class TestExecuteEndpoint:
         response = client.post("/execute", json={"inputs": {}})
         assert response.status_code == 422
 
-    @patch("main.is_git_repo")
+    @patch.object(main, "is_git_repo")
     def test_execute_not_git_repo(self, mock_is_repo):
         mock_is_repo.return_value = False
         
@@ -291,9 +292,9 @@ class TestExecuteEndpoint:
         assert data["status"] == "success"
         assert "not a git repository" in data["outputs"]["summary"].lower()
 
-    @patch("main.analyze_file_history")
+    @patch.object(main, "analyze_file_history")
     def test_execute_returns_metadata(self, mock_analyze):
-        from main import AnalyzeOutputs, ChangePatterns
+        from .main import AnalyzeOutputs, ChangePatterns
         
         mock_analyze.return_value = AnalyzeOutputs(
             summary="Test summary",
@@ -352,7 +353,7 @@ class TestSchemaInvariants:
     def test_outputs_match_schema_structure(self):
         """Verify that AnalyzeOutputs matches the schema outputs definition."""
         import json
-        from main import AnalyzeOutputs, ChangePatterns
+        from .main import AnalyzeOutputs, ChangePatterns
         
         schema_path = Path(__file__).parent / "schema.json"
         with open(schema_path) as f:
@@ -432,7 +433,7 @@ class TestEdgeCases:
             assert len(decisions[0].decision) <= 200
 
     def test_line_range_input(self):
-        from main import LineRange
+        from .main import LineRange
         
         inputs = ExecuteInputs(
             file_path="test.py",
@@ -443,8 +444,8 @@ class TestEdgeCases:
         assert inputs.line_range.start == 10
         assert inputs.line_range.end == 20
 
-    @patch("main.is_git_repo", return_value=True)
-    @patch("main.get_file_commits", return_value=[])
+    @patch.object(main, "is_git_repo", return_value=True)
+    @patch.object(main, "get_file_commits", return_value=[])
     def test_include_blame_false(self, mock_commits, mock_repo):
         inputs = ExecuteInputs(
             file_path="test.py",
@@ -454,3 +455,4 @@ class TestEdgeCases:
         result = analyze_file_history(inputs)
         # Should complete without error
         assert isinstance(result.summary, str)
+

@@ -9,7 +9,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     detect_language,
     get_source_files,
@@ -508,3 +508,4 @@ class TestEdgeCases:
             result = map_dependencies(inputs)
 
             assert "2 file" in result.summary
+

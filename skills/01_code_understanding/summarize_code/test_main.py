@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
-from main import (
+from .main import (
     app,
     detect_language,
     generate_summary,
@@ -445,3 +445,4 @@ class TestInvariants:
             outputs = response.json()["outputs"]
             assert "summary" in outputs, f"Missing summary for code: {code[:20]}"
             assert "purpose" in outputs, f"Missing purpose for code: {code[:20]}"
+
