@@ -1,0 +1,51 @@
+﻿# ==========================================================================
+# Agent Skills Garden — Registry
+# ==========================================================================
+# The single source of truth for all skills in the garden.
+# The Librarian uses this file for discovery and routing.
+# ==========================================================================
+
+version: "1.0.0"
+
+# --------------------------------------------------------------------------
+# Foundation Layer (Level 00) — always loaded
+# --------------------------------------------------------------------------
+foundation:
+  - name: constitution
+    path: skills/00-foundation/constitution.md
+    description: Core principles — Satya, Dharma, Ahimsa.
+    tags: [core, safety, principles]
+
+  - name: scratchpad
+    path: skills/00-foundation/scratchpad.md
+    description: Internal monologue protocol and cognitive modes (Eco/Power).
+    tags: [core, reasoning, modes]
+
+  - name: auditor
+    path: skills/00-foundation/auditor.md
+    description: Output validation — ensures Constitution compliance.
+    tags: [core, safety, validation]
+
+  - name: librarian
+    path: skills/00-foundation/librarian.md
+    description: Skill discovery via fuzzy matching and semantic search.
+    tags: [core, routing, discovery]
+
+# --------------------------------------------------------------------------
+# Implementation Layer (Level 30)
+# --------------------------------------------------------------------------
+implementation:
+  - name: cleanup
+    path: skills/30-implementation/cleanup.md
+    description: Remove noise, enforce formatting, safely rename identifiers.
+    tags: [code-quality, formatting, renaming]
+    reasoning_mode: mixed
+
+# --------------------------------------------------------------------------
+# Templates
+# --------------------------------------------------------------------------
+templates:
+  - name: skill-template
+    path: templates/skill-template.md
+    description: Boilerplate for creating new skills.
+    tags: [meta, template]
