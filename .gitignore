@@ -1,41 +1,42 @@
+# Minimal Python .gitignore
 # Bytecode
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Pytest / test artifacts
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Test and coverage
 .pytest_cache/
-.cache/
-
-# Coverage reports
 .coverage
 htmlcov/
 
-# Virtualenvs
-venv/
-.venv/
-
-# Environment files
-.env
-.env.*
-
-# Build / packaging
-dist/
-build/
-*.egg-info/
-
-# Editor / IDE
+# Editor directories and files
 .vscode/
 .idea/
 
-# OS
+# OS files
 .DS_Store
 
-# Logs
+# Environment variables
+.env
+
+# Pyright / mypy
+.mypy_cache/
+
+# Optional: local project files
+# Ignore local IDE run files, logs
 *.log
 
-# Optional: pyright / mypy caches
-.mypy_cache/
-.pyright/# Python
 __pycache__/
 *.py[cod]
 *$py.class
