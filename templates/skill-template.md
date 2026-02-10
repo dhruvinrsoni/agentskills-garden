@@ -1,4 +1,4 @@
-﻿---
+---
 name: <skill-name>
 description: >
   <One-line description of what this skill does.>

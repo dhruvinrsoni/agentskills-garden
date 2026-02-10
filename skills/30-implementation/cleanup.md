@@ -1,4 +1,4 @@
-﻿---
+---
 name: cleanup
 description: >
   Remove noise, enforce formatting, and safely rename identifiers.

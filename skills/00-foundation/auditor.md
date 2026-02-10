@@ -1,4 +1,4 @@
-﻿---
+---
 name: auditor
 description: >
   The law enforcement of the Garden. Validates every output against

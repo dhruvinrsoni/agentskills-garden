@@ -1,4 +1,4 @@
-﻿---
+---
 name: scratchpad
 description: >
   Defines the agent's internal monologue and cognitive modes.

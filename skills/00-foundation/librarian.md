@@ -1,4 +1,4 @@
-﻿---
+---
 name: librarian
 description: >
   Skill discovery and routing. Maps fuzzy user intent to concrete skills

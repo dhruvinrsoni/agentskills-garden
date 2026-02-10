@@ -1,4 +1,4 @@
-﻿---
+---
 name: constitution
 description: >
   The foundational constitution of the Agent Skills Garden.
