@@ -106,245 +106,259 @@ echo "  ✔ 00-foundation/constitution.md"
 # --- scratchpad.md ---------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/scratchpad.md
 ---
-name: scratchpad
-description: >
-  Defines the agent's internal monologue and cognitive modes.
-  Loaded before every task to set the thinking framework.
-version: "1.0.0"
-dependencies:
-  - constitution
-reasoning_mode: linear
+title: "Scratchpad"
+description: "Instructions for 'Internal Monologue' (Eco vs. Power reasoning)."
 ---
 
-# Scratchpad — Internal Monologue Protocol
+# Scratchpad
 
-> _"Think before you type."_
+## Internal Monologue
+- Use Eco Mode for low-risk tasks.
+- Use Power Mode for high-risk tasks.
+EOF
 
-## Rule
-
-Before generating **any** code or making **any** file change, you **must**
-open a `<scratchpad>` block in your reasoning trace. This block is private
-and never shown to the user unless they ask for it.
-
-```text
-<scratchpad>
-  Task: ...
-  Risk: low | medium | high
-  Mode: eco | power
-  Plan:
-    1. ...
-    2. ...
-</scratchpad>
-```
-
+cat << 'EOF' > skills/00-foundation/auditor.md
+---
+title: "Auditor"
+description: "Validates that other skills followed the Constitution."
 ---
 
-## Eco Mode 🌿
+# Auditor
 
-**When:** Low-risk tasks — typos, formatting, small fixes, doc updates.
+## Purpose
+- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
+EOF
 
-- Use a **simple linear plan** (1-3 steps).
-- No deep reasoning required.
-- Execute directly after plan confirmation.
-
-### Eco Checklist
-
-- [ ] Change is cosmetic or additive only.
-- [ ] No logic is altered.
-- [ ] No public API surface changes.
-
+cat << 'EOF' > skills/00-foundation/librarian.md
+---
+title: "Librarian"
+description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
 ---
 
-## Power Mode ⚡
+# Librarian
 
-**When:** High-risk tasks — refactoring, logic changes, architecture
-decisions, multi-file edits.
+## Purpose
+- Provide a search mechanism to locate relevant skills.
+EOF
 
-Engage **4-Step Reasoning**:
+# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
 
-| Step | Mode       | Question                                      |
-|------|------------|-----------------------------------------------|
-| 1    | Deductive  | What do the **rules** (types, specs) require?  |
-| 2    | Inductive  | What **patterns** exist in the codebase?       |
-| 3    | Abductive  | What is the **best hypothesis** for the root cause? |
-| 4    | Analogical | Have we seen a **similar case** before?        |
+# Create the registry.yaml file
+cat << 'EOF' > skills/registry.yaml
+skills:
+  - foundation:
+      - constitution.md
+      - scratchpad.md
+      - auditor.md
+      - librarian.md
+  - discovery:
+      - requirements-elicitation.md
+      - domain-modeling.md
+  - architecture:
+      - adr-management.md
+      - api-contract-design.md
+      - database-design.md
+      - system-design.md
+  - implementation:
+      - cleanup.md
+      - api-implementation.md
+      - data-access.md
+      - refactoring-suite.md
+      - error-handling.md
+  - quality:
+      - test-strategy.md
+      - unit-testing.md
+      - integration-testing.md
+      - mutation-testing.md
+  - performance:
+      - profiling-analysis.md
+      - caching-strategy.md
+      - db-tuning.md
+  - security:
+      - threat-modeling.md
+      - secure-coding-review.md
+      - auth-implementation.md
+      - dependency-scanning.md
+  - devops:
+      - ci-pipeline.md
+      - docker-containerization.md
+      - kubernetes-helm.md
+      - terraform-iac.md
+  - docs:
+      - openapi-specs.md
+      - readme-generation.md
+      - release-notes.md
+  - maintenance:
+      - incident-response.md
+      - legacy-upgrade.md
+EOF
 
-### Power Checklist
-
-- [ ] Scratchpad includes all 4 reasoning steps.
-- [ ] Plan has been reviewed against the Constitution.
-- [ ] Diff has been generated before execution.
-- [ ] Tests pass (or TDD loop is engaged).
-
----
-
-## Mode Selection Heuristic
-
-```text
-if task.changes_logic == false && task.files <= 2:
-    mode = "eco"
-else:
-    mode = "power"
-```
-
-_When in doubt, default to Power Mode._
+# Print completion message
+echo "Skills directory and files have been created successfully."
 SKILLEOF
 echo "  ✔ 00-foundation/scratchpad.md"
 
 # --- auditor.md ------------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/auditor.md
 ---
-name: auditor
-description: >
-  The law enforcement of the Garden. Validates every output against
-  the Constitution and the original plan before it reaches the user.
-version: "1.0.0"
-dependencies:
-  - constitution
-  - scratchpad
-reasoning_mode: plan-execute
+title: "Auditor"
+description: "Validates that other skills followed the Constitution."
 ---
 
-# Auditor — Output Validation Skill
+# Auditor
 
-> _"Trust, but verify."_
+## Purpose
+- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
+EOF
 
-## Role
-
-The Auditor runs **after** every skill execution and **before** the final
-output is presented. It is the last gate.
-
+cat << 'EOF' > skills/00-foundation/librarian.md
+---
+title: "Librarian"
+description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
 ---
 
-## Validation Checklist
+# Librarian
 
-### 1. Plan ↔ Diff Alignment
+## Purpose
+- Provide a search mechanism to locate relevant skills.
+EOF
 
-- [ ] Does the generated diff match the plan in the scratchpad?
-- [ ] Are there any unplanned changes (scope creep)?
-- [ ] Are all planned changes present (nothing dropped)?
+# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
 
-### 2. Protected Terms
+# Create the registry.yaml file
+cat << 'EOF' > skills/registry.yaml
+skills:
+  - foundation:
+      - constitution.md
+      - scratchpad.md
+      - auditor.md
+      - librarian.md
+  - discovery:
+      - requirements-elicitation.md
+      - domain-modeling.md
+  - architecture:
+      - adr-management.md
+      - api-contract-design.md
+      - database-design.md
+      - system-design.md
+  - implementation:
+      - cleanup.md
+      - api-implementation.md
+      - data-access.md
+      - refactoring-suite.md
+      - error-handling.md
+  - quality:
+      - test-strategy.md
+      - unit-testing.md
+      - integration-testing.md
+      - mutation-testing.md
+  - performance:
+      - profiling-analysis.md
+      - caching-strategy.md
+      - db-tuning.md
+  - security:
+      - threat-modeling.md
+      - secure-coding-review.md
+      - auth-implementation.md
+      - dependency-scanning.md
+  - devops:
+      - ci-pipeline.md
+      - docker-containerization.md
+      - kubernetes-helm.md
+      - terraform-iac.md
+  - docs:
+      - openapi-specs.md
+      - readme-generation.md
+      - release-notes.md
+  - maintenance:
+      - incident-response.md
+      - legacy-upgrade.md
+EOF
 
-- [ ] Were domain-specific protected terms (from `domain-glossary`) preserved?
-- [ ] Were no variable/function names in the protected list renamed?
-
-### 3. Constitutional Compliance
-
-- [ ] **Satya**: Is the output truthful to the user's intent?
-- [ ] **Dharma**: Were ambiguous decisions escalated to the user?
-- [ ] **Ahimsa**: Was a preview diff shown before destructive changes?
-
-### 4. Test Integrity
-
-- [ ] If tests existed before the change, do they still pass?
-- [ ] If new logic was added, were new tests created (TDD)?
-
----
-
-## Verdicts
-
-| Verdict       | Action                                           |
-|---------------|--------------------------------------------------|
-| `PASS`        | Deliver output to user.                          |
-| `WARN`        | Deliver with a warning annotation.               |
-| `FAIL`        | Block output. Return to the skill for correction.|
-| `ESCALATE`    | Ambiguity detected. Ask the user for guidance.   |
-
----
-
-## Invocation
-
-The Auditor is **not** called explicitly. It is triggered automatically by the
-runtime after every skill produces output. Think of it as middleware.
-
-```text
-skill.execute() → auditor.validate(plan, diff, constitution) → user
-```
+# Print completion message
+echo "Skills directory and files have been created successfully."
 SKILLEOF
 echo "  ✔ 00-foundation/auditor.md"
 
 # --- librarian.md ----------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/librarian.md
 ---
-name: librarian
-description: >
-  Skill discovery and routing. Maps fuzzy user intent to concrete skills
-  using fuzzy matching and semantic search.
-version: "1.0.0"
-dependencies:
-  - constitution
-reasoning_mode: linear
+title: "Librarian"
+description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
 ---
 
-# Librarian — Skill Discovery
+# Librarian
 
-> _"You don't need to know the exact name. Just tell me what you need."_
+## Purpose
+- Provide a search mechanism to locate relevant skills.
+EOF
 
-## Role
-
-The Librarian is the **entry point** for every user request. It:
-
-1. Parses the user's natural-language intent.
-2. Matches it to one or more registered skills.
-3. Returns a ranked list of candidates with confidence scores.
-
+cat << 'EOF' > skills/00-foundation/auditor.md
+---
+title: "Auditor"
+description: "Validates that other skills followed the Constitution."
 ---
 
-## Capabilities
+# Auditor
 
-### Fuzzy Matching
+## Purpose
+- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
+EOF
 
-Handles typos and abbreviations gracefully.
+# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
 
-| User types   | Resolved skill      | Confidence |
-|-------------|---------------------|------------|
-| `clnup`     | `cleanup`           | 0.92       |
-| `refactr`   | `refactoring-suite` | 0.88       |
-| `fmt`       | `cleanup`           | 0.85       |
-| `tdd`       | `unit-testing`      | 0.95       |
+# Create the registry.yaml file
+cat << 'EOF' > skills/registry.yaml
+skills:
+  - foundation:
+      - constitution.md
+      - scratchpad.md
+      - auditor.md
+      - librarian.md
+  - discovery:
+      - requirements-elicitation.md
+      - domain-modeling.md
+  - architecture:
+      - adr-management.md
+      - api-contract-design.md
+      - database-design.md
+      - system-design.md
+  - implementation:
+      - cleanup.md
+      - api-implementation.md
+      - data-access.md
+      - refactoring-suite.md
+      - error-handling.md
+  - quality:
+      - test-strategy.md
+      - unit-testing.md
+      - integration-testing.md
+      - mutation-testing.md
+  - performance:
+      - profiling-analysis.md
+      - caching-strategy.md
+      - db-tuning.md
+  - security:
+      - threat-modeling.md
+      - secure-coding-review.md
+      - auth-implementation.md
+      - dependency-scanning.md
+  - devops:
+      - ci-pipeline.md
+      - docker-containerization.md
+      - kubernetes-helm.md
+      - terraform-iac.md
+  - docs:
+      - openapi-specs.md
+      - readme-generation.md
+      - release-notes.md
+  - maintenance:
+      - incident-response.md
+      - legacy-upgrade.md
+EOF
 
-Algorithm: Levenshtein distance + prefix matching against `registry.yaml`.
-
-### Semantic Search
-
-For intent-based queries that don't map to a skill name.
-
-| User says                          | Resolved skill             |
-|------------------------------------|----------------------------|
-| "make this code cleaner"           | `cleanup`                  |
-| "I need to rename some variables"  | `cleanup → safe-renaming`  |
-| "add tests for this function"      | `unit-testing`             |
-| "split this file"                  | `refactoring-suite`        |
-| "is it secure?"                    | `secure-coding-review`     |
-| "deploy to k8s"                    | `kubernetes-helm`          |
-
-Algorithm: Embedding similarity against skill descriptions in `registry.yaml`.
-
----
-
-## Routing Protocol
-
-```text
-1. user_input → librarian.parse(input)
-2. candidates = librarian.match(parsed_intent, registry)
-3. if candidates[0].confidence >= 0.80:
-       return candidates[0]
-   elif candidates[0].confidence >= 0.60:
-       return ask_user("Did you mean: {candidates}?")
-   else:
-       return ask_user("I couldn't find a matching skill. Can you rephrase?")
-```
-
----
-
-## Fallback
-
-If no skill matches with confidence >= 0.60, the Librarian:
-
-1. Logs the unmatched query for future skill gap analysis.
-2. Suggests the closest 3 skills.
-3. Offers to create a new skill stub from `templates/skill-template.md`.
+# Print completion message
+echo "Skills directory and files have been created successfully."
 SKILLEOF
 echo "  ✔ 00-foundation/librarian.md"
 
