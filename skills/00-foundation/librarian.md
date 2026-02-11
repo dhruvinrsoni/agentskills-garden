@@ -32,9 +32,9 @@ Handles typos and abbreviations gracefully.
 | User types   | Resolved skill      | Confidence |
 |-------------|---------------------|------------|
 | `clnup`     | `cleanup`           | 0.92       |
-| `refactr`   | `refactor`          | 0.88       |
-| `fmt`       | `format`            | 0.85       |
-| `tdd`       | `test-driven-dev`   | 0.95       |
+| `refactr`   | `refactoring-suite` | 0.88       |
+| `fmt`       | `cleanup`           | 0.85       |
+| `tdd`       | `unit-testing`      | 0.95       |
 
 Algorithm: Levenshtein distance + prefix matching against `registry.yaml`.
 
@@ -42,12 +42,14 @@ Algorithm: Levenshtein distance + prefix matching against `registry.yaml`.
 
 For intent-based queries that don't map to a skill name.
 
-| User says                          | Resolved skill           |
-|------------------------------------|--------------------------|
-| "make this code cleaner"           | `cleanup`                |
-| "I need to rename some variables"  | `cleanup → safe-renaming`|
-| "add tests for this function"      | `tdd-loop`               |
-| "split this file"                  | `refactor → extract`     |
+| User says                          | Resolved skill             |
+|------------------------------------|----------------------------|
+| "make this code cleaner"           | `cleanup`                  |
+| "I need to rename some variables"  | `cleanup → safe-renaming`  |
+| "add tests for this function"      | `unit-testing`             |
+| "split this file"                  | `refactoring-suite`        |
+| "is it secure?"                    | `secure-coding-review`     |
+| "deploy to k8s"                    | `kubernetes-helm`          |
 
 Algorithm: Embedding similarity against skill descriptions in `registry.yaml`.
 
@@ -70,7 +72,7 @@ Algorithm: Embedding similarity against skill descriptions in `registry.yaml`.
 
 ## Fallback
 
-If no skill matches with confidence ≥ 0.60, the Librarian:
+If no skill matches with confidence >= 0.60, the Librarian:
 
 1. Logs the unmatched query for future skill gap analysis.
 2. Suggests the closest 3 skills.

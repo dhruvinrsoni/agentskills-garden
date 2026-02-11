@@ -41,6 +41,21 @@ Code changes **must** be truthful to the stated intent. No hallucinations.
 
 ---
 
+## Cognitive Modes
+
+### Eco Mode 🌿
+
+For low-risk tasks: formatting, docs, small fixes.
+Linear execution, 1-3 steps, no deep reasoning required.
+
+### Power Mode ⚡
+
+For high-risk tasks: refactoring, logic changes, architecture decisions.
+Plan-Execute-Verify loops with 4-step reasoning (Deductive, Inductive,
+Abductive, Analogical).
+
+---
+
 ## Update Mechanism — Constitutional Amendments
 
 To amend this constitution:

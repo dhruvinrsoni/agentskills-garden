@@ -32,7 +32,7 @@ Eco or Power mode per micro-skill.
 **Rules:**
 
 - **Keep:** `TODO`, `FIXME`, `HACK`, `NOTE`, `WARN` — these carry intent.
-- **Remove:** Commented-out code blocks (≥ 2 consecutive lines of code in
+- **Remove:** Commented-out code blocks (>= 2 consecutive lines of code in
   comments).
 - **Preserve:** License headers, JSDoc/docstrings, and `@param`/`@returns`
   annotations.
@@ -68,70 +68,35 @@ Eco or Power mode per micro-skill.
 
 **Steps:**
 
-1. **Identify Candidates**
-   - Scan for single-letter variables (except loop counters `i`, `j`, `k`).
-   - Scan for abbreviations not in the domain glossary.
-   - Scan for names that violate project naming conventions.
-
-2. **Check Protected Terms**
-   - Load `domain-glossary` (if available).
-   - If a candidate is in `protected_terms`, skip it.
-
-3. **Check Visibility**
-   - If the identifier is `public` or `exported`, flag it as high-risk.
-   - Public renames require explicit user approval.
-
-4. **Generate Rename Map**
+1. **Identify Candidates** — single-letter vars (except `i`, `j`, `k`),
+   abbreviations not in the domain glossary.
+2. **Check Protected Terms** — load `domain-glossary`, skip protected.
+3. **Check Visibility** — public/exported identifiers are high-risk,
+   require explicit user approval.
+4. **Generate Rename Map:**
    ```json
    {
      "old_name": "new_name",
      "scope": "local | module | public",
-     "risk": "low | medium | high",
-     "reason": "..."
+     "risk": "low | medium | high"
    }
    ```
-
-5. **Produce Diff**
-   - Apply renames across all references in scope.
-   - Present unified diff to user.
-   - Wait for approval before applying.
+5. **Produce Diff** — apply renames across all references, present to user.
 
 ---
 
 ## Inputs
 
-| Parameter       | Type       | Required | Description                          |
-|-----------------|------------|----------|--------------------------------------|
-| `file_path`     | `string`   | yes      | Path to the file to clean up         |
-| `micro_skills`  | `string[]` | no       | Subset to run (default: all)         |
-| `domain_glossary` | `string` | no       | Path to domain glossary file         |
+| Parameter         | Type       | Required | Description                    |
+|-------------------|------------|----------|--------------------------------|
+| `file_path`       | `string`   | yes      | Path to the file to clean up   |
+| `micro_skills`    | `string[]` | no       | Subset to run (default: all)   |
+| `domain_glossary` | `string`   | no       | Path to domain glossary file   |
 
 ## Outputs
 
-| Field         | Type     | Description                              |
-|---------------|----------|------------------------------------------|
-| `diff`        | `string` | Unified diff of all changes              |
-| `rename_map`  | `object` | Map of old → new names (if renaming ran) |
-| `summary`     | `string` | Human-readable summary of changes        |
-
----
-
-## Examples
-
-### Example — Comment Cleanup
-
-**Input:**
-```json
-{
-  "file_path": "src/utils.py",
-  "micro_skills": ["comment-policy"]
-}
-```
-
-**Output:**
-```json
-{
-  "summary": "Removed 3 dead-code comment blocks (12 lines). Preserved 2 TODOs.",
-  "diff": "--- a/src/utils.py\n+++ b/src/utils.py\n@@ -14,8 +14,2 @@\n-# old_value = compute()\n-# if old_value > threshold:\n-#     ...\n"
-}
-```
+| Field        | Type     | Description                              |
+|--------------|----------|------------------------------------------|
+| `diff`       | `string` | Unified diff of all changes              |
+| `rename_map` | `object` | Map of old → new names                   |
+| `summary`    | `string` | Human-readable summary of changes        |

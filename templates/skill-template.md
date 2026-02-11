@@ -6,7 +6,7 @@ version: "0.1.0"
 dependencies:
   - constitution
   - scratchpad
-reasoning_mode: linear | plan-execute | tdd
+reasoning_mode: linear | plan-execute | tdd | mixed
 ---
 
 # <Skill Name>

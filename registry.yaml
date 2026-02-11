@@ -1,38 +1,86 @@
 # ==========================================================================
-# Agent Skills Garden — Registry
+# Agent Skills Garden — Registry (Full Suite)
 # ==========================================================================
 # The single source of truth for all skills in the garden.
 # The Librarian uses this file for discovery and routing.
 # ==========================================================================
 
-version: "1.0.0"
+version: "2.0.0"
 
 # --------------------------------------------------------------------------
-# Foundation Layer (Level 00) — always loaded
+# Foundation Layer (00) — always loaded before every task
 # --------------------------------------------------------------------------
 foundation:
   - name: constitution
     path: skills/00-foundation/constitution.md
-    description: Core principles — Satya, Dharma, Ahimsa.
+    description: Core principles — Satya, Dharma, Ahimsa. Cognitive modes.
     tags: [core, safety, principles]
+    reasoning_mode: linear
 
   - name: scratchpad
     path: skills/00-foundation/scratchpad.md
     description: Internal monologue protocol and cognitive modes (Eco/Power).
     tags: [core, reasoning, modes]
+    reasoning_mode: linear
 
   - name: auditor
     path: skills/00-foundation/auditor.md
     description: Output validation — ensures Constitution compliance.
     tags: [core, safety, validation]
+    reasoning_mode: plan-execute
 
   - name: librarian
     path: skills/00-foundation/librarian.md
     description: Skill discovery via fuzzy matching and semantic search.
     tags: [core, routing, discovery]
+    reasoning_mode: linear
 
 # --------------------------------------------------------------------------
-# Implementation Layer (Level 30)
+# Discovery Layer (10)
+# --------------------------------------------------------------------------
+discovery:
+  - name: requirements-elicitation
+    path: skills/10-discovery/requirements-elicitation.md
+    description: Interview user for goals, constraints, and success metrics.
+    tags: [discovery, requirements, planning]
+    reasoning_mode: plan-execute
+
+  - name: domain-modeling
+    path: skills/10-discovery/domain-modeling.md
+    description: Create domain glossary, entity relationships, Protected Terms.
+    tags: [discovery, domain, glossary]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Architecture Layer (20)
+# --------------------------------------------------------------------------
+architecture:
+  - name: adr-management
+    path: skills/20-architecture/adr-management.md
+    description: Create and manage Architecture Decision Records.
+    tags: [architecture, adr, decisions]
+    reasoning_mode: linear
+
+  - name: api-contract-design
+    path: skills/20-architecture/api-contract-design.md
+    description: Design REST/gRPC APIs (OpenAPI spec) before coding.
+    tags: [architecture, api, contract, openapi]
+    reasoning_mode: plan-execute
+
+  - name: database-design
+    path: skills/20-architecture/database-design.md
+    description: Schema design, normalization, migration planning, indexing.
+    tags: [architecture, database, schema, migration]
+    reasoning_mode: plan-execute
+
+  - name: system-design
+    path: skills/20-architecture/system-design.md
+    description: Component diagrams, data flow, trade-off analysis.
+    tags: [architecture, system, design, scalability]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Implementation Layer (30)
 # --------------------------------------------------------------------------
 implementation:
   - name: cleanup
@@ -40,6 +88,174 @@ implementation:
     description: Remove noise, enforce formatting, safely rename identifiers.
     tags: [code-quality, formatting, renaming]
     reasoning_mode: mixed
+
+  - name: api-implementation
+    path: skills/30-implementation/api-implementation.md
+    description: Implement handlers/controllers based on API contracts.
+    tags: [implementation, api, handlers, validation]
+    reasoning_mode: plan-execute
+
+  - name: data-access
+    path: skills/30-implementation/data-access.md
+    description: Repository pattern, query optimization, N+1 prevention.
+    tags: [implementation, database, repository, queries]
+    reasoning_mode: plan-execute
+
+  - name: refactoring-suite
+    path: skills/30-implementation/refactoring-suite.md
+    description: Complex refactors with strict test verification.
+    tags: [implementation, refactoring, extract, rename]
+    reasoning_mode: plan-execute
+
+  - name: error-handling
+    path: skills/30-implementation/error-handling.md
+    description: Standardize error types, logging, and response formats.
+    tags: [implementation, errors, logging, resilience]
+    reasoning_mode: linear
+
+# --------------------------------------------------------------------------
+# Quality Layer (40)
+# --------------------------------------------------------------------------
+quality:
+  - name: test-strategy
+    path: skills/40-quality/test-strategy.md
+    description: Define the testing pyramid, coverage targets, conventions.
+    tags: [quality, testing, strategy, coverage]
+    reasoning_mode: plan-execute
+
+  - name: unit-testing
+    path: skills/40-quality/unit-testing.md
+    description: Generate unit tests (Jest, JUnit, Go Test, PyTest).
+    tags: [quality, testing, unit, tdd]
+    reasoning_mode: linear
+
+  - name: integration-testing
+    path: skills/40-quality/integration-testing.md
+    description: Test across component boundaries with Docker containers.
+    tags: [quality, testing, integration, docker]
+    reasoning_mode: plan-execute
+
+  - name: mutation-testing
+    path: skills/40-quality/mutation-testing.md
+    description: Verify test quality by injecting faults (mutants).
+    tags: [quality, testing, mutation, coverage]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Performance Layer (50)
+# --------------------------------------------------------------------------
+performance:
+  - name: profiling-analysis
+    path: skills/50-performance/profiling-analysis.md
+    description: Analyze logs/traces to find bottlenecks and hotspots.
+    tags: [performance, profiling, flame-graph, optimization]
+    reasoning_mode: plan-execute
+
+  - name: caching-strategy
+    path: skills/50-performance/caching-strategy.md
+    description: Implement Redis/Memcached caching patterns and invalidation.
+    tags: [performance, caching, redis, invalidation]
+    reasoning_mode: plan-execute
+
+  - name: db-tuning
+    path: skills/50-performance/db-tuning.md
+    description: Index analysis, query plan optimization, connection pooling.
+    tags: [performance, database, indexing, queries]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Security Layer (60)
+# --------------------------------------------------------------------------
+security:
+  - name: threat-modeling
+    path: skills/60-security/threat-modeling.md
+    description: Identify STRIDE threats, assess risk, plan mitigations.
+    tags: [security, threat-model, stride, risk]
+    reasoning_mode: plan-execute
+
+  - name: secure-coding-review
+    path: skills/60-security/secure-coding-review.md
+    description: Scan for OWASP Top 10 vulnerabilities and anti-patterns.
+    tags: [security, owasp, code-review, vulnerabilities]
+    reasoning_mode: plan-execute
+
+  - name: auth-implementation
+    path: skills/60-security/auth-implementation.md
+    description: Implement JWT, OAuth2, or RBAC authentication safely.
+    tags: [security, auth, jwt, oauth2, rbac]
+    reasoning_mode: plan-execute
+
+  - name: dependency-scanning
+    path: skills/60-security/dependency-scanning.md
+    description: Check dependencies for CVEs and license compliance.
+    tags: [security, dependencies, cve, sbom]
+    reasoning_mode: linear
+
+# --------------------------------------------------------------------------
+# DevOps Layer (70)
+# --------------------------------------------------------------------------
+devops:
+  - name: ci-pipeline
+    path: skills/70-devops/ci-pipeline.md
+    description: Generate GitHub Actions/GitLab CI workflows.
+    tags: [devops, ci, github-actions, pipeline]
+    reasoning_mode: plan-execute
+
+  - name: docker-containerization
+    path: skills/70-devops/docker-containerization.md
+    description: Write optimized Dockerfiles with multi-stage builds.
+    tags: [devops, docker, containers, images]
+    reasoning_mode: linear
+
+  - name: kubernetes-helm
+    path: skills/70-devops/kubernetes-helm.md
+    description: Generate Helm charts and K8s manifests.
+    tags: [devops, kubernetes, helm, deployment]
+    reasoning_mode: plan-execute
+
+  - name: terraform-iac
+    path: skills/70-devops/terraform-iac.md
+    description: Generate Infrastructure as Code modules (Terraform/OpenTofu).
+    tags: [devops, terraform, iac, cloud]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Documentation Layer (80)
+# --------------------------------------------------------------------------
+docs:
+  - name: openapi-specs
+    path: skills/80-docs/openapi-specs.md
+    description: Generate Swagger/OpenAPI YAML from code.
+    tags: [docs, openapi, swagger, api]
+    reasoning_mode: linear
+
+  - name: readme-generation
+    path: skills/80-docs/readme-generation.md
+    description: Create comprehensive READMEs with usage and install guides.
+    tags: [docs, readme, documentation]
+    reasoning_mode: linear
+
+  - name: release-notes
+    path: skills/80-docs/release-notes.md
+    description: Parse git logs to generate changelogs and version bumps.
+    tags: [docs, changelog, release, versioning]
+    reasoning_mode: linear
+
+# --------------------------------------------------------------------------
+# Maintenance Layer (90)
+# --------------------------------------------------------------------------
+maintenance:
+  - name: incident-response
+    path: skills/90-maintenance/incident-response.md
+    description: Triage, mitigate, and resolve production outages.
+    tags: [maintenance, incident, outage, postmortem]
+    reasoning_mode: plan-execute
+
+  - name: legacy-upgrade
+    path: skills/90-maintenance/legacy-upgrade.md
+    description: Plan for upgrading major frameworks and languages.
+    tags: [maintenance, upgrade, migration, legacy]
+    reasoning_mode: plan-execute
 
 # --------------------------------------------------------------------------
 # Templates
