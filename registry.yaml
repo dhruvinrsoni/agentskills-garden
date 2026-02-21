@@ -5,7 +5,7 @@
 # The Librarian uses this file for discovery and routing.
 # ==========================================================================
 
-version: "2.0.0"
+version: "3.0.0"
 
 # --------------------------------------------------------------------------
 # Foundation Layer (00) — always loaded before every task
@@ -80,6 +80,34 @@ architecture:
     reasoning_mode: plan-execute
 
 # --------------------------------------------------------------------------
+# Planning Layer (20)
+# --------------------------------------------------------------------------
+planning:
+  - name: task-decomposition
+    path: skills/20-planning/task-decomposition.md
+    description: Break tasks into subtasks, DAG ordering, T-shirt sizing.
+    tags: [planning, decomposition, estimation, dag]
+    reasoning_mode: plan-execute
+
+  - name: risk-assessment
+    path: skills/20-planning/risk-assessment.md
+    description: Identify risks, probability/impact matrix, mitigation strategies.
+    tags: [planning, risk, mitigation, assessment]
+    reasoning_mode: plan-execute
+
+  - name: dependency-analysis
+    path: skills/20-planning/dependency-analysis.md
+    description: Dependency graphs, circular detection, staleness/CVE audit.
+    tags: [planning, dependencies, graph, analysis]
+    reasoning_mode: plan-execute
+
+  - name: estimation
+    path: skills/20-planning/estimation.md
+    description: Three-point (PERT) estimation, relative sizing, confidence intervals.
+    tags: [planning, estimation, pert, sizing]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
 implementation:
@@ -113,6 +141,24 @@ implementation:
     tags: [implementation, errors, logging, resilience]
     reasoning_mode: linear
 
+  - name: code-generation
+    path: skills/30-implementation/code-generation.md
+    description: Generate code from specs with language idiom enforcement.
+    tags: [implementation, codegen, templates, dry]
+    reasoning_mode: plan-execute
+
+  - name: refactoring
+    path: skills/30-implementation/refactoring.md
+    description: Safe code restructuring with test-first verification.
+    tags: [implementation, refactoring, safety]
+    reasoning_mode: plan-execute
+
+  - name: tdd-workflow
+    path: skills/30-implementation/tdd-workflow.md
+    description: Red-Green-Refactor cycle with coverage targets.
+    tags: [implementation, tdd, testing, workflow]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Quality Layer (40)
 # --------------------------------------------------------------------------
@@ -141,6 +187,30 @@ quality:
     tags: [quality, testing, mutation, coverage]
     reasoning_mode: plan-execute
 
+  - name: code-review
+    path: skills/40-quality/code-review.md
+    description: Review checklists, defect categories, severity classification.
+    tags: [quality, review, pr, defects]
+    reasoning_mode: plan-execute
+
+  - name: testing-strategy
+    path: skills/40-quality/testing-strategy.md
+    description: Coverage analysis, test type selection, boundary conditions.
+    tags: [quality, testing, strategy, coverage]
+    reasoning_mode: plan-execute
+
+  - name: security-review
+    path: skills/40-quality/security-review.md
+    description: OWASP Top 10 scan, vulnerability detection, secret scanning.
+    tags: [quality, security, owasp, review]
+    reasoning_mode: plan-execute
+
+  - name: performance-review
+    path: skills/40-quality/performance-review.md
+    description: Bottleneck identification, complexity analysis, caching review.
+    tags: [quality, performance, review, optimization]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Performance Layer (50)
 # --------------------------------------------------------------------------
@@ -162,6 +232,34 @@ performance:
     description: Index analysis, query plan optimization, connection pooling.
     tags: [performance, database, indexing, queries]
     reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
+# Documentation Layer (50)
+# --------------------------------------------------------------------------
+documentation:
+  - name: api-documentation
+    path: skills/50-documentation/api-documentation.md
+    description: API endpoint docs, OpenAPI specs, request/response examples.
+    tags: [documentation, api, openapi, examples]
+    reasoning_mode: linear
+
+  - name: inline-documentation
+    path: skills/50-documentation/inline-documentation.md
+    description: JSDoc/docstrings, comment quality, self-documenting code.
+    tags: [documentation, comments, jsdoc, docstrings]
+    reasoning_mode: linear
+
+  - name: decision-records
+    path: skills/50-documentation/decision-records.md
+    description: ADR authoring (context, decision, consequences format).
+    tags: [documentation, adr, decisions, records]
+    reasoning_mode: plan-execute
+
+  - name: changelog-generation
+    path: skills/50-documentation/changelog-generation.md
+    description: Conventional commits parsing, semantic versioning, release notes.
+    tags: [documentation, changelog, versioning, semver]
+    reasoning_mode: linear
 
 # --------------------------------------------------------------------------
 # Security Layer (60)
@@ -192,6 +290,28 @@ security:
     reasoning_mode: linear
 
 # --------------------------------------------------------------------------
+# Debugging Layer (60)
+# --------------------------------------------------------------------------
+debugging:
+  - name: root-cause-analysis
+    path: skills/60-debugging/root-cause-analysis.md
+    description: 5-whys, fault trees, git bisection, symptom-to-cause mapping.
+    tags: [debugging, rca, fault-tree, bisection]
+    reasoning_mode: plan-execute
+
+  - name: log-analysis
+    path: skills/60-debugging/log-analysis.md
+    description: Log parsing, pattern recognition, event correlation, anomaly detection.
+    tags: [debugging, logs, parsing, anomaly]
+    reasoning_mode: plan-execute
+
+  - name: error-handling-debug
+    path: skills/60-debugging/error-handling.md
+    description: Exception hierarchies, retry strategies, graceful degradation.
+    tags: [debugging, errors, retry, circuit-breaker]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
 # DevOps Layer (70)
 # --------------------------------------------------------------------------
 devops:
@@ -219,6 +339,12 @@ devops:
     tags: [devops, terraform, iac, cloud]
     reasoning_mode: plan-execute
 
+  - name: monitoring-setup
+    path: skills/70-devops/monitoring-setup.md
+    description: Observability pillars, SLIs/SLOs, alerting, distributed tracing.
+    tags: [devops, monitoring, observability, alerting]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Documentation Layer (80)
 # --------------------------------------------------------------------------
@@ -242,6 +368,34 @@ docs:
     reasoning_mode: linear
 
 # --------------------------------------------------------------------------
+# Collaboration Layer (80)
+# --------------------------------------------------------------------------
+collaboration:
+  - name: git-workflow
+    path: skills/80-collaboration/git-workflow.md
+    description: Branching strategies, commit conventions, conflict resolution.
+    tags: [collaboration, git, branching, merge]
+    reasoning_mode: linear
+
+  - name: pr-management
+    path: skills/80-collaboration/pr-management.md
+    description: PR templates, review assignments, merge criteria.
+    tags: [collaboration, pr, review, merge]
+    reasoning_mode: linear
+
+  - name: pair-programming
+    path: skills/80-collaboration/pair-programming.md
+    description: Driver/navigator roles, mob programming, knowledge transfer.
+    tags: [collaboration, pairing, mob, knowledge]
+    reasoning_mode: linear
+
+  - name: knowledge-sharing
+    path: skills/80-collaboration/knowledge-sharing.md
+    description: Documentation culture, wikis, runbooks, onboarding guides.
+    tags: [collaboration, docs, wikis, runbooks]
+    reasoning_mode: linear
+
+# --------------------------------------------------------------------------
 # Maintenance Layer (90)
 # --------------------------------------------------------------------------
 maintenance:
@@ -255,6 +409,30 @@ maintenance:
     path: skills/90-maintenance/legacy-upgrade.md
     description: Plan for upgrading major frameworks and languages.
     tags: [maintenance, upgrade, migration, legacy]
+    reasoning_mode: plan-execute
+
+  - name: dependency-updates
+    path: skills/90-maintenance/dependency-updates.md
+    description: Automated updates, semver compatibility, lockfile management.
+    tags: [maintenance, dependencies, updates, semver]
+    reasoning_mode: linear
+
+  - name: deprecation-management
+    path: skills/90-maintenance/deprecation-management.md
+    description: Sunset timelines, migration paths, consumer impact analysis.
+    tags: [maintenance, deprecation, sunset, migration]
+    reasoning_mode: plan-execute
+
+  - name: migration-planning
+    path: skills/90-maintenance/migration-planning.md
+    description: Version upgrades, data migration, rollback strategies.
+    tags: [maintenance, migration, rollback, upgrade]
+    reasoning_mode: plan-execute
+
+  - name: tech-debt-tracking
+    path: skills/90-maintenance/tech-debt-tracking.md
+    description: Debt categorization, impact scoring, payoff prioritization.
+    tags: [maintenance, tech-debt, tracking, prioritization]
     reasoning_mode: plan-execute
 
 # --------------------------------------------------------------------------

@@ -17,6 +17,13 @@ reasoning_mode: linear | plan-execute | tdd | mixed
 
 <Describe when and why this skill is invoked. What problem does it solve?>
 
+## Scope
+
+**In scope:** <What this skill is allowed to read/modify.>
+
+**Out of scope:** <What this skill must NEVER touch — public APIs, protected
+terms, generated code, etc.>
+
 ---
 
 ## Micro-Skills
@@ -54,6 +61,50 @@ reasoning_mode: linear | plan-execute | tdd | mixed
 | Field       | Type     | Description                        |
 |-------------|----------|------------------------------------|
 | `<field>`   | `string` | <What the skill produces>          |
+
+---
+
+## Guardrails
+
+- Preview diffs before applying any changes.
+- Never touch generated, vendor, third_party, build, or dist folders
+  unless explicitly allowed.
+- Run formatter and linter after changes; revert if errors introduced.
+- <Add skill-specific guardrails here.>
+
+## Ask-When-Ambiguous
+
+**Triggers:**
+
+- <Condition that requires user input>
+- <Another ambiguity trigger>
+
+**Question Templates:**
+
+- "<Question to ask the user when this trigger fires>"
+- "<Another question template>"
+
+## Decision Criteria
+
+- <How to choose between options when multiple paths exist.>
+- <When to escalate from Eco to Power mode.>
+
+## Success Criteria
+
+- <Acceptance check 1 — how to verify the skill succeeded.>
+- <Acceptance check 2.>
+
+## Failure Modes
+
+- <What can go wrong and how to recover.>
+  **Recovery:** <Specific recovery action.>
+- <Another failure mode.>
+  **Recovery:** <Specific recovery action.>
+
+## Audit Log
+
+- <What to record after this skill runs.>
+- <Metrics, decisions, files changed, etc.>
 
 ---
 

@@ -106,259 +106,398 @@ echo "  ✔ 00-foundation/constitution.md"
 # --- scratchpad.md ---------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/scratchpad.md
 ---
-title: "Scratchpad"
-description: "Instructions for 'Internal Monologue' (Eco vs. Power reasoning)."
+name: scratchpad
+description: >
+  Defines the agent's internal monologue protocol. Before producing any output,
+  the agent reasons privately in a scratchpad block, selects Eco or Power mode,
+  and applies the appropriate reasoning depth.
+version: "1.0.0"
+dependencies:
+  - constitution
+reasoning_mode: linear
 ---
 
-# Scratchpad
+# Scratchpad — Internal Monologue Protocol
 
-## Internal Monologue
-- Use Eco Mode for low-risk tasks.
-- Use Power Mode for high-risk tasks.
-EOF
+> _"Think before you act. Think silently, act precisely."_
 
-cat << 'EOF' > skills/00-foundation/auditor.md
----
-title: "Auditor"
-description: "Validates that other skills followed the Constitution."
----
+## Context
 
-# Auditor
+Loaded alongside the Constitution at the start of every task. The scratchpad
+is the agent's private workspace — its chain-of-thought — where it decomposes
+a task, selects the right cognitive mode, and plans before emitting any code
+or output to the user.
 
-## Purpose
-- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
-EOF
-
-cat << 'EOF' > skills/00-foundation/librarian.md
----
-title: "Librarian"
-description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
 ---
 
-# Librarian
+## The Scratchpad Block
 
-## Purpose
-- Provide a search mechanism to locate relevant skills.
-EOF
+Before generating any code, diff, or response, open a **private reasoning
+block**. This block is never shown to the user unless explicitly requested.
 
-# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
+    Task: [restate the user's objective in your own words]
+    Complexity: [low | medium | high]
+    Mode: [eco | power]
+    Risk: [what could go wrong?]
+    Plan:
+      1. ...
+      2. ...
+      3. ...
+    Dependencies: [which skills/micro-skills will I need?]
+    Protected terms: [domain-specific names I must not change]
 
-# Create the registry.yaml file
-cat << 'EOF' > skills/registry.yaml
-skills:
-  - foundation:
-      - constitution.md
-      - scratchpad.md
-      - auditor.md
-      - librarian.md
-  - discovery:
-      - requirements-elicitation.md
-      - domain-modeling.md
-  - architecture:
-      - adr-management.md
-      - api-contract-design.md
-      - database-design.md
-      - system-design.md
-  - implementation:
-      - cleanup.md
-      - api-implementation.md
-      - data-access.md
-      - refactoring-suite.md
-      - error-handling.md
-  - quality:
-      - test-strategy.md
-      - unit-testing.md
-      - integration-testing.md
-      - mutation-testing.md
-  - performance:
-      - profiling-analysis.md
-      - caching-strategy.md
-      - db-tuning.md
-  - security:
-      - threat-modeling.md
-      - secure-coding-review.md
-      - auth-implementation.md
-      - dependency-scanning.md
-  - devops:
-      - ci-pipeline.md
-      - docker-containerization.md
-      - kubernetes-helm.md
-      - terraform-iac.md
-  - docs:
-      - openapi-specs.md
-      - readme-generation.md
-      - release-notes.md
-  - maintenance:
-      - incident-response.md
-      - legacy-upgrade.md
-EOF
+---
 
-# Print completion message
-echo "Skills directory and files have been created successfully."
+## Cognitive Mode Selection
+
+### Eco Mode (Linear Execution)
+
+**When:** Low-risk, bounded tasks with clear scope.
+
+- Formatting, linting, doc generation, small fixes
+- Changes that do NOT alter program logic
+- Scope: 1-3 files, no cross-module impact
+
+**Process:** Input -> Brief Plan -> Execute -> Emit Diff
+
+### Power Mode (Deep Reasoning)
+
+**When:** High-risk, unbounded, or logic-altering tasks.
+
+- Refactoring, architecture decisions, security changes
+- Cross-module or public API modifications
+- Any task where failure could break the build
+
+**Process:** Input -> 4-Step Reasoning -> Plan -> Execute -> Verify -> Emit Diff
+
+---
+
+## The 4-Step Reasoning Framework (Power Mode)
+
+When Power Mode is selected, apply ALL four reasoning types in sequence:
+
+### Step 1 — Deductive Reasoning (Rules to Specific)
+
+Apply known rules and constraints to the specific case.
+
+- "The Constitution says preview diffs first, so I must show a diff."
+- "DRY principle: this duplicated block should be extracted."
+
+### Step 2 — Inductive Reasoning (Patterns to Generalization)
+
+Identify patterns from the codebase to form generalizations.
+
+- "All service classes use constructor injection, so mine should too."
+- "Error responses follow { code, message, details } format."
+
+### Step 3 — Abductive Reasoning (Observations to Best Explanation)
+
+Given incomplete information, infer the most likely explanation.
+
+- "This function is called processData but only handles CSV —
+  likely a naming issue, not intentional polymorphism."
+
+### Step 4 — Analogical Reasoning (Similar Cases to Transfer)
+
+Find similar solved problems and transfer the approach.
+
+- "Module A solved N+1 queries with batch loading.
+  Module B has the same pattern, apply the same fix."
+
+---
+
+## Mode Auto-Detection Heuristic
+
+    IF task.changes_logic == false
+       AND task.files <= 2
+       AND task.scope == "local"
+    THEN mode = "eco"
+    ELSE IF task.involves_public_api == true
+       OR task.changes_architecture == true
+       OR task.security_sensitive == true
+    THEN mode = "power"
+    ELSE mode = "eco"
+
+**Override:** The user can always force a mode explicitly.
+
+---
+
+## Guardrails
+
+- The scratchpad block is PRIVATE. Never leak reasoning to the user unless asked.
+- Every Power Mode task MUST include all 4 reasoning steps.
+- If mode auto-detection is uncertain, default to Power Mode (safer).
+- Scratchpad must be opened BEFORE any file reads or edits.
+
+## Ask-When-Ambiguous
+
+- Task complexity unclear: ask "Eco (fast, surface-level) or Power (thorough)?"
+- Multiple valid approaches: show options with trade-offs, ask user to pick.
+
+## Success Criteria
+
+- Every response begins with private reasoning (even if brief in Eco mode).
+- Mode selection is explicit and logged.
+- Power Mode responses include all 4 reasoning steps.
+
+## Failure Modes
+
+- Skipping the scratchpad leads to hallucinations and missed edge cases.
+  Recovery: Always open scratchpad first, even retroactively.
+- Choosing Eco for a high-risk task may miss breaking changes.
+  Recovery: If unexpected complexity found mid-task, escalate to Power.
+
+## Audit Log
+
+- Mode selected (eco/power) and why.
+- Reasoning steps taken (for Power mode).
+- Any mode escalation events.
 SKILLEOF
 echo "  ✔ 00-foundation/scratchpad.md"
 
 # --- auditor.md ------------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/auditor.md
 ---
-title: "Auditor"
-description: "Validates that other skills followed the Constitution."
+name: auditor
+description: >
+  The constitutional compliance validator. Cross-references every skill's
+  output against the Constitution's three pillars and the task plan.
+  Acts as law enforcement for the Agent Skills Garden.
+version: "1.0.0"
+dependencies:
+  - constitution
+  - scratchpad
+reasoning_mode: plan-execute
 ---
 
-# Auditor
+# Auditor — Constitutional Compliance Validator
 
-## Purpose
-- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
-EOF
+> _"Trust, but verify."_
 
-cat << 'EOF' > skills/00-foundation/librarian.md
+## Context
+
+The Auditor is invoked after any skill produces output (diffs, code,
+artifacts). It validates that the output adheres to the Constitution and
+that no guardrails were violated. Think of it as a post-execution checklist
+that catches mistakes before they reach the user.
+
 ---
-title: "Librarian"
-description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
+
+## Micro-Skills
+
+### 1. Plan-vs-Diff Alignment (Power Mode)
+
+**Goal:** Verify that what was executed matches what was planned.
+
+**Steps:**
+
+1. Load the plan from the scratchpad (the stated intent).
+2. Load the produced diff or output.
+3. Compare each planned step against the actual changes:
+   - Every planned change MUST appear in the diff.
+   - Every change in the diff MUST be traceable to a planned step.
+4. Flag unplanned changes (modifications not in the plan).
+5. Flag missed steps (planned changes not reflected in output).
+6. If misalignment found, block output and report to user.
+
+### 2. Constitutional Compliance Check (Eco Mode)
+
+**Goal:** Verify the three pillars were upheld.
+
+**Checklist:**
+
+- Satya (Truth): No hallucinated APIs, methods, or features?
+- Satya (Truth): Deterministic? Same input produces same output?
+- Dharma (Safety): Were ambiguities resolved by asking the user?
+- Dharma (Safety): Is the change minimal (Principle of Least Surprise)?
+- Ahimsa (Non-Destruction): Was a diff previewed before applying?
+- Ahimsa (Non-Destruction): Is the change reversible?
+
+### 3. Protected Terms Enforcement (Power Mode)
+
+**Goal:** Ensure domain-specific and public names were not altered.
+
+**Steps:**
+
+1. Load protected_terms from the domain glossary (if available).
+2. Load the set of identifiers modified in the diff.
+3. Cross-reference: if any modified identifier is in protected_terms,
+   flag as a violation.
+4. Check for public/exported symbol modifications without explicit approval.
+5. Report violations with file, line, and the protected term.
+
+### 4. Safety Gate Validation (Eco Mode)
+
+**Goal:** Verify that destructive operations got explicit approval.
+
+**Steps:**
+
+1. Scan the output for destructive operations:
+   - File deletions, schema migrations, DROP statements
+   - Public API signature changes, production deploy commands
+2. For each destructive operation, verify user approval was recorded.
+3. If approval is missing, block and request confirmation.
+
 ---
 
-# Librarian
+## Guardrails
 
-## Purpose
-- Provide a search mechanism to locate relevant skills.
-EOF
+- The Auditor MUST run after every skill execution, even in Eco mode.
+- Auditor checks are non-negotiable. No skill can override or skip them.
+- False positives: user can explicitly dismiss with rationale (recorded).
 
-# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
+## Ask-When-Ambiguous
 
-# Create the registry.yaml file
-cat << 'EOF' > skills/registry.yaml
-skills:
-  - foundation:
-      - constitution.md
-      - scratchpad.md
-      - auditor.md
-      - librarian.md
-  - discovery:
-      - requirements-elicitation.md
-      - domain-modeling.md
-  - architecture:
-      - adr-management.md
-      - api-contract-design.md
-      - database-design.md
-      - system-design.md
-  - implementation:
-      - cleanup.md
-      - api-implementation.md
-      - data-access.md
-      - refactoring-suite.md
-      - error-handling.md
-  - quality:
-      - test-strategy.md
-      - unit-testing.md
-      - integration-testing.md
-      - mutation-testing.md
-  - performance:
-      - profiling-analysis.md
-      - caching-strategy.md
-      - db-tuning.md
-  - security:
-      - threat-modeling.md
-      - secure-coding-review.md
-      - auth-implementation.md
-      - dependency-scanning.md
-  - devops:
-      - ci-pipeline.md
-      - docker-containerization.md
-      - kubernetes-helm.md
-      - terraform-iac.md
-  - docs:
-      - openapi-specs.md
-      - readme-generation.md
-      - release-notes.md
-  - maintenance:
-      - incident-response.md
-      - legacy-upgrade.md
-EOF
+- Cannot determine if a symbol is public or private: ask user.
+- Uncertain whether a change is destructive: treat as destructive, ask.
+- Domain glossary not found: ask for protected terms list.
 
-# Print completion message
-echo "Skills directory and files have been created successfully."
+## Success Criteria
+
+- Zero unplanned changes in the diff.
+- All constitutional pillars verified.
+- No protected terms modified without approval.
+- All destructive operations have recorded user consent.
+
+## Failure Modes
+
+- Plan not available (scratchpad was skipped): block output, require plan.
+  Recovery: Retroactively create a plan, then re-audit.
+- False positive on protected term: user dismisses with rationale.
+  Recovery: Add term to approved changes for this session.
+
+## Audit Log
+
+- Checklist results (pass/fail per item).
+- Violations found and their resolution.
+- User dismissals with rationale.
+- Whether output was blocked or delivered.
 SKILLEOF
 echo "  ✔ 00-foundation/auditor.md"
 
 # --- librarian.md ----------------------------------------------------------
 cat << 'SKILLEOF' > skills/00-foundation/librarian.md
 ---
-title: "Librarian"
-description: "Fuzzy search to find skills (e.g., 'fix bug' -> loads `refactoring.md` or `cleanup.md`)."
+name: librarian
+description: >
+  Skill discovery and routing engine. Given a user's intent (even with
+  typos or vague phrasing), finds and loads the most relevant skill(s)
+  from the registry using fuzzy matching and semantic search.
+version: "1.0.0"
+dependencies:
+  - constitution
+reasoning_mode: linear
 ---
 
-# Librarian
+# Librarian — Skill Discovery and Routing
 
-## Purpose
-- Provide a search mechanism to locate relevant skills.
-EOF
+> _"You don't need to know the skill's name. Just tell me what you want to do."_
 
-cat << 'EOF' > skills/00-foundation/auditor.md
+## Context
+
+The Librarian is invoked whenever the user's request doesn't map directly
+to a known skill name. It acts as a router: understanding intent, correcting
+typos, and loading the right skill(s) even when the user's prompt is
+informal, misspelled, or uses different terminology.
+
 ---
-title: "Auditor"
-description: "Validates that other skills followed the Constitution."
+
+## Micro-Skills
+
+### 1. Intent Classification (Eco Mode)
+
+**Goal:** Parse the user's request and classify their intent.
+
+**Steps:**
+
+1. Extract keywords from the user's request.
+2. Normalize: lowercase, strip punctuation, expand abbreviations
+   (impl -> implementation, k8s -> kubernetes, tf -> terraform,
+    perf -> performance, sec -> security, docs -> documentation).
+3. Map intent to a category:
+   - "clean", "format", "rename", "tidy" -> Implementation (cleanup.md)
+   - "refactor", "extract", "inline" -> Implementation (refactoring-suite.md)
+   - "test", "spec", "coverage" -> Quality (unit-testing.md, test-strategy.md)
+   - "deploy", "ci", "pipeline", "docker" -> DevOps (ci-pipeline.md)
+   - "secure", "auth", "vulnerability" -> Security (secure-coding-review.md)
+   - "perf", "slow", "cache", "optimize" -> Performance (profiling-analysis.md)
+   - "design", "architecture", "schema" -> Architecture (system-design.md)
+   - "doc", "readme", "changelog" -> Documentation (readme-generation.md)
+   - "incident", "outage", "debug prod" -> Maintenance (incident-response.md)
+   - "upgrade", "migrate", "legacy" -> Maintenance (legacy-upgrade.md)
+4. If intent matches multiple categories, present options to user.
+
+### 2. Fuzzy Matching (Eco Mode)
+
+**Goal:** Handle typos, abbreviations, and partial names.
+
+**Algorithm:**
+
+1. Exact match: check registry.yaml for exact skill name.
+2. Prefix match: "clean" matches cleanup, "docker" matches docker-containerization.
+3. Levenshtein distance: if no prefix match, compute edit distance
+   against all skill names. Threshold: distance <= 2 for short names,
+   distance <= 3 for longer names.
+4. Tag matching: check skill tags in registry.yaml metadata.
+5. Fallback: if no match found, ask the user to clarify.
+
+### 3. Multi-Skill Orchestration (Eco Mode)
+
+**Goal:** When a task requires multiple skills, determine load order.
+
+**Steps:**
+
+1. Identify all required skills from the intent.
+2. Load each skill's dependencies from frontmatter.
+3. Build a dependency graph (topological sort).
+4. Present the execution plan to the user.
+5. Load skills in dependency order.
+
+### 4. Prompt Cleanup (Eco Mode)
+
+**Goal:** Clean user input without losing deliberate content.
+
+**Rules:**
+
+- Fix obvious typos in natural language portions of the prompt.
+- NEVER fix content inside code blocks, filenames, variable names,
+  or quoted strings (these may be intentional).
+- If the user says "rename wrng_speling to right_spelling", preserve
+  wrng_speling exactly (it is the search target).
+
 ---
 
-# Auditor
+## Guardrails
 
-## Purpose
-- Ensure all skills adhere to the principles of Satya, Dharma, and Ahimsa.
-EOF
+- Never load a skill silently if confidence < 0.7. Ask the user.
+- Always respect skill dependencies. Load prerequisites first.
+- If multiple skills match equally, present ALL options (do not guess).
+- The Librarian itself has no side effects. It only reads and routes.
 
-# Repeat similar blocks for all other SKILL.md files in the Skill Manifest
+## Ask-When-Ambiguous
 
-# Create the registry.yaml file
-cat << 'EOF' > skills/registry.yaml
-skills:
-  - foundation:
-      - constitution.md
-      - scratchpad.md
-      - auditor.md
-      - librarian.md
-  - discovery:
-      - requirements-elicitation.md
-      - domain-modeling.md
-  - architecture:
-      - adr-management.md
-      - api-contract-design.md
-      - database-design.md
-      - system-design.md
-  - implementation:
-      - cleanup.md
-      - api-implementation.md
-      - data-access.md
-      - refactoring-suite.md
-      - error-handling.md
-  - quality:
-      - test-strategy.md
-      - unit-testing.md
-      - integration-testing.md
-      - mutation-testing.md
-  - performance:
-      - profiling-analysis.md
-      - caching-strategy.md
-      - db-tuning.md
-  - security:
-      - threat-modeling.md
-      - secure-coding-review.md
-      - auth-implementation.md
-      - dependency-scanning.md
-  - devops:
-      - ci-pipeline.md
-      - docker-containerization.md
-      - kubernetes-helm.md
-      - terraform-iac.md
-  - docs:
-      - openapi-specs.md
-      - readme-generation.md
-      - release-notes.md
-  - maintenance:
-      - incident-response.md
-      - legacy-upgrade.md
-EOF
+- Low confidence match: "I found these skills that might help. Which one?"
+- Overlapping skills: explain the difference and ask which to load.
+- No match at all: "Could you describe what you are trying to do differently?"
 
-# Print completion message
-echo "Skills directory and files have been created successfully."
+## Success Criteria
+
+- Correct skill(s) loaded for the user's intent.
+- Typos handled gracefully without misrouting.
+- Multi-skill execution order respects dependencies.
+
+## Failure Modes
+
+- No match found: show full skill index grouped by category.
+- Wrong skill loaded: user corrects, Librarian re-routes.
+- Registry file missing: fall back to directory-based scanning.
+
+## Audit Log
+
+- User's original request (raw).
+- Matched skill(s) and confidence scores.
+- Whether user was asked for clarification.
+- Final skills loaded.
 SKILLEOF
 echo "  ✔ 00-foundation/librarian.md"
 
