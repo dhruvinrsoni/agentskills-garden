@@ -1,4 +1,3 @@
-````markdown
 ---
 name: migration-planning
 description: >
@@ -204,4 +203,3 @@ transitions with minimal downtime and proven rollback capability.
 - `[{timestamp}] phase-completed: phase={phase_number} "{phase_name}" — duration={duration}`
 - `[{timestamp}] rollback-executed: trigger={trigger}, phase={phase_number}, result={success|failure}`
 - `[{timestamp}] migration-completed: total_duration={duration}, soak_period_start={timestamp}`
-````

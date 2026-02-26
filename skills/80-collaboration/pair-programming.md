@@ -1,4 +1,3 @@
-````markdown
 ---
 name: pair-programming
 description: >
@@ -212,5 +211,3 @@ sharing.
 - `[timestamp]` break-taken: 10-minute break after `<elapsed>` minutes of active pairing
 - `[timestamp]` session-completed: Duration `<total-minutes>` min, commits: `<commit-count>`, effectiveness: `<rating>`/5
 - `[timestamp]` debrief-logged: Learnings: `<learning-count>`, follow-ups: `<followup-count>`
-
-````

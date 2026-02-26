@@ -1,4 +1,3 @@
-````markdown
 ---
 name: root-cause-analysis
 description: >
@@ -209,4 +208,3 @@ to the true root cause so fixes are durable, not cosmetic.
 - `[{{timestamp}}] rca:five-whys-completed — reached root cause at depth {{depth}}`
 - `[{{timestamp}}] rca:root-cause-identified — cause: {{root_cause_summary}}, evidence: {{evidence_count}} items`
 - `[{{timestamp}}] rca:complete — analysis finished, fix suggestion provided`
-````

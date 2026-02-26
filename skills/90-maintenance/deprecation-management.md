@@ -1,4 +1,3 @@
-````markdown
 ---
 name: deprecation-management
 description: >
@@ -197,4 +196,3 @@ the deprecated functionality is sunset.
 - `[{timestamp}] sunset-executed: {item_name} — removed from codebase, docs, and configuration`
 - `[{timestamp}] sunset-extended: {item_name} — new_sunset_date={new_date}, reason: {reason}`
 - `[{timestamp}] post-sunset-monitor: {item_name} — error_rate={rate}, support_tickets={count}`
-````

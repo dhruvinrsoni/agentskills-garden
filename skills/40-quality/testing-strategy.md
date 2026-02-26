@@ -1,4 +1,3 @@
-````markdown
 ---
 name: testing-strategy
 description: >
@@ -218,4 +217,3 @@ allocation of testing effort across unit, integration, and E2E layers.
 - `[{{timestamp}}] test-type-assigned: {{module}} → {{test_type}} — rationale: {{reason}}`
 - `[{{timestamp}}] boundary-identified: {{function_name}} — {{boundary_count}} conditions, {{untested_count}} untested`
 - `[{{timestamp}}] strategy-completed: gaps={{gap_count}}, recommendations={{rec_count}}, duration={{duration_minutes}}min`
-````

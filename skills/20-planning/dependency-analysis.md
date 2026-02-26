@@ -1,4 +1,3 @@
-```markdown
 ---
 name: dependency-analysis
 description: >
@@ -200,4 +199,3 @@ Every dependency analysis session must produce an entry in the project's audit l
 ```
 
 Log entries are append-only. Re-analyses are recorded as new rows, never as overwrites.
-```

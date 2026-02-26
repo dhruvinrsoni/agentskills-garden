@@ -1,4 +1,3 @@
-````markdown
 ---
 name: error-handling-debug
 description: >
@@ -222,4 +221,3 @@ circuit breaker implementations — complementing the implementation-level
 - `[{{timestamp}}] error-handling-debug:degradation-mapped — {{dep_count}} dependencies, {{missing_count}} without degradation strategy`
 - `[{{timestamp}}] error-handling-debug:circuit-breakers — {{cb_count}} found, {{missing_cb_count}} recommended`
 - `[{{timestamp}}] error-handling-debug:complete — {{finding_count}} findings ({{critical_count}} critical, {{major_count}} major, {{minor_count}} minor)`
-````

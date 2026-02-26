@@ -1,4 +1,3 @@
-````markdown
 ---
 name: security-review
 description: >
@@ -225,4 +224,3 @@ secrets and sensitive data.
 - `[{{timestamp}}] validation-gap: input={{parameter}} → sink={{sink_function}} in {{file_path}}:{{line}} — unvalidated={{fields}}`
 - `[{{timestamp}}] cve-flagged: {{dep_name}}@{{version}} — {{cve_id}} ({{severity}}) — patch_available={{yes/no}}`
 - `[{{timestamp}}] security-review-completed: critical={{critical_count}}, high={{high_count}}, medium={{medium_count}}, low={{low_count}}, secrets={{secret_count}}`
-````

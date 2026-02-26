@@ -1,4 +1,3 @@
-```markdown
 ---
 name: risk-assessment
 description: >
@@ -196,4 +195,3 @@ Every risk assessment session must produce an entry in the project's audit log:
 ```
 
 Log entries are append-only. Score changes and new risks are recorded as new rows, never as overwrites.
-```

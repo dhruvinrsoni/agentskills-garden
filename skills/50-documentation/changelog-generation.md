@@ -1,4 +1,3 @@
-```markdown
 ---
 name: changelog-generation
 description: >
@@ -167,4 +166,3 @@ highlights breaking changes with migration guidance.
 - `[{timestamp}] changelog-updated: Prepended release entry for v{version} ({date}) to {changelog_path}`
 - `[{timestamp}] breaking-changes-documented: Generated migration guidance for {breaking_count} breaking changes`
 - `[{timestamp}] uncategorized-flagged: {uncategorized_count} commits did not follow Conventional Commits format`
-```

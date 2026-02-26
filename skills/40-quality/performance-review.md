@@ -1,4 +1,3 @@
-````markdown
 ---
 name: performance-review
 description: >
@@ -225,4 +224,3 @@ Focuses on identifying bottlenecks before they reach production.
 - `[{{timestamp}}] caching-recommendation: {{operation}} — layer={{cache_layer}}, ttl={{ttl}}, invalidation={{strategy}}`
 - `[{{timestamp}}] profiling-insight: {{function_name}} — {{cpu_pct}}% CPU, {{alloc_rate}} allocs/sec`
 - `[{{timestamp}}] performance-review-completed: critical={{critical_count}}, high={{high_count}}, medium={{medium_count}}, info={{info_count}}`
-````

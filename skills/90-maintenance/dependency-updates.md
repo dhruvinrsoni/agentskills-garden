@@ -1,4 +1,3 @@
-````markdown
 ---
 name: dependency-updates
 description: >
@@ -181,4 +180,3 @@ NuGet, Go modules, Cargo, etc.).
 - `[{timestamp}] test-validation: {passed}/{total} tests passed after update batch`
 - `[{timestamp}] breaking-change-detected: {package} {version} — {description}`
 - `[{timestamp}] rollback: reverted {package} to {old_version} — reason: {reason}`
-````

@@ -1,4 +1,3 @@
-````markdown
 ---
 name: code-review
 description: >
@@ -191,4 +190,3 @@ consistency, and knowledge sharing across the team.
 - `[{{timestamp}}] finding-logged: {{category}}/{{severity}} in {{file_path}}:{{line}} — {{summary}}`
 - `[{{timestamp}}] verdict-issued: {{verdict}} — {{critical_count}} critical, {{major_count}} major, {{minor_count}} minor, {{nit_count}} nit`
 - `[{{timestamp}}] review-completed: duration={{duration_minutes}}min, findings={{total_findings}}`
-````

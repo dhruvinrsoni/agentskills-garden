@@ -1,4 +1,3 @@
-```markdown
 ---
 name: decision-records
 description: >
@@ -163,4 +162,3 @@ alternatives were considered, and what trade-offs were accepted.
 - `[{timestamp}] adr-status-changed: {adr_id} status changed from {old_status} to {new_status}`
 - `[{timestamp}] adr-index-updated: ADR index refreshed — {total_count} records ({accepted_count} accepted, {deprecated_count} deprecated)`
 - `[{timestamp}] adr-query: Searched ADRs for "{query}" — {result_count} matches found`
-```

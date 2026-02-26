@@ -1,4 +1,3 @@
-```markdown
 ---
 name: estimation
 description: >
@@ -202,4 +201,3 @@ Every estimation session must produce an entry in the project's audit log:
 ```
 
 Log entries are append-only. Re-estimations are recorded as new rows, never as overwrites.
-```

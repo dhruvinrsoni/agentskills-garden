@@ -1,4 +1,3 @@
-````markdown
 ---
 name: log-analysis
 description: >
@@ -205,4 +204,3 @@ events across services, and detecting anomalies that signal failures.
 - `[{{timestamp}}] log-analysis:anomalies-detected — {{anomaly_count}} anomalies ranked ({{critical_count}} critical)`
 - `[{{timestamp}}] log-analysis:pii-redacted — redacted {{redaction_count}} PII occurrences`
 - `[{{timestamp}}] log-analysis:complete — summary generated, {{finding_count}} actionable findings`
-````

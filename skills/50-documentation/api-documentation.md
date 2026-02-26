@@ -1,4 +1,3 @@
-```markdown
 ---
 name: api-documentation
 description: >
@@ -155,4 +154,3 @@ produces consumer-facing reference docs that developers rely on to integrate.
 - `[{timestamp}] coverage-report: Documentation coverage {coverage_pct}% — {undocumented_count} endpoints missing docs`
 - `[{timestamp}] drift-detected: {drift_count} spec-to-code discrepancies found and flagged`
 - `[{timestamp}] version-migration: Generated migration guide from {old_version} to {new_version}`
-```

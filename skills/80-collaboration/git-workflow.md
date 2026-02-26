@@ -1,4 +1,3 @@
-````markdown
 ---
 name: git-workflow
 description: >
@@ -212,5 +211,3 @@ bisectable, and aligned with release processes.
 - `[timestamp]` conflict-resolved: Resolved `<file-count>` conflicts in `<branch>` via `<method>` (manual/auto)
 - `[timestamp]` stale-branches-cleaned: Deleted `<count>` merged branches older than `<days>` days
 - `[timestamp]` hook-bypass-detected: `--no-verify` used by `<author>` on commit `<sha-short>`
-
-````

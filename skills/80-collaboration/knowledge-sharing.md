@@ -1,4 +1,3 @@
-````markdown
 ---
 name: knowledge-sharing
 description: >
@@ -212,5 +211,3 @@ and ensures critical operational knowledge survives team changes.
 - `[timestamp]` doc-audit-completed: Reviewed `<total-pages>` pages — updated: `<updated-count>`, archived: `<archived-count>`, flagged: `<flagged-count>`
 - `[timestamp]` wiki-consolidated: Migrated `<page-count>` pages from `<old-platform>` to `<new-platform>`
 - `[timestamp]` stale-doc-flagged: `<doc-title>` last updated `<days-ago>` days ago — assigned to `<owner>` for review
-
-````

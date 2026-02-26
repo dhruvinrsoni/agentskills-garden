@@ -1,4 +1,5 @@
 import os
+import warnings
 import yaml
 from typing import Dict, Any
 
@@ -35,8 +36,16 @@ class SkillsLoader:
                     try:
                         with open(full, 'r', encoding='utf-8') as sf:
                             content = sf.read()
-                    except Exception:
-                        content = ''
+                    except FileNotFoundError:
+                        warnings.warn(
+                            f"Skill file not found: {path} (registered as '{name}')",
+                            stacklevel=2,
+                        )
+                    except OSError as exc:
+                        warnings.warn(
+                            f"Could not read skill file {path}: {exc}",
+                            stacklevel=2,
+                        )
                     self.skills[name] = {
                         'section': section,
                         'path': path,

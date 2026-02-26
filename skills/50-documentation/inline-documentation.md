@@ -1,4 +1,3 @@
-```markdown
 ---
 name: inline-documentation
 description: >
@@ -160,4 +159,3 @@ while ensuring comments explain intent, edge cases, and non-obvious behavior.
 - `[{timestamp}] quality-audit: Found {redundant_count} redundant, {stale_count} stale, {todo_count} untracked TODO comments`
 - `[{timestamp}] comments-removed: Removed {removed_count} redundant comments`
 - `[{timestamp}] coverage-delta: Documentation coverage changed from {before_pct}% to {after_pct}%`
-```

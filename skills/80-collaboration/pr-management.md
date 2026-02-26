@@ -1,4 +1,3 @@
-````markdown
 ---
 name: pr-management
 description: >
@@ -205,5 +204,3 @@ without sacrificing quality or accountability.
 - `[timestamp]` stale-pr-closed: PR #`<pr-number>` auto-closed after `<days>` days of inactivity
 - `[timestamp]` reviewer-assigned: Assigned `<reviewer>` to PR #`<pr-number>` via `<method>` (CODEOWNERS/round-robin/manual)
 - `[timestamp]` merge-criteria-met: PR #`<pr-number>` passed all checks — `<merge-method>` merge executed
-
-````

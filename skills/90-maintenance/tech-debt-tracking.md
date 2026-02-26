@@ -1,4 +1,3 @@
-````markdown
 ---
 name: tech-debt-tracking
 description: >
@@ -187,4 +186,3 @@ capacity through debt budgets.
 - `[{timestamp}] debt-resolved: {item_id} "{description}" — resolved via {resolution_method}`
 - `[{timestamp}] debt-trend: registry total={total}, added={added}, resolved={resolved}, net_change={net}`
 - `[{timestamp}] debt-escalated: {item_id} "{description}" — reason: {reason}`
-````

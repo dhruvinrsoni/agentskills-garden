@@ -1,4 +1,3 @@
-```markdown
 ---
 name: task-decomposition
 description: >
@@ -193,4 +192,3 @@ Every decomposition session must produce an entry in the project's audit log:
 ```
 
 Log entries are append-only. Amendments are recorded as new rows, never as overwrites.
-```
