@@ -1,12 +1,15 @@
 """
-validate_skills.py — Skill Garden Validator
+validate_skills.py — Skill Garden Validator (agentskills.io spec)
 
 Checks:
-  1. registry.yaml is well-formed and every path resolves to a real file
-  2. Each skill file has valid YAML frontmatter with required fields
-  3. reasoning_mode is one of the allowed values
-  4. version follows semver (X.Y.Z)
-  5. Every declared dependency exists in the registry
+  1. registry.yaml is well-formed and every path resolves to a real SKILL.md
+  2. Each SKILL.md has valid YAML frontmatter with required fields (name, description)
+  3. name follows spec constraints: lowercase alphanumeric + hyphens, 1-64 chars,
+     no leading/trailing/consecutive hyphens, matches parent directory name
+  4. description is 1-1024 characters
+  5. directory name matches frontmatter name field
+  6. metadata.reasoning_mode (if present) is one of the allowed values
+  7. metadata.dependencies (if present) all resolve to known skills
 
 Exit code 0 = all good, exit code 1 = validation errors found.
 """
@@ -20,9 +23,14 @@ from typing import Any, Dict, List, Tuple
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 REGISTRY_PATH = os.path.join(REPO_ROOT, "registry.yaml")
 
-REQUIRED_FRONTMATTER = {"name", "description", "version", "dependencies", "reasoning_mode"}
+# Spec-required frontmatter fields
+REQUIRED_FRONTMATTER = {"name", "description"}
+
+# name: lowercase alphanumeric + hyphens, no leading/trailing/consecutive hyphens
+NAME_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
+
+# Allowed reasoning_mode values (stored in metadata)
 ALLOWED_REASONING_MODES = {"linear", "plan-execute", "tdd", "mixed"}
-SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+$")
 
 # Registry sections that are not skill groups
 _META_KEYS = {"version", "templates"}
@@ -51,7 +59,29 @@ def _parse_frontmatter(text: str) -> Tuple[Dict[str, Any], List[str]]:
     return data, errors
 
 
-def _validate_frontmatter(fm: Dict[str, Any], skill_name: str, all_names: set) -> List[str]:
+def _validate_name(name: str) -> List[str]:
+    """Validate the name field per spec constraints."""
+    errors = []
+    if not isinstance(name, str) or not name:
+        return ["name must be a non-empty string"]
+    if len(name) > 64:
+        errors.append(f"name exceeds 64 characters ({len(name)} chars)")
+    if "--" in name:
+        errors.append("name must not contain consecutive hyphens (--)")
+    if not NAME_RE.match(name):
+        errors.append(
+            f"name {name!r} is invalid: only lowercase alphanumeric and hyphens allowed, "
+            "must not start or end with a hyphen"
+        )
+    return errors
+
+
+def _validate_frontmatter(
+    fm: Dict[str, Any],
+    skill_name: str,
+    skill_dir_name: str,
+    all_names: set,
+) -> List[str]:
     errors: List[str] = []
 
     # 1. Required fields
@@ -59,32 +89,51 @@ def _validate_frontmatter(fm: Dict[str, Any], skill_name: str, all_names: set) -
     if missing:
         errors.append(f"missing required frontmatter fields: {sorted(missing)}")
 
-    # 2. name must match registry name
-    if "name" in fm and fm["name"] != skill_name:
+    # 2. name validation
+    name_val = fm.get("name", "")
+    errors.extend(_validate_name(str(name_val)))
+
+    # 3. name must match registry entry name
+    if name_val and str(name_val) != skill_name:
         errors.append(
-            f"frontmatter 'name' ({fm['name']!r}) does not match registry name ({skill_name!r})"
+            f"frontmatter 'name' ({name_val!r}) does not match registry name ({skill_name!r})"
         )
 
-    # 3. reasoning_mode
-    rm = fm.get("reasoning_mode")
-    if rm and rm not in ALLOWED_REASONING_MODES:
+    # 4. name must match parent directory name
+    if name_val and str(name_val) != skill_dir_name:
         errors.append(
-            f"invalid reasoning_mode {rm!r}; allowed: {sorted(ALLOWED_REASONING_MODES)}"
+            f"frontmatter 'name' ({name_val!r}) does not match skill directory name ({skill_dir_name!r})"
         )
 
-    # 4. version semver
-    ver = str(fm.get("version", ""))
-    if ver and not SEMVER_RE.match(ver):
-        errors.append(f"version {ver!r} is not valid semver (expected X.Y.Z)")
+    # 5. description length
+    desc = fm.get("description", "")
+    if isinstance(desc, str):
+        desc = desc.strip()
+    if not desc:
+        errors.append("description must be non-empty")
+    elif len(desc) > 1024:
+        errors.append(f"description exceeds 1024 characters ({len(desc)} chars)")
 
-    # 5. dependencies exist
-    deps = fm.get("dependencies") or []
-    if not isinstance(deps, list):
-        errors.append("'dependencies' must be a list")
-    else:
-        for dep in deps:
-            if dep not in all_names:
-                errors.append(f"dependency {dep!r} not found in registry")
+    # 6. Optional metadata validations
+    meta = fm.get("metadata") or {}
+    if meta and not isinstance(meta, dict):
+        errors.append("metadata must be a YAML mapping")
+    elif isinstance(meta, dict):
+        # reasoning_mode
+        rm = meta.get("reasoning_mode")
+        if rm and str(rm) not in ALLOWED_REASONING_MODES:
+            errors.append(
+                f"metadata.reasoning_mode {rm!r} is invalid; "
+                f"allowed: {sorted(ALLOWED_REASONING_MODES)}"
+            )
+
+        # dependencies (comma-separated string or absent)
+        deps_raw = meta.get("dependencies")
+        if deps_raw:
+            dep_names = [d.strip() for d in str(deps_raw).split(",") if d.strip()]
+            for dep in dep_names:
+                if dep not in all_names:
+                    errors.append(f"metadata.dependency {dep!r} not found in registry")
 
     return errors
 
@@ -127,8 +176,10 @@ def validate() -> int:
 
     all_names = {e["name"] for e in all_entries if "name" in e}
 
-    print(f"Registry: {len(all_entries)} skills across "
-          f"{len([k for k in reg if k not in _META_KEYS])} sections\n")
+    print(
+        f"Registry: {len(all_entries)} skills across "
+        f"{len([k for k in reg if k not in _META_KEYS])} sections\n"
+    )
 
     # ── 2. Validate each skill ───────────────────────────────────────────────
     error_count = 0
@@ -146,21 +197,30 @@ def validate() -> int:
         if not skill_path:
             skill_errors.append("registry entry missing 'path'")
         else:
-            # b. File exists
+            # b. Path must end with SKILL.md (spec format)
+            if not skill_path.endswith("SKILL.md"):
+                skill_errors.append(
+                    f"path must point to SKILL.md, got: {skill_path}"
+                )
+
+            # c. File exists
             if not os.path.isfile(abs_path):
                 skill_errors.append(f"file not found: {skill_path}")
             else:
-                # c. Parse and validate frontmatter
+                # d. Parent directory name must match skill name
+                skill_dir_name = os.path.basename(os.path.dirname(abs_path))
+
+                # e. Parse and validate frontmatter
                 with open(abs_path, "r", encoding="utf-8") as sf:
                     text = sf.read()
                 fm, parse_errs = _parse_frontmatter(text)
                 skill_errors.extend(parse_errs)
                 if fm:
                     skill_errors.extend(
-                        _validate_frontmatter(fm, skill_name, all_names)
+                        _validate_frontmatter(fm, skill_name, skill_dir_name, all_names)
                     )
 
-        # d. Registry-level: description present
+        # f. Registry-level: description present
         if not entry.get("description", "").strip():
             warn_count += 1
             print(f"  [WARN] {prefix}: registry entry has no description")

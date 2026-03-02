@@ -46,6 +46,8 @@ agentskills-garden/
 ├── registry.yaml                          # Single source of truth — skill index
 ├── skills/
 │   ├── 00-foundation/        (4 skills)   # Always loaded first
+│   │   └── constitution/
+│   │       └── SKILL.md                   # Each skill is a directory + SKILL.md
 │   ├── 10-discovery/         (2 skills)   # Requirements & domain modeling
 │   ├── 20-architecture/      (4 skills)   # System, API, DB, ADR design
 │   ├── 20-planning/          (4 skills)   # Task decomposition, risk, estimation
@@ -71,19 +73,26 @@ agentskills-garden/
 
 ## Skill Format (SKILL.md)
 
-Every skill follows the [agentskills.io](https://agentskills.io/) standard with full spec schema:
+Every skill follows the [agentskills.io specification](https://agentskills.io/specification). Each skill is a **directory** named after the skill, containing a `SKILL.md` file:
+
+```
+skills/<category>/<skill-name>/
+└── SKILL.md
+```
+
+Frontmatter schema:
 
 ```yaml
 ---
-name: cleanup
-description: >
+name: cleanup                    # required: lowercase alphanumeric + hyphens, max 64 chars
+description: >                   # required: 1-1024 chars, what it does + when to use it
   Remove noise, enforce formatting, and safely rename identifiers.
-version: "1.0.0"
-dependencies:
-  - constitution
-  - scratchpad
-  - auditor
-reasoning_mode: mixed          # linear | plan-execute | tdd | mixed
+license: Apache-2.0              # optional
+compatibility: Designed for Claude Code and compatible AI agent environments
+metadata:                        # optional: arbitrary key-value pairs
+  version: "1.0.0"
+  dependencies: "constitution, scratchpad, auditor"
+  reasoning_mode: mixed          # linear | plan-execute | tdd | mixed
 ---
 ```
 
@@ -259,9 +268,20 @@ When in doubt, default to **Power Mode**.
 
 ## Creating a New Skill
 
-1. Copy `templates/skill-template.md` to the appropriate layer directory.
-2. Fill in the YAML frontmatter (`name`, `description`, `version`, `dependencies`, `reasoning_mode`).
-3. Write the markdown body:
+1. Create a directory `skills/<category>/<skill-name>/` where `<skill-name>` is lowercase with hyphens.
+2. Copy `templates/skill-template.md` into that directory as `SKILL.md`.
+3. Fill in the YAML frontmatter — `name` must match the directory name exactly:
+   ```yaml
+   name: skill-name
+   description: What it does and when to use it (1-1024 chars).
+   license: Apache-2.0
+   compatibility: Designed for Claude Code and compatible AI agent environments
+   metadata:
+     version: "0.1.0"
+     dependencies: "constitution, scratchpad"
+     reasoning_mode: linear   # linear | plan-execute | tdd | mixed
+   ```
+4. Write the markdown body:
    - **Context** — when to invoke
    - **Micro-Skills** — ordered steps with Eco/Power tags
    - **Inputs / Outputs** — typed parameters
@@ -274,8 +294,8 @@ When in doubt, default to **Power Mode**.
    - **Audit Log** — structured log templates
    - **Examples** — before/after demos
    - **Edge Cases** — unusual inputs
-4. Add an entry to `registry.yaml`.
-5. The Librarian will auto-discover it on next invocation.
+5. Add an entry to `registry.yaml` pointing to `skills/<category>/<skill-name>/SKILL.md`.
+6. The Librarian will auto-discover it on next invocation.
 
 ---
 

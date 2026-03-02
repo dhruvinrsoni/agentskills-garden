@@ -1,12 +1,14 @@
 ---
-name: <skill-name>
+name: skill-name
 description: >
-  <One-line description of what this skill does.>
-version: "0.1.0"
-dependencies:
-  - constitution
-  - scratchpad
-reasoning_mode: linear | plan-execute | tdd | mixed
+  One-line description of what this skill does and when to use it.
+  Should include specific keywords that help agents identify relevant tasks.
+license: Apache-2.0
+compatibility: Designed for Claude Code and compatible AI agent environments
+metadata:
+  version: "0.1.0"
+  dependencies: "constitution, scratchpad"
+  reasoning_mode: linear
 ---
 
 # <Skill Name>
