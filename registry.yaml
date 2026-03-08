@@ -35,6 +35,12 @@ foundation:
     tags: [core, routing, discovery]
     reasoning_mode: linear
 
+  - name: token-efficiency
+    path: skills/00-foundation/token-efficiency/SKILL.md
+    description: Resource-aware model tier, tool, and delegation selection per cognitive mode.
+    tags: [core, efficiency, tokens, delegation, parallelization]
+    reasoning_mode: linear
+
 # --------------------------------------------------------------------------
 # Discovery Layer (10)
 # --------------------------------------------------------------------------
