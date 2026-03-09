@@ -35,6 +35,12 @@ foundation:
     tags: [core, routing, discovery]
     reasoning_mode: linear
 
+  - name: pragya
+    path: skills/00-foundation/pragya/SKILL.md
+    description: Direction-seeking protocol — seek corrections, present options, let humans steer.
+    tags: [core, direction, wisdom, checkpoints, adaptive]
+    reasoning_mode: linear
+
   - name: token-efficiency
     path: skills/00-foundation/token-efficiency/SKILL.md
     description: Resource-aware model tier, tool, and delegation selection per cognitive mode.
