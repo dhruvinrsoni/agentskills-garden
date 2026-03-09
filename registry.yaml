@@ -41,6 +41,12 @@ foundation:
     tags: [core, direction, wisdom, checkpoints, adaptive]
     reasoning_mode: linear
 
+  - name: orchestrator
+    path: skills/00-foundation/orchestrator/SKILL.md
+    description: Mid-task skill injection — detects domain shifts and suggests relevant skills.
+    tags: [core, orchestration, injection, dynamic, adaptive]
+    reasoning_mode: linear
+
   - name: token-efficiency
     path: skills/00-foundation/token-efficiency/SKILL.md
     description: Resource-aware model tier, tool, and delegation selection per cognitive mode.
