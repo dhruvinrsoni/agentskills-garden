@@ -453,6 +453,12 @@ maintenance:
     tags: [maintenance, tech-debt, tracking, prioritization]
     reasoning_mode: plan-execute
 
+  - name: repo-maintenance
+    path: skills/90-maintenance/repo-maintenance/SKILL.md
+    description: Adaptive cleanup framework — start simple, discover value, pivot toward greater good.
+    tags: [maintenance, cleanup, repo, optimization, adaptive, greedy]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Templates
 # --------------------------------------------------------------------------
