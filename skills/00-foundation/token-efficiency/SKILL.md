@@ -205,6 +205,10 @@ of a slightly larger single message.
   of operation A, they must run sequentially — no exceptions.
 - **Escalation requires a log entry.** Every tier escalation must be recorded
   with the reason the lower tier was insufficient.
+- **Direction before delegation.** Before committing to a model tier, tool
+  selection, or delegation strategy, assess confidence. If uncertainty exists
+  about the right approach, trigger a pragya direction checkpoint rather than
+  assuming. The cheapest action is not always the right one.
 
 ## Ask-When-Ambiguous
 
@@ -393,3 +397,11 @@ of a slightly larger single message.
 - **Ambiguous task classification.** When a task spans multiple types
   (e.g., lookup + modification), apply the highest-tier requirement but
   the cheapest tool for each sub-step independently.
+
+- **Adaptive strategy mid-task.** When exploration reveals that the initial
+  goal conflicts with discovered value (e.g., "reduce files" vs "this doc has
+  unique content"), do not continue the original strategy blindly. Pause,
+  reassess, pivot. Sometimes the right action is to invest MORE tokens
+  preserving something valuable than to save tokens deleting it. See `pragya`
+  for direction-seeking protocol, `repo-maintenance` for the full adaptive
+  checkpoint pattern.

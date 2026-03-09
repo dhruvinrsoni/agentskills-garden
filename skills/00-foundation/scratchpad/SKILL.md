@@ -134,6 +134,21 @@ ELSE mode = "eco"  # default to minimal resource usage
 
 ---
 
+## Direction Checkpoint (Pragya)
+
+After selecting mode and before executing, check:
+
+- **Am I confident this is the right approach?** If not → trigger a pragya
+  direction checkpoint. Present options with pros/cons, let the user steer.
+- **Has the task context shifted** since the plan was made? If yes → reassess
+  mode, plan, and dependencies.
+- **Am I assuming or deciding?** If any part of the plan rests on an assumption
+  rather than confirmed information, flag it.
+
+Reference: `pragya` skill for the full direction-seeking protocol.
+
+---
+
 ## Guardrails
 
 - The scratchpad block is PRIVATE. Never leak reasoning to the user unless

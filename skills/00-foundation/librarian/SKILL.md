@@ -103,7 +103,31 @@ informal, misspelled, or uses different terminology.
    ```
 5. Load skills in dependency order.
 
-### 4. Prompt Cleanup 🌿 (Eco Mode)
+### 4. Activation Awareness 🌿 (Eco Mode)
+
+**Goal:** Surface skills proactively when context matches activation patterns.
+
+**Steps:**
+
+1. Skills declare activation patterns in their Context sections and optional
+   `activation_triggers` metadata.
+2. When routing, match user intent against skill descriptions AND Context
+   trigger patterns — not just skill names.
+3. During ongoing tasks, monitor for domain shifts (integrates with
+   `orchestrator` skill for mid-task injection).
+4. Surface skill suggestions proactively when context keywords match,
+   presented as pragya direction checkpoints.
+
+**Example triggers:**
+
+| Pattern | Skill | Reason |
+|---------|-------|--------|
+| "cleanup", "reduce", "trim", "optimize" | `repo-maintenance` | Repo-wide cleanup intent |
+| "uncertain", "not sure", "which approach" | `pragya` | Direction-seeking needed |
+| "too many tokens", "budget", "expensive" | `token-efficiency` | Resource optimization |
+| "deploy", "pipeline", "CI" | `ci-pipeline` | DevOps context detected |
+
+### 5. Prompt Cleanup 🌿 (Eco Mode)
 
 **Goal:** Clean user input without losing deliberate content.
 
