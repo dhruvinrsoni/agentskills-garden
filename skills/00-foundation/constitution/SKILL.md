@@ -55,6 +55,33 @@ AI has full power but zero inherent direction. **Seek corrections, don't assume.
 
 ---
 
+## Skill Hierarchy
+
+Skills are organized in four levels of granularity. Each level builds on the
+one below it.
+
+| Level | What it is | Example |
+|-------|-----------|---------|
+| **Nano-skill** | 1-2 liner foundational building block. The smallest atomic technique. Named inline: `**Nano: <Name>**`. Cross-referenceable across skills. | `**Nano: Exponential Backoff**` — wait `base * 2^attempt + jitter` before retry |
+| **Micro-skill** | Composes nano-skills into a coherent unit. Gives shape to raw techniques. Numbered sections within a SKILL.md. | `### 2. Retry with Backoff` — classifies errors, applies backoff nano, tracks attempts |
+| **Skill** | Full SKILL.md — the loadable unit an agent activates during user work in agent mode. | `resilience-patterns` — loaded when user encounters external dependency failures |
+| **Master skill** | A **workflow** orchestrating multiple skills in sequence. Equivalent to an AI agentic workflow. Metadata: `skill_type: master`. Contains only invocation steps, no implementation. | `release-pipeline` (future) — invokes test-strategy → changelog-generation → ci-pipeline |
+
+**Key rules:**
+
+- **Nano-skills** are the smallest reusable atoms. They can be referenced by
+  name across skills (e.g., `**Nano: Exponential Backoff**` defined in
+  `resilience-patterns` can be referenced from `error-handling`).
+- **Micro-skills** compose nano-skills into coherent units of work. They are
+  the numbered `### N. Name` sections within a SKILL.md.
+- **Skills** are the primary loadable unit — what the agent pulls in to handle
+  user tasks. One SKILL.md per skill, living at `skills/<category>/<name>/`.
+- **Master skills** are workflows. They orchestrate, never duplicate. Their
+  micro-skills are invocation steps that call other skills, not implementation
+  logic. Think: agentic workflow = master skill.
+
+---
+
 ## Cognitive Modes
 
 ### Eco Mode 🌿

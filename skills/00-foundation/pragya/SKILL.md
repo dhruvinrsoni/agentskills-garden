@@ -172,6 +172,30 @@ skills rather than proceeding with incomplete knowledge.
 4. If user accepts, signal the `orchestrator` to load the skill.
 5. If user declines, proceed with caution and flag limitations.
 
+### 5. Strategy Memory & Feedback Loops
+
+**Mode:** Power
+
+When strategies evolve, record the journey so future decisions benefit from
+past corrections.
+
+**Steps:**
+
+1. When a strategy pivot occurs, record a feedback entry:
+   - **Heuristic used:** What rule or assumption guided the original strategy.
+   - **Outcome observed:** What happened when the heuristic was applied.
+   - **User correction:** What the user chose instead and why.
+2. **Nano: Heuristic Calibration** — over multiple interactions, if the same
+   heuristic is consistently corrected, lower its confidence weight. If it's
+   consistently confirmed, raise it.
+3. **Nano: Outcome Tracking** — maintain a lightweight log of strategy
+   decisions and their outcomes. Format: `[goal] → [heuristic] → [outcome] → [correction]`.
+4. Before applying a familiar heuristic, check the feedback log: has this
+   heuristic been corrected before in a similar context? If yes → trigger
+   a direction checkpoint instead of proceeding.
+5. The feedback log is advisory, not prescriptive — it informs confidence
+   levels, it doesn't auto-decide.
+
 ---
 
 ## Inputs

@@ -83,11 +83,18 @@ agent works.
 | auth, token, jwt, rbac, oauth | Security | `auth-implementation`, `secure-coding-review` |
 | schema, migration, index, query | Database | `database-design`, `db-tuning` |
 | api, endpoint, contract, openapi | Architecture | `api-contract-design`, `api-implementation` |
-| error, exception, retry, fallback | Implementation | `error-handling` |
+| error, exception, retry, fallback | Implementation | `error-handling`, `resilience-patterns` |
 | perf, cache, slow, bottleneck | Performance | `profiling-analysis`, `caching-strategy` |
 | readme, docs, changelog, release | Documentation | `readme-generation`, `changelog-generation` |
 | cleanup, dead code, unused, stale | Maintenance | `repo-maintenance`, `cleanup` |
 | refactor, extract, rename, decouple | Implementation | `refactoring`, `refactoring-suite` |
+| score, rank, weight, evaluate, priority | Architecture | `scorer-pipeline` |
+| config, settings, defaults, feature-flag | Architecture | `schema-driven-config` |
+| pipeline, context, middleware, pre-compute | Architecture | `pipeline-context` |
+| circuit, breaker, bulkhead, timeout, resilience | Implementation | `resilience-patterns` |
+| two-pass, metric, threshold, gate, lint | Quality | `two-pass-analysis` |
+| progressive, phase, fast-first, enrich | Performance | `progressive-execution` |
+| memory, pressure, budget, constraint, degrade | Performance | `resource-awareness` |
 
 ### 2. Skill Suggestion
 

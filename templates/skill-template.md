@@ -9,6 +9,7 @@ metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 # <Skill Name>
@@ -36,9 +37,10 @@ terms, generated code, etc.>
 
 **Steps:**
 
-1. ...
-2. ...
-3. ...
+1. **Nano: <Technique Name>** — 1-2 liner atomic building block.
+   Example: `**Nano: Exponential Backoff**` — wait `base * 2^attempt + jitter`.
+2. Apply the nano technique in context...
+3. Verify the outcome...
 
 ### 2. <Micro-Skill B>
 
@@ -134,3 +136,31 @@ terms, generated code, etc.>
 
 - <Edge case 1 and how the skill handles it.>
 - <Edge case 2 and how the skill handles it.>
+
+---
+
+## Master Skill Variant
+
+> For skills with `skill_type: master` in metadata. Master skills are
+> **workflows** — they orchestrate multiple skills in sequence, equivalent to
+> an AI agentic workflow. They contain no implementation logic, only invocation
+> steps.
+
+**Micro-skills in a master skill are invocation steps, not implementation:**
+
+```markdown
+### 1. Gather Requirements
+**Mode:** eco
+**Invokes:** `requirements-elicitation`
+**Steps:**
+1. Load the `requirements-elicitation` skill.
+2. Pass user context as input.
+3. Collect outputs: scope, constraints, acceptance criteria.
+
+### 2. Design Architecture
+**Mode:** power
+**Invokes:** `system-design`
+**Steps:**
+1. Load the `system-design` skill with requirements from step 1.
+2. Collect outputs: component diagram, API contracts, data model.
+```

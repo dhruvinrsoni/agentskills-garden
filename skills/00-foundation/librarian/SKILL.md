@@ -53,25 +53,49 @@ informal, misspelled, or uses different terminology.
 | "incident", "outage", "alert", "debug prod" | Maintenance | `incident-response.md` |
 | "upgrade", "migrate", "legacy", "version" | Maintenance | `legacy-upgrade.md` |
 | "require", "scope", "goal", "what should" | Discovery | `requirements-elicitation.md` |
+| "score", "rank", "weight", "evaluate", "prioritize" | Architecture | `scorer-pipeline` |
+| "config", "settings", "schema", "defaults", "feature flag" | Architecture | `schema-driven-config` |
+| "pipeline context", "middleware", "pre-compute", "shared context" | Architecture | `pipeline-context` |
+| "circuit breaker", "retry", "resilience", "fallback", "bulkhead" | Implementation | `resilience-patterns` |
+| "two-pass", "metric gate", "threshold", "measurement vs gating" | Quality | `two-pass-analysis` |
+| "progressive", "two-phase", "fast then enrich", "phase 1 phase 2" | Performance | `progressive-execution` |
+| "memory pressure", "resource budget", "constraint", "degrade gracefully" | Performance | `resource-awareness` |
 
 4. If intent matches multiple categories → present options to user.
 
-### 2. Fuzzy Matching 🌿 (Eco Mode)
+### 2. Graduated Matching 🌿 (Eco Mode)
 
-**Goal:** Handle typos, abbreviations, and partial names.
+**Goal:** Handle typos, abbreviations, and partial names using graduated
+quality tiers instead of binary match/no-match.
+
+**Graduated Tier System:**
+
+Each candidate skill is scored against the query. The highest-tier match wins.
+If multiple skills tie at the same tier, present all to the user.
+
+| Tier | Match Type | Weight | When it fires |
+|------|-----------|--------|---------------|
+| 1 | **EXACT** | 1.00 | Query exactly equals a skill name |
+| 2 | **PREFIX** | 0.85 | Query is a prefix of a skill name (`"clean"` → `cleanup`) |
+| 3 | **SUBSTRING** | 0.65 | Query appears anywhere in name or description (`"pipe"` → `ci-pipeline`) |
+| 4 | **TAG** | 0.50 | Query matches a tag in `registry.yaml` (`"resilience"` → `resilience-patterns`) |
+| 5 | **SEMANTIC** | 0.35 | **Nano: Levenshtein Distance** — edit distance ≤ 2 for names ≤ 8 chars, ≤ 3 for longer. Also: **Nano: Token Normalization** — strip hyphens, lowercase, split compound words before comparing. |
+| 6 | **NONE** | 0.00 | No match → ask the user to clarify |
 
 **Algorithm:**
 
-1. **Exact match** — check `registry.yaml` for exact skill name.
-2. **Prefix match** — `"clean"` matches `cleanup`, `"docker"` matches
-   `docker-containerization`.
-3. **Levenshtein distance** — if no prefix match, compute edit distance
-   against all skill names. Threshold: distance ≤ 2 for names ≤ 8 chars,
-   distance ≤ 3 for longer names.
-4. **Tag matching** — check skill tags in `registry.yaml` metadata.
-5. **Fallback** — if no match found, ask the user to clarify.
+1. **Nano: Token Normalization** — normalize the query: lowercase, strip
+   hyphens, split compound words (`"dockercontainer"` → `["docker", "container"]`).
+2. Run query against all skill names at Tier 1 (EXACT). If hit → return.
+3. Run Tier 2 (PREFIX). If hit → return.
+4. Run Tier 3 (SUBSTRING) against names + descriptions. Collect candidates.
+5. Run Tier 4 (TAG) against registry tags. Merge with Tier 3 candidates.
+6. **Nano: Levenshtein Distance** — for remaining unmatched, compute edit
+   distance. Threshold: ≤ 2 for short names, ≤ 3 for long names.
+7. If multiple candidates, rank by tier weight. Present top matches to user.
+8. If zero candidates → NONE → ask user to clarify.
 
-**Common Typo Map:**
+**Common Typo Map (shortcuts for Tier 5):**
 
 ```text
 "clnup"       → cleanup

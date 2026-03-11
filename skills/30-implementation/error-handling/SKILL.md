@@ -77,6 +77,8 @@ inconsistent error patterns are detected in an existing codebase.
 2. Set max retries (default: 3).
 3. Implement circuit breaker for repeated failures (open after 5 failures,
    half-open after 30s).
+4. For comprehensive resilience patterns including bulkhead isolation, fallback
+   chains, and cascading timeout budgets, see the `resilience-patterns` skill.
 
 ---
 

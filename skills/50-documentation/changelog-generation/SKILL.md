@@ -33,13 +33,25 @@ highlights breaking changes with migration guidance.
 **Steps:**
 
 1. Read git log between two references (tags, SHAs, or HEAD).
-2. Parse each commit message against the Conventional Commits specification:
-   - `feat:` → Added (MINOR).
-   - `fix:` → Fixed (PATCH).
-   - `docs:` → Documentation.
-   - `refactor:` → Changed (no version bump).
-   - `perf:` → Performance.
-   - `BREAKING CHANGE:` or `!` suffix → Breaking (MAJOR).
+2. Parse each commit message against the Conventional Commits specification
+   using the **Commit Prefix Mapping Table**:
+
+   | Prefix | Version Bump | Changelog Section | Include by Default |
+   |--------|-------------|-------------------|--------------------|
+   | `feat:` | MINOR | Added | yes |
+   | `fix:` | PATCH | Fixed | yes |
+   | `perf:` | PATCH | Performance | yes |
+   | `refactor:` | none | Changed | opt-in |
+   | `docs:` | none | Documentation | opt-in |
+   | `style:` | none | — | no |
+   | `test:` | none | — | no |
+   | `chore:` | none | — | no |
+   | `ci:` | none | — | no |
+   | `feat!:` / `BREAKING CHANGE:` | **MAJOR** | **Breaking** | yes |
+
+   **Nano: Highest Bump Wins** — scan all commits in range, apply the highest
+   bump found (MAJOR > MINOR > PATCH > none).
+
 3. Extract scope, body, and footer metadata.
 4. Group and sort commits by type and scope.
 

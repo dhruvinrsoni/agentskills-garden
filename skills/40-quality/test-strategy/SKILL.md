@@ -54,7 +54,32 @@ a testing pyramid and conventions that all other testing skills follow.
 3. Configure test runner (Jest, PyTest, Go test, JUnit).
 4. Add test scripts to `package.json` / `Makefile` / `pyproject.toml`.
 
-### 3. Coverage Gate 🌿 (Eco Mode)
+### 3. Test File Organization 🌿 (Eco Mode)
+
+**Steps:**
+
+1. Choose a test file organization pattern based on project conventions:
+
+   | Pattern | Structure | Best For |
+   |---------|----------|----------|
+   | **A: Co-located** | `src/module/__tests__/module.test.ts` | JS/React ecosystems, clear ownership |
+   | **B: Mirrored** | `test/module/module_test.go` | Go/Java ecosystems, clean source tree |
+   | **C: Same-file** | `#[cfg(test)] mod tests` inside source | Rust, small modules, tight coupling |
+
+2. Decision criteria for choosing a pattern:
+
+   | Factor | Co-located (A) | Mirrored (B) | Same-file (C) |
+   |--------|---------------|-------------|---------------|
+   | Framework convention | JS/TS, React | Go, Java, Python | Rust |
+   | Source tree cleanliness | Tests visible in source tree | Clean source, separate test tree | No extra files |
+   | Ownership clarity | High — test next to code | Medium — need to navigate | Highest — same file |
+   | Monorepo friendliness | Excellent — per-package | Requires mirrored structure | N/A |
+
+3. Apply consistently across the project. Mixed patterns within one project
+   create confusion about where to find tests.
+4. Document the chosen pattern in the test strategy document.
+
+### 4. Coverage Gate 🌿 (Eco Mode)
 
 **Steps:**
 
