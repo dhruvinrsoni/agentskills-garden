@@ -97,6 +97,24 @@ architecture:
     tags: [architecture, system, design, scalability]
     reasoning_mode: plan-execute
 
+  - name: scorer-pipeline
+    path: skills/20-architecture/scorer-pipeline/SKILL.md
+    description: Composable evaluation — independent micro-scorers with shared context and explicit weights.
+    tags: [architecture, scoring, pipeline, composable, evaluation]
+    reasoning_mode: linear
+
+  - name: schema-driven-config
+    path: skills/20-architecture/schema-driven-config/SKILL.md
+    description: Single schema powers defaults, validation, storage, and UI generation.
+    tags: [architecture, configuration, schema, validation, single-source-of-truth]
+    reasoning_mode: linear
+
+  - name: pipeline-context
+    path: skills/20-architecture/pipeline-context/SKILL.md
+    description: Pre-compute once, share via context object to all pipeline stages.
+    tags: [architecture, pipeline, context, pre-computation, middleware]
+    reasoning_mode: linear
+
 # --------------------------------------------------------------------------
 # Planning Layer (20)
 # --------------------------------------------------------------------------
@@ -177,6 +195,12 @@ implementation:
     tags: [implementation, tdd, testing, workflow]
     reasoning_mode: plan-execute
 
+  - name: resilience-patterns
+    path: skills/30-implementation/resilience-patterns/SKILL.md
+    description: Circuit breaker, retry with backoff, bulkhead isolation, fallback chains, timeouts.
+    tags: [implementation, resilience, circuit-breaker, retry, bulkhead, fallback]
+    reasoning_mode: linear
+
 # --------------------------------------------------------------------------
 # Quality Layer (40)
 # --------------------------------------------------------------------------
@@ -229,6 +253,12 @@ quality:
     tags: [quality, performance, review, optimization]
     reasoning_mode: plan-execute
 
+  - name: two-pass-analysis
+    path: skills/40-quality/two-pass-analysis/SKILL.md
+    description: Separate metric collection (Pass 1) from pass/fail gating (Pass 2).
+    tags: [quality, analysis, metrics, gating, two-pass, linting]
+    reasoning_mode: linear
+
 # --------------------------------------------------------------------------
 # Performance Layer (50)
 # --------------------------------------------------------------------------
@@ -250,6 +280,18 @@ performance:
     description: Index analysis, query plan optimization, connection pooling.
     tags: [performance, database, indexing, queries]
     reasoning_mode: plan-execute
+
+  - name: progressive-execution
+    path: skills/50-performance/progressive-execution/SKILL.md
+    description: Fast approximate results (Phase 1) then slow enriched results (Phase 2).
+    tags: [performance, progressive, two-phase, rendering, latency]
+    reasoning_mode: linear
+
+  - name: resource-awareness
+    path: skills/50-performance/resource-awareness/SKILL.md
+    description: Monitor constraints (memory, CPU, time, rate limits), adapt behavior gracefully.
+    tags: [performance, resources, memory, adaptive, degradation, budgets]
+    reasoning_mode: linear
 
 # --------------------------------------------------------------------------
 # Documentation Layer (50)
