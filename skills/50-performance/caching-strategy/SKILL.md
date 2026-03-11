@@ -73,6 +73,37 @@ Default recommendation: **Cache-Aside** (simplest, most predictable).
    - **Tag-based:** Group related keys, invalidate by tag.
 3. Handle thundering herd (cache stampede): use lock/singleflight.
 
+### 5. Multi-Layer Cache Topology 🌿 (Eco Mode)
+
+**Steps:**
+
+1. Design a layered caching architecture where each layer trades latency for
+   capacity:
+
+   | Layer | Technology | Latency | Capacity | Scope |
+   |-------|-----------|---------|----------|-------|
+   | **L1** | In-process (LRU) | <1ms | Small (bounded by heap) | Per-instance |
+   | **L2** | Shared distributed (Redis/Memcached) | 1-5ms | Medium (cluster memory) | Cross-instance |
+   | **L3** | Edge/CDN | 5-50ms | Large (global) | Public content only |
+
+2. Read path: check L1 → miss? check L2 → miss? check L3 → miss? query origin.
+   **Nano: Cache Promotion** — on L2 or L3 hit, promote the entry to L1 for
+   faster subsequent access.
+3. Write/invalidation path: **Nano: Cross-Layer Invalidation** — a write
+   invalidates L1 immediately (local), then L2 (broadcast/pub-sub), then L3
+   (purge API). Invalidation cascades top-down.
+4. Decision criteria for layer selection:
+
+   | Need | Recommended layers |
+   |------|--------------------|
+   | Ultra-low latency, single instance | L1 only |
+   | Shared across instances, moderate latency | L1 + L2 |
+   | Public content, global distribution | L1 + L2 + L3 |
+   | Cost-sensitive, moderate traffic | L2 only (skip L1 overhead) |
+
+5. Monitor per-layer hit rates. If L1 hit rate < 50%, the L1 cache is too
+   small or the workload isn't suitable for in-process caching.
+
 ---
 
 ## Outputs
