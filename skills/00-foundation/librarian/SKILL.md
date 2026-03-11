@@ -53,6 +53,13 @@ informal, misspelled, or uses different terminology.
 | "incident", "outage", "alert", "debug prod" | Maintenance | `incident-response.md` |
 | "upgrade", "migrate", "legacy", "version" | Maintenance | `legacy-upgrade.md` |
 | "require", "scope", "goal", "what should" | Discovery | `requirements-elicitation.md` |
+| "score", "rank", "weight", "evaluate", "prioritize" | Architecture | `scorer-pipeline` |
+| "config", "settings", "schema", "defaults", "feature flag" | Architecture | `schema-driven-config` |
+| "pipeline context", "middleware", "pre-compute", "shared context" | Architecture | `pipeline-context` |
+| "circuit breaker", "retry", "resilience", "fallback", "bulkhead" | Implementation | `resilience-patterns` |
+| "two-pass", "metric gate", "threshold", "measurement vs gating" | Quality | `two-pass-analysis` |
+| "progressive", "two-phase", "fast then enrich", "phase 1 phase 2" | Performance | `progressive-execution` |
+| "memory pressure", "resource budget", "constraint", "degrade gracefully" | Performance | `resource-awareness` |
 
 4. If intent matches multiple categories → present options to user.
 
