@@ -60,7 +60,30 @@ is the **gatekeeper** — nothing merges without passing.
 3. Add `paths` filter to skip jobs when only docs change.
 4. Use artifacts to pass build outputs between jobs.
 
-### 4. Deployment Stage ⚡ (Power Mode)
+### 4. Artifact Size Gating 🌿 (Eco Mode)
+
+**Steps:**
+
+1. Define maximum artifact sizes per build output:
+
+   | Artifact | Example Threshold | Enforcement |
+   |----------|------------------|-------------|
+   | JS bundle (main) | < 500 KB | CI fails if exceeded |
+   | JS bundle (vendor) | < 300 KB | CI fails if exceeded |
+   | Docker image | < 200 MB | CI warns, fails above hard limit |
+   | Compiled binary | < 50 MB | CI warns |
+
+2. Add a CI step that measures current artifact sizes after the build stage.
+3. Compare measured sizes against thresholds. Use the `two-pass-analysis`
+   pattern: collect sizes (Pass 1), gate on thresholds (Pass 2).
+4. Track sizes per build over time. Detect gradual creep (>5% growth per week)
+   even when still within threshold.
+5. Store size history as a build artifact for trend analysis.
+6. **Nano: Size Budget Ratchet** — when a bundle shrinks below threshold,
+   tighten the threshold to prevent regression (same ratchet pattern as
+   `two-pass-analysis`).
+
+### 5. Deployment Stage ⚡ (Power Mode)
 
 **Steps:**
 
