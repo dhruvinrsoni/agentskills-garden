@@ -92,6 +92,15 @@ domain skill). UI rendering of scores. Storage of scored results.
 | `<scorer-a>` | 1.0 | `<value>` | `<why>` |
 | `<scorer-b>` | 1.0 | `<value>` | `<why>` |
 
+**Filled example (PR Quality Assessment):**
+
+| Scorer | Initial | Calibrated | Rationale |
+|--------|---------|-----------|-----------|
+| `complexity` | 1.0 | 1.4 | Cyclomatic complexity >15 was the #1 predictor of post-merge bugs in Q4 data |
+| `test-coverage` | 1.0 | 1.2 | Coverage drops correlated with regressions, but less than complexity |
+| `lint-violations` | 1.0 | 0.8 | Mostly cosmetic — low signal for actual defects |
+| `review-history` | 1.0 | 0.6 | Prior approvals weakly predict quality; useful as tiebreaker only |
+
 ### 4. Pipeline Assembly 🌿 (Eco Mode)
 
 **Goal:** Compose scorers into an additive pipeline.
@@ -201,7 +210,13 @@ domain skill). UI rendering of scores. Storage of scored results.
 
 **Context:** `{ tokens: ["search", "query"], queryEmbedding: [...], domainCounts: Map }`
 
-**Flow:** Pre-compute tokens + embedding → run 5 scorers → additive aggregation → recency booster (×1.2 for items < 7 days) → sort → return top 20.
+**Flow:**
+
+1. **Pre-compute context:** Tokenize query → compute embedding → aggregate domain counts from index. All 3 operations run once.
+2. **Score:** Each of the 5 scorers receives `(item, query, context)`. text-match uses `context.tokens` for BM25. embedding-similarity uses `context.queryEmbedding` for cosine distance. Neither scorer knows the other exists.
+3. **Aggregate:** `composite = (0.35 × text_match) + (0.20 × recency) + (0.15 × popularity) + (0.15 × domain_auth) + (0.15 × embedding_sim)`.
+4. **Boost:** Recency booster applies ×1.2 multiplier to items published < 7 days ago. This is multiplicative, post-aggregation.
+5. **Output:** Sort descending, return top 20. Score breakdown for item #1: `{ text_match: 0.82, recency: 0.65, popularity: 0.90, domain_auth: 0.70, embedding_sim: 0.78, composite: 0.76, boosted: 0.91 }`.
 
 ### Example 2 — Code Quality Assessment
 
@@ -209,7 +224,13 @@ domain skill). UI rendering of scores. Storage of scored results.
 
 **Context:** `{ ast: parsed, coverageReport: loaded, lintResults: cached }`
 
-**Flow:** Parse AST once → run 5 scorers → aggregate → flag files below threshold → present ranked file list with score breakdown.
+**Flow:**
+
+1. **Pre-compute context:** Parse AST once (used by complexity + documentation scorers). Load coverage report (used by test-coverage). Cache lint output (used by lint-violations). 3 expensive operations → 1× each instead of 2×.
+2. **Score:** complexity scorer walks `context.ast` and returns cyclomatic complexity normalized to 0-1 (lower is better). test-coverage reads `context.coverageReport` and returns line coverage ratio.
+3. **Aggregate:** Weighted sum. File `src/auth/login.ts` scores: `{ complexity: 0.40, test_coverage: 0.85, lint: 0.95, docs: 0.30, deps: 0.70, composite: 0.62 }`.
+4. **Gate:** Files with composite < 0.50 are flagged for review. 3 of 47 files flagged.
+5. **Output:** Ranked file list with per-scorer breakdown. Reviewers see exactly *why* each file scored low — complexity vs coverage vs docs — and can prioritize fixes.
 
 ---
 

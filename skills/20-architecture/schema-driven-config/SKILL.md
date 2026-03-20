@@ -219,9 +219,45 @@ auto_save:   { default: true, type: "boolean", description: "Auto-save drafts ev
 
 ### Example 2 — Feature Flags
 
-**Schema:** Each flag is `{ default: false, type: "boolean", description: "..." }`.
+**Schema (3 flags):**
+```
+new_checkout:    { default: false, type: "boolean", description: "Enable redesigned checkout flow" }
+dark_mode:       { default: false, type: "boolean", description: "Enable dark mode UI" }
+ai_suggestions:  { default: false, type: "boolean", description: "Show AI-powered product suggestions" }
+```
 
-**Flow:** Schema → defaults all off → storage overrides for enabled flags → `get("new_checkout")` returns true/false → no validation needed (boolean is self-validating).
+**Flow:**
+
+1. **Defaults:** `getDefaults()` returns `{ new_checkout: false, dark_mode: false, ai_suggestions: false }` — all flags off.
+2. **Storage override:** Ops team enables `new_checkout` for 10% of users via storage. `get("new_checkout")` returns `true` for those users, `false` for others.
+3. **No validation needed:** Boolean is self-validating — any non-boolean input is rejected by type check, falls back to `false`.
+4. **Adding a flag:** New flag `beta_search` added to schema. Zero migration — existing storage has no entry, so `get("beta_search")` returns the schema default (`false`).
+
+### Example 3 — Validation Error Scenario
+
+**Schema entry:** `page_size: { default: 25, type: "number", validate: (v) => v >= 10 && v <= 100, description: "Items per page" }`
+
+**User submits:** `set("page_size", 500)`
+
+**Flow:**
+
+1. Accessor runs `validate(500)` → returns `false` (500 > 100).
+2. Value rejected. Accessor returns validation error: `{ key: "page_size", value: 500, constraint: "v >= 10 && v <= 100", message: "Value 500 exceeds maximum 100" }`.
+3. Setting retains previous value (or schema default if never set).
+4. Audit log: `[2026-03-18T14:22:00Z] validation-failed: key="page_size", value="500", constraint="v >= 10 && v <= 100"`.
+
+### Example 4 — Schema Migration
+
+**Old schema (v1):** `{ theme: ..., page_size: ... }` — 2 settings.
+
+**New schema (v2):** `{ theme: ..., page_size: ..., language: { default: "en", type: "enum", values: ["en", "es", "fr", "de"], description: "UI language" } }` — added `language`.
+
+**Flow:**
+
+1. Schema updated with new `language` entry. No storage migration needed.
+2. Existing users call `get("language")` → storage has no entry → returns schema default `"en"`.
+3. New users who set `language` to `"fr"` → stored in their settings.
+4. Old settings untouched. Zero-downtime, backwards-compatible migration.
 
 ---
 

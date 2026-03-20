@@ -232,6 +232,46 @@ tsConfig:       object      — parsed once (used by compile and type-check stag
 packageJson:    object      — read once (used by dependency-check and bundle stages)
 ```
 
+**Without context:** compile stage globs 1,200 files (300ms), lint stage globs same 1,200 files (300ms), test stage globs again (300ms) = 900ms on file discovery alone.
+**With context:** Glob once at pipeline entry (300ms), pass `context.sourceFiles` to all 3 stages = 300ms total. Savings: 600ms per build, ~8 seconds saved per minute in watch mode.
+
+### Example 3 — Stage Contract Declaration
+
+**Stage:** `lint` declares its contract:
+```
+reads:   ["sourceFiles", "tsConfig"]
+outputs: ["lintResults"]
+```
+
+**Stage:** `type-check` declares:
+```
+reads:   ["sourceFiles", "tsConfig"]
+outputs: ["typeErrors"]
+```
+
+**Stage:** `bundle` declares:
+```
+reads:   ["sourceFiles", "packageJson", "typeErrors"]
+outputs: ["bundleManifest"]
+```
+
+**Assembly-time check:** Pipeline verifier walks all contracts. `bundle` reads `typeErrors` — is this satisfied? Yes, `type-check` outputs it AND `type-check` runs before `bundle` in the stage order. If `type-check` were removed, assembly would fail: `"bundle.reads 'typeErrors' but no prior stage outputs it"`. Caught before any stage runs.
+
+### Example 4 — Scoped Child Context
+
+**Parent context:** `{ sourceFiles, tsConfig, packageJson }` — shared by all stages.
+
+**Test stage group** needs additional context (test fixtures, mock data) irrelevant to compile/lint:
+```
+testContext = context.createChild({ fixtures: loadFixtures(), mockDb: createMockPool() })
+```
+
+**Properties:**
+- `testContext.sourceFiles` → inherits from parent (read-only).
+- `testContext.fixtures` → only visible to test stages.
+- Parent context unchanged — compile and lint never see `fixtures` or `mockDb`.
+- When test stage group completes, `testContext` is disposed, releasing `mockDb` connection pool. Parent context remains alive for remaining stages.
+
 ---
 
 ## Edge Cases

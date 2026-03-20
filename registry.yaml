@@ -13,25 +13,25 @@ version: "3.0.0"
 foundation:
   - name: constitution
     path: skills/00-foundation/constitution/SKILL.md
-    description: Core principles — Satya, Dharma, Ahimsa. Cognitive modes.
+    description: The laws of the agent's universe — Satya (truth), Dharma (safety), Ahimsa (non-destruction), Pragya (wisdom).
     tags: [core, safety, principles]
     reasoning_mode: linear
 
   - name: scratchpad
     path: skills/00-foundation/scratchpad/SKILL.md
-    description: Internal monologue protocol and cognitive modes (Eco/Power).
+    description: Forces explicit reasoning before acting — declares task, complexity, risk, and plan so nothing starts half-thought.
     tags: [core, reasoning, modes]
     reasoning_mode: linear
 
   - name: auditor
     path: skills/00-foundation/auditor/SKILL.md
-    description: Output validation — ensures Constitution compliance.
+    description: Runs after every action to catch drift between what was planned and what was done — the repo's continuity department.
     tags: [core, safety, validation]
     reasoning_mode: plan-execute
 
   - name: librarian
     path: skills/00-foundation/librarian/SKILL.md
-    description: Skill discovery via fuzzy matching and semantic search.
+    description: Finds the right skill even when you describe the problem instead of naming the tool — graduated fuzzy routing.
     tags: [core, routing, discovery]
     reasoning_mode: linear
 
@@ -59,13 +59,13 @@ foundation:
 discovery:
   - name: requirements-elicitation
     path: skills/10-discovery/requirements-elicitation/SKILL.md
-    description: Interview user for goals, constraints, and success metrics.
+    description: When scope is fuzzy — interviews the user for goals, constraints, and success metrics before coding starts.
     tags: [discovery, requirements, planning]
     reasoning_mode: plan-execute
 
   - name: domain-modeling
     path: skills/10-discovery/domain-modeling/SKILL.md
-    description: Create domain glossary, entity relationships, Protected Terms.
+    description: When the team uses different words for the same thing — creates a domain glossary, entity map, and Protected Terms.
     tags: [discovery, domain, glossary]
     reasoning_mode: plan-execute
 
@@ -75,25 +75,25 @@ discovery:
 architecture:
   - name: adr-management
     path: skills/20-architecture/adr-management/SKILL.md
-    description: Create and manage Architecture Decision Records.
+    description: When you need to record why a decision was made — creates and manages Architecture Decision Records.
     tags: [architecture, adr, decisions]
     reasoning_mode: linear
 
   - name: api-contract-design
     path: skills/20-architecture/api-contract-design/SKILL.md
-    description: Design REST/gRPC APIs (OpenAPI spec) before coding.
+    description: When frontend and backend need to agree before coding — designs REST/gRPC APIs with OpenAPI spec.
     tags: [architecture, api, contract, openapi]
     reasoning_mode: plan-execute
 
   - name: database-design
     path: skills/20-architecture/database-design/SKILL.md
-    description: Schema design, normalization, migration planning, indexing.
+    description: When data modeling decisions will outlast the code — schema design, normalization, migration planning, indexing.
     tags: [architecture, database, schema, migration]
     reasoning_mode: plan-execute
 
   - name: system-design
     path: skills/20-architecture/system-design/SKILL.md
-    description: Component diagrams, data flow, trade-off analysis.
+    description: When you need to see the big picture before building — component diagrams, data flow, trade-off analysis.
     tags: [architecture, system, design, scalability]
     reasoning_mode: plan-execute
 
@@ -121,25 +121,25 @@ architecture:
 planning:
   - name: task-decomposition
     path: skills/20-planning/task-decomposition/SKILL.md
-    description: Break tasks into subtasks, DAG ordering, T-shirt sizing.
+    description: When a task feels too big to start — breaks it into dependency-ordered subtasks with T-shirt sizing.
     tags: [planning, decomposition, estimation, dag]
     reasoning_mode: plan-execute
 
   - name: risk-assessment
     path: skills/20-planning/risk-assessment/SKILL.md
-    description: Identify risks, probability/impact matrix, mitigation strategies.
+    description: Before you ship something that keeps you up at night — identifies risks, scores probability/impact, plans mitigations.
     tags: [planning, risk, mitigation, assessment]
     reasoning_mode: plan-execute
 
   - name: dependency-analysis
     path: skills/20-planning/dependency-analysis/SKILL.md
-    description: Dependency graphs, circular detection, staleness/CVE audit.
+    description: When you're not sure what depends on what — builds dependency graphs, detects cycles, audits for staleness and CVEs.
     tags: [planning, dependencies, graph, analysis]
     reasoning_mode: plan-execute
 
   - name: estimation
     path: skills/20-planning/estimation/SKILL.md
-    description: Three-point (PERT) estimation, relative sizing, confidence intervals.
+    description: When "how long will this take?" needs a real answer — PERT estimation, relative sizing, confidence intervals.
     tags: [planning, estimation, pert, sizing]
     reasoning_mode: plan-execute
 
@@ -149,49 +149,49 @@ planning:
 implementation:
   - name: cleanup
     path: skills/30-implementation/cleanup/SKILL.md
-    description: Remove noise, enforce formatting, safely rename identifiers.
+    description: When the codebase has accumulated cruft — removes noise, enforces formatting, safely renames identifiers.
     tags: [code-quality, formatting, renaming]
     reasoning_mode: mixed
 
   - name: api-implementation
     path: skills/30-implementation/api-implementation/SKILL.md
-    description: Implement handlers/controllers based on API contracts.
+    description: When the API contract is ready and needs code behind it — implements handlers/controllers with validation.
     tags: [implementation, api, handlers, validation]
     reasoning_mode: plan-execute
 
   - name: data-access
     path: skills/30-implementation/data-access/SKILL.md
-    description: Repository pattern, query optimization, N+1 prevention.
+    description: When your API is fast but your database calls aren't — repository pattern, query optimization, N+1 prevention.
     tags: [implementation, database, repository, queries]
     reasoning_mode: plan-execute
 
   - name: refactoring-suite
     path: skills/30-implementation/refactoring-suite/SKILL.md
-    description: Complex refactors with strict test verification.
+    description: When you need to restructure code without breaking behavior — complex refactors with strict test verification.
     tags: [implementation, refactoring, extract, rename]
     reasoning_mode: plan-execute
 
   - name: error-handling
     path: skills/30-implementation/error-handling/SKILL.md
-    description: Standardize error types, logging, and response formats.
+    description: When every module handles errors differently — standardizes error types, logging, and response formats.
     tags: [implementation, errors, logging, resilience]
     reasoning_mode: linear
 
   - name: code-generation
     path: skills/30-implementation/code-generation/SKILL.md
-    description: Generate code from specs with language idiom enforcement.
+    description: When you have a spec and need idiomatic code — generates from specs with language convention enforcement.
     tags: [implementation, codegen, templates, dry]
     reasoning_mode: plan-execute
 
   - name: refactoring
     path: skills/30-implementation/refactoring/SKILL.md
-    description: Safe code restructuring with test-first verification.
+    description: When code needs restructuring but tests must stay green — safe refactoring with test-first verification.
     tags: [implementation, refactoring, safety]
     reasoning_mode: plan-execute
 
   - name: tdd-workflow
     path: skills/30-implementation/tdd-workflow/SKILL.md
-    description: Red-Green-Refactor cycle with coverage targets.
+    description: When you want tests to drive the design — Red-Green-Refactor cycle with coverage targets.
     tags: [implementation, tdd, testing, workflow]
     reasoning_mode: plan-execute
 
@@ -207,55 +207,55 @@ implementation:
 quality:
   - name: test-strategy
     path: skills/40-quality/test-strategy/SKILL.md
-    description: Define the testing pyramid, coverage targets, conventions.
+    description: When you need a testing philosophy, not just tests — defines the pyramid, coverage targets, and conventions.
     tags: [quality, testing, strategy, coverage]
     reasoning_mode: plan-execute
 
   - name: unit-testing
     path: skills/40-quality/unit-testing/SKILL.md
-    description: Generate unit tests (Jest, JUnit, Go Test, PyTest).
+    description: When a function needs proof it works — generates unit tests for Jest, JUnit, Go Test, PyTest.
     tags: [quality, testing, unit, tdd]
     reasoning_mode: linear
 
   - name: integration-testing
     path: skills/40-quality/integration-testing/SKILL.md
-    description: Test across component boundaries with Docker containers.
+    description: When unit tests pass but the system doesn't work — tests across component boundaries with Docker containers.
     tags: [quality, testing, integration, docker]
     reasoning_mode: plan-execute
 
   - name: mutation-testing
     path: skills/40-quality/mutation-testing/SKILL.md
-    description: Verify test quality by injecting faults (mutants).
+    description: When you suspect tests pass but don't actually catch bugs — verifies test quality by injecting faults.
     tags: [quality, testing, mutation, coverage]
     reasoning_mode: plan-execute
 
   - name: code-review
     path: skills/40-quality/code-review/SKILL.md
-    description: Review checklists, defect categories, severity classification.
+    description: When a PR needs more than a thumbs-up — review checklists, defect categories, severity classification.
     tags: [quality, review, pr, defects]
     reasoning_mode: plan-execute
 
   - name: testing-strategy
     path: skills/40-quality/testing-strategy/SKILL.md
-    description: Coverage analysis, test type selection, boundary conditions.
+    description: When you're unsure what to test next — coverage analysis, test type selection, boundary condition identification.
     tags: [quality, testing, strategy, coverage]
     reasoning_mode: plan-execute
 
   - name: security-review
     path: skills/40-quality/security-review/SKILL.md
-    description: OWASP Top 10 scan, vulnerability detection, secret scanning.
+    description: When security can't be an afterthought — OWASP Top 10 scan, vulnerability detection, secret scanning.
     tags: [quality, security, owasp, review]
     reasoning_mode: plan-execute
 
   - name: performance-review
     path: skills/40-quality/performance-review/SKILL.md
-    description: Bottleneck identification, complexity analysis, caching review.
+    description: When the app is slow but you don't know where — bottleneck identification, complexity analysis, caching review.
     tags: [quality, performance, review, optimization]
     reasoning_mode: plan-execute
 
   - name: two-pass-analysis
     path: skills/40-quality/two-pass-analysis/SKILL.md
-    description: Separate metric collection (Pass 1) from pass/fail gating (Pass 2).
+    description: When you need metrics without false-failing the build — separates collection (Pass 1) from gating (Pass 2).
     tags: [quality, analysis, metrics, gating, two-pass, linting]
     reasoning_mode: linear
 
@@ -265,19 +265,19 @@ quality:
 performance:
   - name: profiling-analysis
     path: skills/50-performance/profiling-analysis/SKILL.md
-    description: Analyze logs/traces to find bottlenecks and hotspots.
+    description: When something is slow and you need proof of where — analyzes logs/traces to find bottlenecks and hotspots.
     tags: [performance, profiling, flame-graph, optimization]
     reasoning_mode: plan-execute
 
   - name: caching-strategy
     path: skills/50-performance/caching-strategy/SKILL.md
-    description: Implement Redis/Memcached caching patterns and invalidation.
+    description: When the same expensive query runs hundreds of times — implements caching patterns with proper invalidation.
     tags: [performance, caching, redis, invalidation]
     reasoning_mode: plan-execute
 
   - name: db-tuning
     path: skills/50-performance/db-tuning/SKILL.md
-    description: Index analysis, query plan optimization, connection pooling.
+    description: When queries are the bottleneck — index analysis, query plan optimization, connection pooling.
     tags: [performance, database, indexing, queries]
     reasoning_mode: plan-execute
 
@@ -299,25 +299,25 @@ performance:
 documentation:
   - name: api-documentation
     path: skills/50-documentation/api-documentation/SKILL.md
-    description: API endpoint docs, OpenAPI specs, request/response examples.
+    description: When consumers need to know how to call your API — endpoint docs, OpenAPI specs, request/response examples.
     tags: [documentation, api, openapi, examples]
     reasoning_mode: linear
 
   - name: inline-documentation
     path: skills/50-documentation/inline-documentation/SKILL.md
-    description: JSDoc/docstrings, comment quality, self-documenting code.
+    description: When code needs to explain itself to future readers — JSDoc/docstrings, comment quality, self-documenting patterns.
     tags: [documentation, comments, jsdoc, docstrings]
     reasoning_mode: linear
 
   - name: decision-records
     path: skills/50-documentation/decision-records/SKILL.md
-    description: ADR authoring (context, decision, consequences format).
+    description: When future-you needs to know why past-you chose this — ADR authoring with context, decision, consequences.
     tags: [documentation, adr, decisions, records]
     reasoning_mode: plan-execute
 
   - name: changelog-generation
     path: skills/50-documentation/changelog-generation/SKILL.md
-    description: Conventional commits parsing, semantic versioning, release notes.
+    description: When users need to know what changed and why — conventional commits parsing, semantic versioning, release notes.
     tags: [documentation, changelog, versioning, semver]
     reasoning_mode: linear
 
@@ -327,25 +327,25 @@ documentation:
 security:
   - name: threat-modeling
     path: skills/60-security/threat-modeling/SKILL.md
-    description: Identify STRIDE threats, assess risk, plan mitigations.
+    description: Before attackers find the holes — identifies STRIDE threats, assesses risk, plans mitigations.
     tags: [security, threat-model, stride, risk]
     reasoning_mode: plan-execute
 
   - name: secure-coding-review
     path: skills/60-security/secure-coding-review/SKILL.md
-    description: Scan for OWASP Top 10 vulnerabilities and anti-patterns.
+    description: When code needs a security audit before shipping — scans for OWASP Top 10 vulnerabilities and anti-patterns.
     tags: [security, owasp, code-review, vulnerabilities]
     reasoning_mode: plan-execute
 
   - name: auth-implementation
     path: skills/60-security/auth-implementation/SKILL.md
-    description: Implement JWT, OAuth2, or RBAC authentication safely.
+    description: When you need auth that won't become a breach headline — implements JWT, OAuth2, or RBAC safely.
     tags: [security, auth, jwt, oauth2, rbac]
     reasoning_mode: plan-execute
 
   - name: dependency-scanning
     path: skills/60-security/dependency-scanning/SKILL.md
-    description: Check dependencies for CVEs and license compliance.
+    description: When your supply chain is only as strong as its weakest dep — checks for CVEs and license compliance.
     tags: [security, dependencies, cve, sbom]
     reasoning_mode: linear
 
@@ -355,19 +355,19 @@ security:
 debugging:
   - name: root-cause-analysis
     path: skills/60-debugging/root-cause-analysis/SKILL.md
-    description: 5-whys, fault trees, git bisection, symptom-to-cause mapping.
+    description: When the bug is a symptom, not the cause — 5-whys, fault trees, git bisection, symptom-to-cause mapping.
     tags: [debugging, rca, fault-tree, bisection]
     reasoning_mode: plan-execute
 
   - name: log-analysis
     path: skills/60-debugging/log-analysis/SKILL.md
-    description: Log parsing, pattern recognition, event correlation, anomaly detection.
+    description: When the answer is buried in 10,000 log lines — parsing, pattern recognition, event correlation, anomaly detection.
     tags: [debugging, logs, parsing, anomaly]
     reasoning_mode: plan-execute
 
   - name: error-handling-debug
     path: skills/60-debugging/error-handling-debug/SKILL.md
-    description: Exception hierarchies, retry strategies, graceful degradation.
+    description: When errors cascade instead of being contained — exception hierarchies, retry strategies, graceful degradation.
     tags: [debugging, errors, retry, circuit-breaker]
     reasoning_mode: plan-execute
 
@@ -377,31 +377,31 @@ debugging:
 devops:
   - name: ci-pipeline
     path: skills/70-devops/ci-pipeline/SKILL.md
-    description: Generate GitHub Actions/GitLab CI workflows.
+    description: When you need CI that catches failures before they hit main — generates GitHub Actions/GitLab CI with artifact gating.
     tags: [devops, ci, github-actions, pipeline]
     reasoning_mode: plan-execute
 
   - name: docker-containerization
     path: skills/70-devops/docker-containerization/SKILL.md
-    description: Write optimized Dockerfiles with multi-stage builds.
+    description: When your Docker image is bloated and slow to build — generates optimized multi-stage Dockerfiles.
     tags: [devops, docker, containers, images]
     reasoning_mode: linear
 
   - name: kubernetes-helm
     path: skills/70-devops/kubernetes-helm/SKILL.md
-    description: Generate Helm charts and K8s manifests.
+    description: When you need reproducible K8s deployments — generates Helm charts and Kubernetes manifests.
     tags: [devops, kubernetes, helm, deployment]
     reasoning_mode: plan-execute
 
   - name: terraform-iac
     path: skills/70-devops/terraform-iac/SKILL.md
-    description: Generate Infrastructure as Code modules (Terraform/OpenTofu).
+    description: When infrastructure should be versioned like code — generates Terraform/OpenTofu IaC modules.
     tags: [devops, terraform, iac, cloud]
     reasoning_mode: plan-execute
 
   - name: monitoring-setup
     path: skills/70-devops/monitoring-setup/SKILL.md
-    description: Observability pillars, SLIs/SLOs, alerting, distributed tracing.
+    description: When you need to know something is broken before users tell you — SLIs/SLOs, alerting, distributed tracing.
     tags: [devops, monitoring, observability, alerting]
     reasoning_mode: plan-execute
 
@@ -411,19 +411,19 @@ devops:
 docs:
   - name: openapi-specs
     path: skills/80-docs/openapi-specs/SKILL.md
-    description: Generate Swagger/OpenAPI YAML from code.
+    description: When your API docs are stale or missing — generates Swagger/OpenAPI YAML from code.
     tags: [docs, openapi, swagger, api]
     reasoning_mode: linear
 
   - name: readme-generation
     path: skills/80-docs/readme-generation/SKILL.md
-    description: Create comprehensive READMEs with usage and install guides.
+    description: When a new contributor clones the repo and has no idea where to start — creates READMEs with usage and install guides.
     tags: [docs, readme, documentation]
     reasoning_mode: linear
 
   - name: release-notes
     path: skills/80-docs/release-notes/SKILL.md
-    description: Parse git logs to generate changelogs and version bumps.
+    description: When release day shouldn't mean manually writing changelog — parses git logs for changelogs and version bumps.
     tags: [docs, changelog, release, versioning]
     reasoning_mode: linear
 
@@ -433,25 +433,25 @@ docs:
 collaboration:
   - name: git-workflow
     path: skills/80-collaboration/git-workflow/SKILL.md
-    description: Branching strategies, commit conventions, conflict resolution.
+    description: When the team needs git discipline without git fights — branching strategies, commit conventions, conflict resolution.
     tags: [collaboration, git, branching, merge]
     reasoning_mode: linear
 
   - name: pr-management
     path: skills/80-collaboration/pr-management/SKILL.md
-    description: PR templates, review assignments, merge criteria.
+    description: When PRs linger or get rubber-stamped — templates, review assignments, merge criteria that work.
     tags: [collaboration, pr, review, merge]
     reasoning_mode: linear
 
   - name: pair-programming
     path: skills/80-collaboration/pair-programming/SKILL.md
-    description: Driver/navigator roles, mob programming, knowledge transfer.
+    description: When two heads are better than one — driver/navigator roles, mob programming, knowledge transfer protocols.
     tags: [collaboration, pairing, mob, knowledge]
     reasoning_mode: linear
 
   - name: knowledge-sharing
     path: skills/80-collaboration/knowledge-sharing/SKILL.md
-    description: Documentation culture, wikis, runbooks, onboarding guides.
+    description: When tribal knowledge walks out the door with departing teammates — wikis, runbooks, onboarding guides.
     tags: [collaboration, docs, wikis, runbooks]
     reasoning_mode: linear
 
@@ -461,37 +461,37 @@ collaboration:
 maintenance:
   - name: incident-response
     path: skills/90-maintenance/incident-response/SKILL.md
-    description: Triage, mitigate, and resolve production outages.
+    description: When production is down and the clock is ticking — triage, mitigate, and resolve outages with postmortem.
     tags: [maintenance, incident, outage, postmortem]
     reasoning_mode: plan-execute
 
   - name: legacy-upgrade
     path: skills/90-maintenance/legacy-upgrade/SKILL.md
-    description: Plan for upgrading major frameworks and languages.
+    description: When the framework is 3 versions behind and nobody wants to touch it — plans major upgrades safely.
     tags: [maintenance, upgrade, migration, legacy]
     reasoning_mode: plan-execute
 
   - name: dependency-updates
     path: skills/90-maintenance/dependency-updates/SKILL.md
-    description: Automated updates, semver compatibility, lockfile management.
+    description: When dependencies drift and Dependabot floods you with PRs — automated updates with semver and lockfile discipline.
     tags: [maintenance, dependencies, updates, semver]
     reasoning_mode: linear
 
   - name: deprecation-management
     path: skills/90-maintenance/deprecation-management/SKILL.md
-    description: Sunset timelines, migration paths, consumer impact analysis.
+    description: When old APIs need to die without breaking consumers — sunset timelines, migration paths, impact analysis.
     tags: [maintenance, deprecation, sunset, migration]
     reasoning_mode: plan-execute
 
   - name: migration-planning
     path: skills/90-maintenance/migration-planning/SKILL.md
-    description: Version upgrades, data migration, rollback strategies.
+    description: When you need to move data without losing it — version upgrades, data migration, rollback strategies.
     tags: [maintenance, migration, rollback, upgrade]
     reasoning_mode: plan-execute
 
   - name: tech-debt-tracking
     path: skills/90-maintenance/tech-debt-tracking/SKILL.md
-    description: Debt categorization, impact scoring, payoff prioritization.
+    description: When tech debt is everywhere but you can only fix some — categorization, impact scoring, payoff prioritization.
     tags: [maintenance, tech-debt, tracking, prioritization]
     reasoning_mode: plan-execute
 

@@ -165,6 +165,33 @@ If multiple skills tie at the same tier, present all to the user.
 - Expand common shorthand: "pls" → "please", "impl" → "implement",
   "fn" → "function" (only in natural language, not in code).
 
+### 6. Usage-History Weighting 🌿 (Eco Mode)
+
+**Goal:** Bias routing toward skills the user has recently loaded and found useful,
+making the librarian feel like it "remembers" the user's workflow.
+
+**Steps:**
+
+1. After each successful skill load, record the event:
+   `{ skill: "<name>", timestamp: <ISO>, session: "<id>" }`.
+2. **Nano: Recency-Frequency Score** — `score = (0.6 × recency_decay) + (0.4 × frequency_ratio)`
+   where `recency_decay = 1 / (1 + days_since_last_use)`,
+   `frequency_ratio = skill_uses / max_skill_uses_across_all_skills`.
+3. Apply as a post-tier modifier in Graduated Matching (Micro-Skill 2):
+   `final_score = tier_score + (history_score × 0.10)`.
+4. Present history-boosted candidates with a note:
+   `"(recently used)"` appended to the skill name in option lists.
+
+**Constraints:**
+
+| Rule | Detail |
+|------|--------|
+| Boost cap | +0.10 maximum — history never overrides tier logic |
+| Minimum tier | Only applies when `tier_score ≥ 0.35` (Semantic tier) — prevents ghost matches |
+| Cold start | No boost until ≥ 3 skill loads recorded in session |
+| Decay | Score decays to zero after 30 days of non-use |
+| Scope | Session-scoped by default — no persistent storage required |
+
 ---
 
 ## Inputs
@@ -188,9 +215,11 @@ If multiple skills tie at the same tier, present all to the user.
 ## Guardrails
 
 - Never load a skill silently if confidence < 0.7 — ask the user.
+- History boost must never promote a sub-0.7 match into auto-load territory.
 - Always respect skill dependencies — load prerequisites first.
 - If multiple skills match equally, present ALL options (don't guess).
 - The Librarian itself has no side effects — it only reads and routes.
+- Usage data is session-scoped — no persistent storage of user behavior.
 
 ## Ask-When-Ambiguous
 
@@ -202,12 +231,23 @@ If multiple skills tie at the same tier, present all to the user.
 - No match at all → "I couldn't find a matching skill. Could you
   describe what you're trying to do in different words?"
 
+## Decision Criteria
+
+| Situation | Action |
+|-----------|--------|
+| Exact name match | Load immediately (Tier 1) |
+| Multiple skills tie at same tier | Present all options to user |
+| Previously used skill matches ambiguous query | Apply history boost (+0.10 max), note "(recently used)" |
+| Confidence < 0.7 after all tiers + history | Ask user to clarify — never auto-load |
+| Query matches no skill at any tier | Show full skill index grouped by category |
+
 ## Success Criteria
 
 - Correct skill(s) loaded for the user's intent.
 - Typos handled gracefully without misrouting.
 - Multi-skill execution order respects dependencies.
 - User is never left without guidance.
+- Frequently used skills surface faster in ambiguous queries.
 
 ## Failure Modes
 
@@ -221,5 +261,6 @@ If multiple skills tie at the same tier, present all to the user.
 
 - User's original request (raw).
 - Matched skill(s) and confidence scores.
+- History boost applied (if any): skill name, history score, final adjusted score.
 - Whether user was asked for clarification.
 - Final skills loaded.
