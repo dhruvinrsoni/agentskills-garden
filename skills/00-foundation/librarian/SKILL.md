@@ -53,6 +53,7 @@ informal, misspelled, or uses different terminology.
 | "incident", "outage", "alert", "debug prod" | Maintenance | `incident-response.md` |
 | "upgrade", "migrate", "legacy", "version" | Maintenance | `legacy-upgrade.md` |
 | "require", "scope", "goal", "what should" | Discovery | `requirements-elicitation.md` |
+| "prd", "product requirement", "spec", "specification", "feature spec", "write prd", "document requirements" | Discovery | `prd` |
 | "score", "rank", "weight", "evaluate", "prioritize" | Architecture | `scorer-pipeline` |
 | "config", "settings", "schema", "defaults", "feature flag" | Architecture | `schema-driven-config` |
 | "pipeline context", "middleware", "pre-compute", "shared context" | Architecture | `pipeline-context` |

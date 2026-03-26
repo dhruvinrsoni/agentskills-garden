@@ -95,6 +95,7 @@ agent works.
 | two-pass, metric, threshold, gate, lint | Quality | `two-pass-analysis` |
 | progressive, phase, fast-first, enrich | Performance | `progressive-execution` |
 | memory, pressure, budget, constraint, degrade | Performance | `resource-awareness` |
+| prd, specification, product requirement, document requirements, feature spec, working backwards | Discovery | `prd`, `requirements-elicitation` |
 
 ### 2. Skill Suggestion
 
