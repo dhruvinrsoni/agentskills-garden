@@ -69,6 +69,12 @@ discovery:
     tags: [discovery, domain, glossary]
     reasoning_mode: plan-execute
 
+  - name: prd
+    path: skills/10-discovery/prd/SKILL.md
+    description: When requirements exist but need structure — selects the right PRD format (lean, full, working-backwards, hypothesis) and produces a living document with versioning and lifecycle.
+    tags: [discovery, prd, product, requirements, specification, document]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Architecture Layer (20)
 # --------------------------------------------------------------------------
