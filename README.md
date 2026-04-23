@@ -39,6 +39,48 @@ Both scripts create the full directory structure and all skill files from scratc
 
 ---
 
+## Use in Other Repos (Bridge Link)
+
+Treat this garden as a **single source of truth** for every other repo on your
+machine. A single Windows junction makes the `skills/` folder live-visible at a
+conventional path (`.cursor/skills`, `.claude/skills`, `.github/skills`, or
+`skills`) inside any consumer repo. Edit or `git pull` here once — all
+consumer repos see the change immediately. No copies, no sync step.
+
+**First-machine setup (one time):**
+
+```powershell
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/bootstrap.ps1 | iex
+```
+
+This clones the garden to a fork-safe path (`<root>\github\<gh-user>\agentskills-garden`)
+and persists settings in `~/.gitconfig` under `[agentskills]`.
+
+**Per consumer repo (run inside the repo):**
+
+```powershell
+# Default: link the garden's skills into .cursor/skills
+& "<garden>\scripts\link-skills.ps1"
+
+# Pick a different convention
+& "<garden>\scripts\link-skills.ps1" -Target claude      # .claude/skills
+& "<garden>\scripts\link-skills.ps1" -Target github      # .github/skills
+& "<garden>\scripts\link-skills.ps1" -Target generic     # skills
+& "<garden>\scripts\link-skills.ps1" -Target custom -LinkPath ".agent/skills"
+
+# Inspect / remove
+& "<garden>\scripts\link-skills.ps1" -Status
+& "<garden>\scripts\link-skills.ps1" -Unlink
+```
+
+Background, design decisions, and troubleshooting notes live in
+[docs/skills-bridge.md](docs/skills-bridge.md).
+
+> macOS/Linux support (via `ln -s`) is planned; the git-config keys and CLI
+> surface will stay identical.
+
+---
+
 ## Repository Structure
 
 ```
@@ -63,6 +105,11 @@ agentskills-garden/
 │   └── 90-maintenance/       (6 skills)   # Incidents, migrations, tech debt, deprecation
 ├── templates/
 │   └── skill-template.md                  # Boilerplate for new skills
+├── scripts/
+│   ├── link-skills.ps1                    # Per-consumer bridge-link manager (Windows)
+│   └── bootstrap.ps1                      # First-machine clone + git config setup
+├── docs/
+│   └── skills-bridge.md                   # Bridge-link design notes + troubleshooting
 ├── setup_skills.sh                        # Portable installer (Bash)
 └── setup_skills.ps1                       # Portable installer (PowerShell)
 ```
