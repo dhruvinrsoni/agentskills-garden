@@ -166,6 +166,12 @@ pragmatism:
     tags: [pragmatism, reuse, aparigraha, edge-cases, brownfield, check-before-create]
     reasoning_mode: plan-execute
 
+  - name: dependency-utility-scout
+    path: skills/25-pragmatism/dependency-utility-scout/SKILL.md
+    description: Mine the project's declared dependencies and produce a per-capability inventory of utilities the team already imports — advisory, never auto-rewrites.
+    tags: [pragmatism, dependencies, inventory, leverage, brownfield, advisory]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
