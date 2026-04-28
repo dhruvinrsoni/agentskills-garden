@@ -2,7 +2,7 @@
 
 > *A hierarchical, constitution-driven skill library that serves as the "brain" for AI agents.*
 > 
-> *62 skills across 15 categories — these hierarchical skills enable any model to reason as well as the best frontier models.*
+> *82 skills across 15 categories — these hierarchical skills enable any model to reason as well as the best frontier models.*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
@@ -15,6 +15,8 @@ Skills are markdown files with YAML frontmatter that agents discover at runtime 
 | **Non-Destruction** | Ahimsa | Preview diffs before applying. Always reversible. |
 
 Inspired by the [Agent Skills](https://agentskills.io/) open format.
+
+Alongside the Constitution, the **[Pragmatism (Aparigraha)](#pragmatism-25--aparigraha-)** category gives the garden its bias for *real, ongoing business projects*: the agent *checks* before creating, *conforms* within the scope of the change, stays *surgical*, and *validates edge cases* before trusting any reuse or improvement of existing code. Direction-of-thought, not rigid rule.
 
 ---
 
@@ -87,13 +89,14 @@ Background, design decisions, and troubleshooting notes live in
 agentskills-garden/
 ├── registry.yaml                          # Single source of truth — skill index
 ├── skills/
-│   ├── 00-foundation/        (4 skills)   # Always loaded first
+│   ├── 00-foundation/        (8 skills)   # Always loaded first
 │   │   └── constitution/
 │   │       └── SKILL.md                   # Each skill is a directory + SKILL.md
-│   ├── 10-discovery/         (2 skills)   # Requirements & domain modeling
+│   ├── 10-discovery/         (3 skills)   # Requirements, domain modeling, PRD
 │   ├── 20-architecture/      (4 skills)   # System, API, DB, ADR design
 │   ├── 20-planning/          (4 skills)   # Task decomposition, risk, estimation
-│   ├── 30-implementation/    (8 skills)   # Code gen, refactoring, TDD, cleanup
+│   ├── 25-pragmatism/        (6 skills)   # Aparigraha — check, conform, stay surgical
+│   ├── 30-implementation/    (9 skills)   # Code gen, refactoring, TDD, cleanup
 │   ├── 40-quality/           (8 skills)   # Reviews, testing strategies, mutation
 │   ├── 50-documentation/     (4 skills)   # API docs, ADRs, changelogs
 │   ├── 50-performance/       (3 skills)   # Caching, DB tuning, profiling
@@ -102,7 +105,7 @@ agentskills-garden/
 │   ├── 70-devops/            (5 skills)   # CI/CD, Docker, K8s, Terraform, monitoring
 │   ├── 80-collaboration/     (4 skills)   # Git workflow, PRs, pair programming
 │   ├── 80-docs/              (3 skills)   # OpenAPI, README, release notes
-│   └── 90-maintenance/       (6 skills)   # Incidents, migrations, tech debt, deprecation
+│   └── 90-maintenance/       (7 skills)   # Incidents, migrations, tech debt, deprecation
 ├── templates/
 │   └── skill-template.md                  # Boilerplate for new skills
 ├── scripts/
@@ -114,7 +117,7 @@ agentskills-garden/
 └── setup_skills.ps1                       # Portable installer (PowerShell)
 ```
 
-**Total: 62 skills + 1 template + registry**
+**Total: 82 skills + 1 template + registry**
 
 ---
 
@@ -172,6 +175,7 @@ The markdown body uses progressive disclosure:
 | **scratchpad** | `<scratchpad>` internal monologue, Eco vs Power mode selection, 4-step reasoning |
 | **auditor** | Plan↔Diff alignment, protected terms enforcement, constitutional compliance |
 | **librarian** | Fuzzy matching (Levenshtein + prefix), intent classification, multi-skill orchestration |
+| **pragmatism** | Aparigraha — non-accumulation. Check-before-create, conform-before-improve, surgical-before-sweeping, validate-before-trust. The driving force for working on real ongoing business projects |
 
 These are loaded **before every task**. They are non-negotiable.
 
@@ -199,6 +203,21 @@ These are loaded **before every task**. They are non-negotiable.
 | **risk-assessment** | Risk identification, 5×5 probability/impact matrix, mitigation strategies |
 | **dependency-analysis** | Dependency graphs, circular detection, staleness/CVE audit |
 | **estimation** | Three-point (PERT) estimation, relative sizing, confidence intervals |
+
+### Pragmatism (25) — Aparigraha (अपरिग्रह)
+
+> *Direction-of-thought, not rigid rule.* The agent *checks* before creating, *conforms* within scope, stays *surgical*, and *validates edge cases* before trusting any reuse or improvement of existing code. Built for real, ongoing business projects where the goal is *maximum output, minimum effort, zero maintenance, maximum continuity with what's already there* — not greenfield ideals. Checking is mandatory; reusing is conditional.
+
+| Skill | Purpose |
+|-------|---------|
+| **reuse-first** | Before writing any new utility, scan codebase + dependencies for an equivalent. Reuse only after fit and edge-case validation; otherwise document why and write fresh |
+| **dependency-utility-scout** | Mine declared dependencies (Apache Commons, Lodash, Guava, more-itertools, …) and produce a per-capability inventory other skills consult — advisory, never auto-rewrites |
+| **style-conformance** | Detect existing conventions (naming, formatting, errors, logging, tests) and produce a house-style profile downstream skills consult — awareness, not enforcement |
+| **minimal-diff** | Smallest correct change that solves the problem. Diff-size caps, drive-by detection, reversibility checks, and commit splitting when concerns are tangled |
+| **chesterton-fence** | Before deleting or refactoring "weird" code, reconstruct intent from history, tests, comments, ADRs, and call-graph; produce a memo plus an edge-case checklist that gates the change |
+| **brownfield-onboarding** | First-touch protocol — read README/AGENTS.md/ADRs, find build/test/CI commands, hot zones, entry points, and test layout; emit an onboarding cheat-sheet other Aparigraha skills consume |
+
+The category is paired with the always-loaded foundation skill `pragmatism` (Aparigraha — non-accumulation), which codifies the four directional principles (*check-before-create*, *conform-before-improve*, *surgical-before-sweeping*, *validate-before-trust*) and the cross-cutting edge-case validation clause every reuse or improvement decision must satisfy.
 
 ### Implementation (30)
 
