@@ -172,6 +172,12 @@ pragmatism:
     tags: [pragmatism, dependencies, inventory, leverage, brownfield, advisory]
     reasoning_mode: plan-execute
 
+  - name: style-conformance
+    path: skills/25-pragmatism/style-conformance/SKILL.md
+    description: Detect the project's existing conventions (naming, formatting, errors, logging, tests) and produce a house-style profile downstream skills consult — awareness, not enforcement.
+    tags: [pragmatism, style, conventions, conformance, brownfield, when-in-rome]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
