@@ -178,6 +178,12 @@ pragmatism:
     tags: [pragmatism, style, conventions, conformance, brownfield, when-in-rome]
     reasoning_mode: plan-execute
 
+  - name: minimal-diff
+    path: skills/25-pragmatism/minimal-diff/SKILL.md
+    description: Smallest correct change that solves the problem. No drive-by formatting or opportunistic refactors; diff-size caps, reversibility checks, and commit splitting when concerns are tangled.
+    tags: [pragmatism, diff, scope, surgical, reversibility, commits, brownfield]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
