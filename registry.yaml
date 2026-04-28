@@ -184,6 +184,12 @@ pragmatism:
     tags: [pragmatism, diff, scope, surgical, reversibility, commits, brownfield]
     reasoning_mode: plan-execute
 
+  - name: chesterton-fence
+    path: skills/25-pragmatism/chesterton-fence/SKILL.md
+    description: Before deleting or refactoring code that looks unused or weird, reconstruct why it exists from history, tests, comments, and call-graph; produce a memo plus an edge-case checklist that gates the change.
+    tags: [pragmatism, brownfield, removal, refactor, investigation, edge-cases, deprecation]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
