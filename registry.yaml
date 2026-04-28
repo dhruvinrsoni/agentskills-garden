@@ -190,6 +190,12 @@ pragmatism:
     tags: [pragmatism, brownfield, removal, refactor, investigation, edge-cases, deprecation]
     reasoning_mode: plan-execute
 
+  - name: brownfield-onboarding
+    path: skills/25-pragmatism/brownfield-onboarding/SKILL.md
+    description: First-touch protocol for a new project — read README/AGENTS.md/ADRs, find build/test/CI commands, hot zones, entry points, and test layout; emit an onboarding cheat-sheet other Aparigraha skills consume.
+    tags: [pragmatism, brownfield, onboarding, discovery, cheatsheet, read-first]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
