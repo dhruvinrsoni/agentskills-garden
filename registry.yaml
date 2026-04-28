@@ -156,6 +156,17 @@ planning:
     reasoning_mode: plan-execute
 
 # --------------------------------------------------------------------------
+# Pragmatism Layer (25) — Aparigraha (non-accumulation)
+# Fires before implementation. Direction-of-thought, not rigid rule.
+# --------------------------------------------------------------------------
+pragmatism:
+  - name: reuse-first
+    path: skills/25-pragmatism/reuse-first/SKILL.md
+    description: Before writing any new utility, scan the codebase and declared dependencies for an equivalent. Reuse only after fit and edge-case validation.
+    tags: [pragmatism, reuse, aparigraha, edge-cases, brownfield, check-before-create]
+    reasoning_mode: plan-execute
+
+# --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
 implementation:
