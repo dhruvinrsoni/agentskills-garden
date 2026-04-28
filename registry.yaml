@@ -53,6 +53,12 @@ foundation:
     tags: [core, efficiency, tokens, delegation, parallelization]
     reasoning_mode: linear
 
+  - name: pragmatism
+    path: skills/00-foundation/pragmatism/SKILL.md
+    description: Aparigraha — non-accumulation. Check before create, conform within scope, stay surgical, and validate edge cases before trusting any reuse or improvement of existing code.
+    tags: [core, pragmatism, aparigraha, brownfield, reuse, minimalism, conformance, edge-cases]
+    reasoning_mode: linear
+
 # --------------------------------------------------------------------------
 # Discovery Layer (10)
 # --------------------------------------------------------------------------
