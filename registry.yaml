@@ -320,6 +320,12 @@ quality:
     tags: [category, ship, review, advisory]
     reasoning_mode: linear
 
+  - name: pr-review-flow
+    path: skills/40-quality/pr-review-flow/SKILL.md
+    description: Master workflow for thorough PR review. Orchestrates code-review + security-review + performance-review in parallel, aggregates verdict, applies pr-management, audits. No implementation logic.
+    tags: [master, ship, review, advisory]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Performance Layer (50)
 # --------------------------------------------------------------------------
