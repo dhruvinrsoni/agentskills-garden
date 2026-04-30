@@ -1,13 +1,16 @@
 <#
 .SYNOPSIS
-    First-machine bootstrap for agentskills-garden. Clones the garden to a fork-safe
+    First-machine setup for agentskills-garden. Clones the garden to a fork-safe
     location, persists settings in ~/.gitconfig under the [agentskills] section, and
     optionally prepends <garden>\scripts to the user PATH.
+
+    (Renamed from bootstrap.ps1 to setup-garden.ps1 — the action verb is clearer for
+    end users. The old name lives on only in older blog posts and forks.)
 
 .DESCRIPTION
     Designed to be runnable as a single web-install one-liner:
 
-        iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/bootstrap.ps1 | iex
+        iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
 
     What it does:
       1. Determines <gh-user> (from -GhUser, agentskills.ghUser, $env:GITHUB_USER,
@@ -41,10 +44,10 @@
     git config).
 
 .EXAMPLE
-    iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/bootstrap.ps1 | iex
+    iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
 
 .EXAMPLE
-    .\bootstrap.ps1 -GhUser dhruvinrsoni -AddToPath
+    .\setup-garden.ps1 -GhUser dhruvinrsoni -AddToPath
 
 .LINK
     https://github.com/dhruvinrsoni/agentskills-garden
@@ -61,10 +64,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-function Write-Step([string]$msg)    { Write-Host "[bootstrap] $msg" -ForegroundColor Cyan }
-function Write-StepOk([string]$msg)  { Write-Host "[bootstrap] $msg" -ForegroundColor Green }
-function Write-StepWarn([string]$msg){ Write-Host "[bootstrap] $msg" -ForegroundColor Yellow }
-function Write-StepErr([string]$msg) { Write-Host "[bootstrap] $msg" -ForegroundColor Red }
+function Write-Step([string]$msg)    { Write-Host "[setup-garden] $msg" -ForegroundColor Cyan }
+function Write-StepOk([string]$msg)  { Write-Host "[setup-garden] $msg" -ForegroundColor Green }
+function Write-StepWarn([string]$msg){ Write-Host "[setup-garden] $msg" -ForegroundColor Yellow }
+function Write-StepErr([string]$msg) { Write-Host "[setup-garden] $msg" -ForegroundColor Red }
 
 function Get-GitConfigValue([string]$key) {
     try {
@@ -180,7 +183,7 @@ if ($AddToPath) {
 # --- next steps ---
 
 Write-Host ''
-Write-StepOk 'Bootstrap complete.'
+Write-StepOk 'Garden setup complete.'
 Write-Host ''
 Write-Host 'Next steps:' -ForegroundColor White
 Write-Host "  1. Open any consumer repo." -ForegroundColor White
@@ -191,6 +194,6 @@ if ($AddToPath) {
     Write-Host "          link-skills.ps1 -Unlink    (remove the link)" -ForegroundColor White
 } else {
     Write-Host "  2. Run:  & `"$scriptsDir\link-skills.ps1`"" -ForegroundColor White
-    Write-Host "     Or re-run bootstrap with -AddToPath to get a shorter invocation." -ForegroundColor White
+    Write-Host "     Or re-run setup-garden with -AddToPath to get a shorter invocation." -ForegroundColor White
 }
 Write-Host ''

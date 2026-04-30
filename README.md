@@ -44,7 +44,7 @@ consumer repos see the change immediately. No copies, no sync step.
 **First-machine setup (one time):**
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/bootstrap.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
 ```
 
 This clones the garden to a fork-safe path (`<root>\github\<gh-user>\agentskills-garden`)
@@ -102,7 +102,7 @@ agentskills-garden/
 │   └── skill-template.md                  # Boilerplate for new skills
 ├── scripts/
 │   ├── link-skills.ps1                    # Per-consumer bridge-link manager (Windows)
-│   └── bootstrap.ps1                      # First-machine clone + git config setup
+│   └── setup-garden.ps1                   # First-machine clone + git config setup
 ├── docs/
 │   └── skills-bridge.md                   # Bridge-link design notes + troubleshooting
 ├── setup_skills.sh                        # Portable installer (Bash)

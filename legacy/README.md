@@ -23,7 +23,7 @@ The **bridge-link** workflow. One Windows junction (or POSIX symlink) makes the 
 
 - [`README.md`](../README.md) — the supported install path.
 - [`docs/skills-bridge.md`](../docs/skills-bridge.md) — design rationale.
-- [`scripts/`](../scripts/) — the active scripts (`bootstrap.ps1` for first-machine setup, `link-skills.ps1` for per-repo linking).
+- [`scripts/`](../scripts/) — the active scripts (`setup-garden.ps1` for first-machine setup, `link-skills.ps1` for per-repo linking).
 
 ## What about people who still want a one-shot installer?
 
