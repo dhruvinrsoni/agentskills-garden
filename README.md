@@ -1,18 +1,19 @@
 # Agent Skills Garden 🌱
 
 > *A hierarchical, constitution-driven skill library that serves as the "brain" for AI agents.*
-> 
-> *82 skills across 15 categories — these hierarchical skills enable any model to reason as well as the best frontier models.*
+>
+> *88 skills across 15 categories — these hierarchical skills enable any model to reason as well as the best frontier models.*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-Skills are markdown files with YAML frontmatter that agents discover at runtime via a central registry. Every action is governed by a **Constitution** rooted in three principles:
+Skills are markdown files with YAML frontmatter that agents discover at runtime via a central registry. Every action is governed by a **Constitution** rooted in four principles:
 
 | Pillar | Sanskrit | Meaning |
 |--------|----------|---------|
 | **Truth** | Satya | Deterministic, reproducible outputs. No hallucinations. |
 | **Safety** | Dharma | Ask-first policy. Prefer the smallest change. |
 | **Non-Destruction** | Ahimsa | Preview diffs before applying. Always reversible. |
+| **Wisdom** | Pragya | Direction-seeking. Present options, never assume. |
 
 Inspired by the [Agent Skills](https://agentskills.io/) open format.
 
@@ -70,8 +71,55 @@ and persists settings in `~/.gitconfig` under `[agentskills]`.
 Background, design decisions, and troubleshooting notes live in
 [docs/skills-bridge.md](docs/skills-bridge.md).
 
-> macOS/Linux support (via `ln -s`) is planned; the git-config keys and CLI
-> surface will stay identical.
+---
+
+## How it works
+
+```mermaid
+flowchart TD
+    User[User request]
+    Kernel[skills/00-foundation/KERNEL.md<br/>always loaded ~85 lines]
+    Librarian[librarian<br/>routes intent -> skill]
+    Foundation[Full foundation SKILL.md<br/>loaded on-demand when its domain fires]
+    Categories[Category skills 10- through 90-<br/>loaded on-demand]
+    Masters[Master skills<br/>orchestrate other skills, never implement]
+    Auditor[auditor<br/>plan-vs-diff verification]
+    Output[Verified output to user]
+
+    User --> Kernel
+    Kernel --> Librarian
+    Librarian -->|domain shift| Foundation
+    Librarian --> Categories
+    Librarian --> Masters
+    Masters --> Categories
+    Categories --> Auditor
+    Foundation --> Auditor
+    Auditor --> Output
+```
+
+**The runtime in plain English.** Every turn loads exactly one file from the foundation: [`KERNEL.md`](skills/00-foundation/KERNEL.md). It contains the 1-2 paragraph kernel of every foundation skill — the rules the agent cannot operate without. The full `SKILL.md` body of each foundation skill loads only when its domain actually fires (a real direction checkpoint, a real audit, a real domain shift). The librarian routes the user's intent to the right category skill or master skill. Master skills orchestrate other skills as named workflows. The `auditor` runs last and blocks delivery on misalignment.
+
+### What's loaded when
+
+| Path | Loaded when | Token cost |
+|------|-------------|------------|
+| [`skills/00-foundation/KERNEL.md`](skills/00-foundation/KERNEL.md) | Every turn | Always paid (~85 lines) |
+| Full foundation `SKILL.md` (e.g. [`pragya`](skills/00-foundation/pragya/SKILL.md)) | Domain trigger fires (real checkpoint, real audit, real domain shift) | Paid only when needed |
+| Category skills [`10-`](skills/10-discovery/) through [`90-`](skills/90-maintenance/) | Librarian routes to them | Paid only when invoked |
+| Master skills (anywhere with `skill_type: master`) | User asks for the named workflow | Paid only when invoked |
+
+---
+
+## Concepts at a glance
+
+| Document | What it explains |
+|----------|------------------|
+| [`docs/concepts.md`](docs/concepts.md) | The four-level hierarchy (nano → micro → skill → master), the `**Nano:**` marker, Eco 🌿 / Power ⚡ tags, the `reasoning_mode` frontmatter values, and what "always loaded" actually means. |
+| [`docs/tags.md`](docs/tags.md) | The five-axis tag taxonomy (`scope`, `lifecycle`, `capability`, `domain`, `risk`) every entry in `registry.yaml` follows. |
+| [`docs/master-skills.md`](docs/master-skills.md) | Authoring guide for master skills — the hard rules, micro-skill anatomy, branching, parallel invocation, and how masters interact with the auditor. |
+| [`docs/skills-bridge.md`](docs/skills-bridge.md) | Design notes for the live bridge-link distribution mechanism. |
+
+If you read those four pages plus this README, you have the complete mental model.
 
 ---
 
@@ -79,37 +127,45 @@ Background, design decisions, and troubleshooting notes live in
 
 ```
 agentskills-garden/
-├── registry.yaml                          # Single source of truth — skill index
+├── registry.yaml                            # Single source of truth — skill index
+├── README.md                                # This file
 ├── skills/
-│   ├── 00-foundation/        (8 skills)   # Always loaded first
-│   │   └── constitution/
-│   │       └── SKILL.md                   # Each skill is a directory + SKILL.md
-│   ├── 10-discovery/         (3 skills)   # Requirements, domain modeling, PRD
-│   ├── 20-architecture/      (4 skills)   # System, API, DB, ADR design
-│   ├── 20-planning/          (4 skills)   # Task decomposition, risk, estimation
-│   ├── 25-pragmatism/        (6 skills)   # Aparigraha — check, conform, stay surgical
-│   ├── 30-implementation/    (9 skills)   # Code gen, refactoring, TDD, cleanup
-│   ├── 40-quality/           (8 skills)   # Reviews, testing strategies, mutation
-│   ├── 50-documentation/     (4 skills)   # API docs, ADRs, changelogs
-│   ├── 50-performance/       (3 skills)   # Caching, DB tuning, profiling
-│   ├── 60-debugging/         (3 skills)   # Root cause, log analysis, error handling
-│   ├── 60-security/          (4 skills)   # Auth, threat modeling, secure coding
-│   ├── 70-devops/            (5 skills)   # CI/CD, Docker, K8s, Terraform, monitoring
-│   ├── 80-collaboration/     (4 skills)   # Git workflow, PRs, pair programming
-│   ├── 80-docs/              (3 skills)   # OpenAPI, README, release notes
-│   └── 90-maintenance/       (7 skills)   # Incidents, migrations, tech debt, deprecation
+│   ├── 00-foundation/        (8 skills + KERNEL.md)
+│   │   ├── KERNEL.md                        # The always-loaded aggregator
+│   │   └── constitution/SKILL.md            # Each skill is a directory + SKILL.md
+│   ├── 10-discovery/         (3 skills)     # Requirements, domain modeling, PRD
+│   ├── 20-architecture/      (7 skills)     # System, API, DB, ADR, scorer, schema, pipeline
+│   ├── 20-planning/          (4 skills)     # Task decomposition, risk, dependencies, estimation
+│   ├── 25-pragmatism/        (6 + 1 master) # Aparigraha — check, conform, surgical, validate
+│   ├── 30-implementation/    (9 + 2 masters)# Code gen, refactoring, TDD, cleanup, resilience
+│   ├── 40-quality/           (9 + 1 master) # Reviews, testing strategies, mutation, two-pass
+│   ├── 50-documentation/     (4 skills)     # API docs, ADRs, changelogs, inline
+│   ├── 50-performance/       (5 skills)     # Caching, DB tuning, profiling, progressive, resources
+│   ├── 60-debugging/         (3 skills)     # Root cause, log analysis, error handling
+│   ├── 60-security/          (4 skills)     # Auth, threat modeling, secure coding, dep scanning
+│   ├── 70-devops/            (5 + 1 master) # CI/CD, Docker, K8s, Terraform, monitoring
+│   ├── 80-collaboration/     (4 skills)     # Git workflow, PRs, pair programming, knowledge
+│   ├── 80-docs/              (3 skills)     # OpenAPI, README, release notes
+│   └── 90-maintenance/       (7 + 1 master) # Incidents, migrations, tech debt, deprecation
 ├── templates/
-│   └── skill-template.md                  # Boilerplate for new skills
+│   └── skill-template.md                    # Boilerplate for new skills (incl. master variant)
 ├── scripts/
-│   ├── link-skills.ps1                    # Per-consumer bridge-link manager (Windows)
-│   └── setup-garden.ps1                   # First-machine clone + git config setup
+│   ├── link-skills.ps1                      # Per-consumer bridge-link manager (Windows)
+│   └── setup-garden.ps1                     # First-machine clone + git config setup
 ├── docs/
-│   └── skills-bridge.md                   # Bridge-link design notes + troubleshooting
-├── setup_skills.sh                        # Portable installer (Bash)
-└── setup_skills.ps1                       # Portable installer (PowerShell)
+│   ├── concepts.md                          # Hierarchy, nano, Eco/Power, reasoning_mode, kernel
+│   ├── tags.md                              # Five-axis tag taxonomy
+│   ├── master-skills.md                     # Master-skill authoring guide
+│   └── skills-bridge.md                     # Bridge-link design notes + troubleshooting
+└── legacy/                                  # Deprecated installers, kept for history
+    ├── README.md                            # Why this folder exists
+    ├── setup_skills.sh
+    └── setup_skills.ps1
 ```
 
-**Total: 82 skills + 1 template + registry**
+**Total: 88 skills (78 standard + 8 foundation + 6 masters - already counted within categories) + 1 template + registry**
+
+> 6 of the 88 entries are **master skills** (`skill_type: master`): `aparigraha-task`, `feature-shipping`, `refactoring-workflow`, `pr-review-flow`, `release-pipeline`, `incident-response-flow`. They live under their natural categories and are marked by the `master` scope tag.
 
 ---
 
@@ -135,15 +191,19 @@ metadata:                        # optional: arbitrary key-value pairs
   version: "1.0.0"
   dependencies: "constitution, scratchpad, auditor"
   reasoning_mode: mixed          # linear | plan-execute | tdd | mixed
+  skill_type: standard           # standard | master  (master = orchestration only)
 ---
 ```
+
+Foundation skills additionally carry a `## Kernel` section at the top — the 1-2 paragraph essential rules that get aggregated into [`skills/00-foundation/KERNEL.md`](skills/00-foundation/KERNEL.md). The rest of each foundation `SKILL.md` body is loaded on demand.
 
 The markdown body uses progressive disclosure:
 
 | Section | Purpose |
 |---------|---------|
+| **Kernel** *(foundation only)* | The 1-2 paragraph essence quoted into KERNEL.md |
 | **Context** | When and why to invoke this skill |
-| **Micro-Skills** | Ordered sub-tasks with Eco 🌿 / Power ⚡ mode tags |
+| **Micro-Skills** | Ordered sub-tasks with Eco 🌿 / Power ⚡ mode tags (and `**Invokes:**` for masters) |
 | **Inputs / Outputs** | Typed parameters and return artifacts |
 | **Scope** | Explicit in-scope / out-of-scope boundaries |
 | **Guardrails** | Hard constraints that must never be violated |
@@ -155,6 +215,8 @@ The markdown body uses progressive disclosure:
 | **Examples** | Concrete before/after demonstrations |
 | **Edge Cases** | Unusual inputs and how to handle them |
 
+See [`docs/concepts.md`](docs/concepts.md) for the full hierarchy and [`docs/master-skills.md`](docs/master-skills.md) for the master variant.
+
 ---
 
 ## Skill Categories
@@ -163,53 +225,61 @@ The markdown body uses progressive disclosure:
 
 | Skill | Purpose |
 |-------|---------|
-| **constitution** | Three Pillars (Satya, Dharma, Ahimsa) + amendment mechanism |
-| **scratchpad** | `<scratchpad>` internal monologue, Eco vs Power mode selection, 4-step reasoning |
-| **auditor** | Plan↔Diff alignment, protected terms enforcement, constitutional compliance |
-| **librarian** | Fuzzy matching (Levenshtein + prefix), intent classification, multi-skill orchestration |
-| **pragmatism** | Aparigraha — non-accumulation. Check-before-create, conform-before-improve, surgical-before-sweeping, validate-before-trust. The driving force for working on real ongoing business projects |
+| **constitution** | Four pillars (Satya, Dharma, Ahimsa, Pragya) + amendment mechanism |
+| **scratchpad** | Private `<scratchpad>` reasoning, Eco vs Power mode selection, 4-step reasoning |
+| **auditor** | Plan↔Diff alignment, protected-terms enforcement, constitutional compliance |
+| **librarian** | Six-tier waterfall routing (EXACT → PREFIX → SUBSTRING → TAG → SEMANTIC → NONE) |
+| **pragya** | Direction-seeking — never assume on uncertain or irreversible actions |
+| **orchestrator** | Mid-task skill injection on detected domain shift |
+| **token-efficiency** | Resource-aware tier/tool/delegation selection per cognitive mode |
+| **pragmatism** | Aparigraha — non-accumulation. The driving force for real, ongoing business projects |
 
-These are loaded **before every task**. They are non-negotiable.
+These are loaded **before every task**. Only the kernel of each (1-2 paragraphs) is always paid for; full bodies load on demand.
 
 ### Discovery (10)
 
 | Skill | Purpose |
 |-------|---------|
-| **requirements-elicitation** | Structured interviewing, functional/non-functional capture, assumption documentation |
-| **domain-modeling** | Entity extraction, glossary maintenance, Protected Terms, ER diagrams |
+| **requirements-elicitation** | Structured interviewing, functional/non-functional capture |
+| **domain-modeling** | Entity extraction, glossary, Protected Terms, ER diagrams |
+| **prd** | Lean / full / working-backwards / hypothesis PRD authoring with lifecycle |
 
 ### Architecture (20)
 
 | Skill | Purpose |
 |-------|---------|
 | **system-design** | Component decomposition, scalability patterns, trade-off matrices |
-| **api-contract-design** | Contract-first design, OpenAPI/SDL schemas, versioning strategy |
-| **database-design** | Schema normalization, indexing, migration scripts, online DDL |
+| **api-contract-design** | Contract-first design, OpenAPI/SDL schemas, versioning |
+| **database-design** | Schema normalization, indexing, migration scripts |
 | **adr-management** | ADR lifecycle (Proposed → Accepted → Deprecated → Superseded) |
+| **scorer-pipeline** | Composable evaluation — independent micro-scorers with explicit weights |
+| **schema-driven-config** | Single schema for defaults + validation + storage + UI |
+| **pipeline-context** | Pre-compute once, share via context object across pipeline stages |
 
 ### Planning (20)
 
 | Skill | Purpose |
 |-------|---------|
-| **task-decomposition** | Work breakdown, DAG ordering, T-shirt sizing, critical path |
-| **risk-assessment** | Risk identification, 5×5 probability/impact matrix, mitigation strategies |
+| **task-decomposition** | Work breakdown, DAG ordering, T-shirt sizing |
+| **risk-assessment** | 5×5 probability/impact matrix, mitigation strategies |
 | **dependency-analysis** | Dependency graphs, circular detection, staleness/CVE audit |
 | **estimation** | Three-point (PERT) estimation, relative sizing, confidence intervals |
 
 ### Pragmatism (25) — Aparigraha (अपरिग्रह)
 
-> *Direction-of-thought, not rigid rule.* The agent *checks* before creating, *conforms* within scope, stays *surgical*, and *validates edge cases* before trusting any reuse or improvement of existing code. Built for real, ongoing business projects where the goal is *maximum output, minimum effort, zero maintenance, maximum continuity with what's already there* — not greenfield ideals. Checking is mandatory; reusing is conditional.
+> *Direction-of-thought, not rigid rule.* The agent *checks* before creating, *conforms* within scope, stays *surgical*, and *validates edge cases* before trusting any reuse or improvement of existing code. Built for real, ongoing business projects where the goal is *maximum output, minimum effort, zero maintenance, maximum continuity with what's already there* — not greenfield ideals. **Checking is mandatory; reusing is conditional.**
 
 | Skill | Purpose |
 |-------|---------|
-| **reuse-first** | Before writing any new utility, scan codebase + dependencies for an equivalent. Reuse only after fit and edge-case validation; otherwise document why and write fresh |
-| **dependency-utility-scout** | Mine declared dependencies (Apache Commons, Lodash, Guava, more-itertools, …) and produce a per-capability inventory other skills consult — advisory, never auto-rewrites |
-| **style-conformance** | Detect existing conventions (naming, formatting, errors, logging, tests) and produce a house-style profile downstream skills consult — awareness, not enforcement |
-| **minimal-diff** | Smallest correct change that solves the problem. Diff-size caps, drive-by detection, reversibility checks, and commit splitting when concerns are tangled |
-| **chesterton-fence** | Before deleting or refactoring "weird" code, reconstruct intent from history, tests, comments, ADRs, and call-graph; produce a memo plus an edge-case checklist that gates the change |
-| **brownfield-onboarding** | First-touch protocol — read README/AGENTS.md/ADRs, find build/test/CI commands, hot zones, entry points, and test layout; emit an onboarding cheat-sheet other Aparigraha skills consume |
+| **reuse-first** | Scan codebase + dependencies before authoring new helpers; reuse only after edge-case validation |
+| **dependency-utility-scout** | Per-capability inventory of utilities the project already imports — advisory |
+| **style-conformance** | Detect existing conventions; produce a house-style profile downstream skills consult — awareness, not enforcement |
+| **minimal-diff** | Smallest correct change. Diff-size caps, drive-by detection, reversibility checks |
+| **chesterton-fence** | Investigate intent before deleting/refactoring "weird" code; produce memo + edge-case checklist |
+| **brownfield-onboarding** | First-touch protocol — manifests, build/test/CI commands, hot zones, entry points |
+| **aparigraha-task** ⭐ *master* | Walks the four Aparigraha gates end-to-end: onboarding → inventory → style → reuse decision → minimal diff → audit |
 
-The category is paired with the always-loaded foundation skill `pragmatism` (Aparigraha — non-accumulation), which codifies the four directional principles (*check-before-create*, *conform-before-improve*, *surgical-before-sweeping*, *validate-before-trust*) and the cross-cutting edge-case validation clause every reuse or improvement decision must satisfy.
+Paired with the always-loaded foundation skill `pragmatism`, which codifies the four directional principles (*check-before-create*, *conform-before-improve*, *surgical-before-sweeping*, *validate-before-trust*) and the cross-cutting edge-case validation clause.
 
 ### Implementation (30)
 
@@ -218,24 +288,29 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 | **code-generation** | Template expansion, language idiom enforcement, DRY deduplication |
 | **refactoring** | Safe restructuring with test → refactor → test → revert protocol |
 | **refactoring-suite** | Comprehensive refactoring patterns (extract, inline, rename) |
-| **tdd-workflow** | Red-Green-Refactor cycle, test-first development, coverage targets |
+| **tdd-workflow** | Red-Green-Refactor cycle, test-first, coverage targets |
 | **cleanup** | Dead code removal, formatting, linting, import optimization |
 | **api-implementation** | REST/GraphQL endpoint implementation, middleware |
-| **data-access** | ORM patterns, repository pattern, query optimization |
-| **error-handling** | Exception hierarchies, retry strategies, circuit breakers |
+| **data-access** | ORM patterns, repository pattern, query optimization, N+1 prevention |
+| **error-handling** | Exception hierarchies, retry strategies, response formats |
+| **resilience-patterns** | Circuit breaker, retry-with-backoff, bulkhead, fallback chains, timeouts |
+| **feature-shipping** ⭐ *master* | PRD → task-decomposition → tdd-workflow → code-review → release-pipeline → audit |
+| **refactoring-workflow** ⭐ *master* | Ladder at four named depths (cosmetic / micro / meso / architectural); always runs chesterton-fence + style-conformance + characterisation tests |
 
 ### Quality (40)
 
 | Skill | Purpose |
 |-------|---------|
 | **code-review** | Review checklists, defect categories, severity classification |
-| **test-strategy** | Test pyramid definition, framework selection, threshold negotiation |
+| **test-strategy** | Test pyramid, framework selection, threshold negotiation |
 | **testing-strategy** | Coverage analysis, test type selection, boundary conditions |
 | **unit-testing** | AAA pattern, mock boundaries, edge-case coverage |
 | **integration-testing** | Docker lifecycle, API/DB isolation, seed data versioning |
 | **mutation-testing** | Mutant classification, equivalent mutant handling, score thresholds |
 | **security-review** | OWASP Top 10, vulnerability scanning, secret detection |
-| **performance-review** | Bottleneck identification, complexity analysis, caching strategies |
+| **performance-review** | Bottleneck identification, complexity analysis, caching review |
+| **two-pass-analysis** | Separate Pass 1 (collect metrics) from Pass 2 (gate the build) |
+| **pr-review-flow** ⭐ *master* | code-review + security-review + performance-review in parallel → aggregated decision → pr-management → audit |
 
 ### Documentation (50)
 
@@ -243,8 +318,8 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 |-------|---------|
 | **api-documentation** | Endpoint docs, OpenAPI specs, request/response examples |
 | **inline-documentation** | JSDoc/docstrings, comment quality, self-documenting code |
-| **decision-records** | ADR authoring (context → decision → consequences format) |
-| **changelog-generation** | Conventional commits parsing, semantic versioning, release notes |
+| **decision-records** | ADR authoring (context → decision → consequences) |
+| **changelog-generation** | Conventional commits parsing, semantic versioning |
 
 ### Performance (50)
 
@@ -253,6 +328,8 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 | **profiling-analysis** | CPU/memory profiling, flame graphs, hotspot identification |
 | **caching-strategy** | Cache design, TTL, invalidation, cache-aside/write-through |
 | **db-tuning** | Query optimization, explain plans, index recommendations |
+| **progressive-execution** | Fast approximate (Phase 1) then slow enriched (Phase 2) results |
+| **resource-awareness** | Monitor constraints (memory, CPU, time, rate limits), adapt gracefully |
 
 ### Debugging (60)
 
@@ -260,7 +337,7 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 |-------|---------|
 | **root-cause-analysis** | 5-whys, fault trees, git bisection, symptom-to-cause mapping |
 | **log-analysis** | Log parsing, pattern recognition, event correlation, anomaly detection |
-| **error-handling** | Exception hierarchies, retry strategies, graceful degradation |
+| **error-handling-debug** | Exception hierarchies, retry strategies, graceful degradation |
 
 ### Security (60)
 
@@ -268,8 +345,8 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 |-------|---------|
 | **threat-modeling** | STRIDE, attack surfaces, trust boundaries |
 | **secure-coding-review** | Secure coding practices, OWASP, input validation |
-| **auth-implementation** | Authentication/authorization, JWT, OAuth flows |
-| **dependency-scanning** | CVE scanning, SBOM generation, supply chain security |
+| **auth-implementation** | Authentication/authorization, JWT, OAuth, RBAC |
+| **dependency-scanning** | CVE scanning, SBOM generation, supply-chain security |
 
 ### DevOps (70)
 
@@ -280,6 +357,7 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 | **kubernetes-helm** | K8s manifests, Helm charts, resource limits, non-root |
 | **terraform-iac** | Infrastructure as code, state management, drift detection |
 | **monitoring-setup** | Observability pillars, SLIs/SLOs, alerting, distributed tracing |
+| **release-pipeline** ⭐ *master* | test-strategy → changelog-generation → ci-pipeline → audit |
 
 ### Collaboration (80)
 
@@ -296,18 +374,20 @@ The category is paired with the always-loaded foundation skill `pragmatism` (Apa
 |-------|---------|
 | **openapi-specs** | OpenAPI spec generation and validation |
 | **readme-generation** | README writing, badge generation, section management |
-| **release-notes** | Release note generation from commit history |
+| **release-notes** | Release-note generation from commit history |
 
 ### Maintenance (90)
 
 | Skill | Purpose |
 |-------|---------|
-| **incident-response** | Incident triage, mitigation, postmortems, SLA tracking |
-| **legacy-upgrade** | Legacy modernization, strangler fig pattern, codemods |
+| **incident-response** | Triage, mitigation, postmortems, SLA tracking |
+| **legacy-upgrade** | Modernisation, strangler fig pattern, codemods |
 | **dependency-updates** | Automated updates, semver compatibility, lockfile management |
 | **deprecation-management** | Sunset timelines, migration paths, consumer impact |
 | **migration-planning** | Version upgrades, data migration, rollback strategies |
-| **tech-debt-tracking** | Debt categorization, impact scoring, payoff prioritization |
+| **tech-debt-tracking** | Debt categorisation, impact scoring, payoff prioritisation |
+| **repo-maintenance** | Adaptive cleanup framework — start simple, discover value, pivot toward greater good |
+| **incident-response-flow** ⭐ *master* | incident-response (mitigate first) → root-cause-analysis → log-analysis → decision-records → audit |
 
 ---
 
@@ -320,7 +400,7 @@ else:
     mode = "power"   # ⚡ 4-Step Reasoning: Deductive → Inductive → Abductive → Analogical
 ```
 
-When in doubt, default to **Power Mode**.
+When in doubt, default to **Power Mode**. See [`docs/concepts.md`](docs/concepts.md) for the full mode-selection heuristic and how individual micro-skills tag their mode independently.
 
 ---
 
@@ -337,22 +417,11 @@ When in doubt, default to **Power Mode**.
    metadata:
      version: "0.1.0"
      dependencies: "constitution, scratchpad"
-     reasoning_mode: linear   # linear | plan-execute | tdd | mixed
+     reasoning_mode: linear         # linear | plan-execute | tdd | mixed
+     skill_type: standard           # use 'master' for orchestration-only skills
    ```
-4. Write the markdown body:
-   - **Context** — when to invoke
-   - **Micro-Skills** — ordered steps with Eco/Power tags
-   - **Inputs / Outputs** — typed parameters
-   - **Scope** — explicit boundaries
-   - **Guardrails** — hard constraints
-   - **Ask-When-Ambiguous** — triggers + question templates
-   - **Decision Criteria** — situation/action table
-   - **Success Criteria** — verifiable checklist
-   - **Failure Modes** — known failures with mitigations
-   - **Audit Log** — structured log templates
-   - **Examples** — before/after demos
-   - **Edge Cases** — unusual inputs
-5. Add an entry to `registry.yaml` pointing to `skills/<category>/<skill-name>/SKILL.md`.
+4. Write the markdown body following the section list under [Skill Format](#skill-format-skillmd). For master skills, additionally follow the hard rules in [`docs/master-skills.md`](docs/master-skills.md).
+5. Add an entry to `registry.yaml` pointing to `skills/<category>/<skill-name>/SKILL.md`. Tags must follow the closed taxonomy in [`docs/tags.md`](docs/tags.md).
 6. The Librarian will auto-discover it on next invocation.
 
 ---
