@@ -198,6 +198,12 @@ pragmatism:
     tags: [category, discovery, pragmatism, advisory]
     reasoning_mode: plan-execute
 
+  - name: aparigraha-task
+    path: skills/25-pragmatism/aparigraha-task/SKILL.md
+    description: Master workflow walking the Aparigraha gates end-to-end — onboarding, dependency inventory, style detection, reuse-first authoring, surgical diff, audit. Orchestrates the 25-pragmatism category skills. No implementation logic.
+    tags: [master, build, pragmatism, advisory]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Implementation Layer (30)
 # --------------------------------------------------------------------------
