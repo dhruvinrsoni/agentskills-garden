@@ -574,6 +574,12 @@ maintenance:
     tags: [category, maintain, maintenance, reversible]
     reasoning_mode: plan-execute
 
+  - name: incident-response-flow
+    path: skills/90-maintenance/incident-response-flow/SKILL.md
+    description: Master workflow for production incidents. Orchestrates incident-response (triage and mitigation) -> root-cause-analysis -> log-analysis -> decision-records -> auditor. No implementation logic.
+    tags: [master, operate, maintenance, safety-critical]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Templates
 # --------------------------------------------------------------------------
