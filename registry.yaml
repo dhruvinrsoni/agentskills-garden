@@ -268,6 +268,12 @@ implementation:
     tags: [master, build, coding, reversible]
     reasoning_mode: plan-execute
 
+  - name: refactoring-workflow
+    path: skills/30-implementation/refactoring-workflow/SKILL.md
+    description: Master workflow for refactoring at four named depth levels (cosmetic, micro, meso, architectural) that compose as a ladder. Always runs chesterton-fence + style-conformance up front, closes with characterisation tests + minimal-diff + auditor. No skipped rungs.
+    tags: [master, build, refactoring, reversible]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Quality Layer (40)
 # --------------------------------------------------------------------------
