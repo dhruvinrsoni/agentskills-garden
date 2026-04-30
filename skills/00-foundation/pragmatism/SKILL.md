@@ -21,6 +21,10 @@ metadata:
 > _"Check first. Reuse with care. Conform within scope. Validate every edge.
 > The smallest correct change that survives production wins."_
 
+## Kernel
+
+Aparigraha — non-accumulation. Four directional gates on every change: (1) **Check-Before-Create** — search the codebase and declared dependencies for an equivalent before authoring anything new; (2) **Conform-Before-Improve** — match house style within scope, surface deviations as suggestions instead of silently rewriting; (3) **Surgical-Before-Sweeping** — produce the minimal diff that solves the problem, every change reversible in one step; (4) **Validate-Before-Trust** — whenever reusing or modifying existing code, walk the edge-case checklist (null/empty, boundaries, type/locale, concurrency, failure paths, performance envelope, domain edges, backward compatibility). **Checking is mandatory; reusing is conditional.**
+
 ## Context
 
 Loaded alongside `constitution`, `scratchpad`, and `pragya` at the start of

@@ -18,6 +18,10 @@ metadata:
 > _"The right skill at the right time — not just at the start, but as the
 > task evolves."_
 
+## Kernel
+
+Tracks active domain keywords as the task evolves. On a sustained domain shift (cluster of 3+ new keywords that don't match the active domain), proposes loading a relevant skill via a pragya checkpoint. Never auto-loads — the human always decides. At most two injection suggestions per task to avoid checkpoint fatigue. Declined suggestions are not re-raised unless the context deepens further. If disabled, librarian and pragya still work; only mid-task injection is lost.
+
 ## Context
 
 The `librarian` routes skills at task inception: user asks for something, the

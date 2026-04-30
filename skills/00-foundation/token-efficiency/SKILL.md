@@ -17,6 +17,10 @@ metadata:
 
 > _"Spend tokens like they cost money — because they do."_
 
+## Kernel
+
+Spend the cheapest sufficient resource. Default Tier 1 in Eco mode, Tier 2 in Power mode; escalate to Tier 3 only on demonstrated insufficiency, with logged rationale. Tool waterfall: file-search → symbol-navigation → content-search (paths-only first) → targeted file-read (offset+limit) → delegate to a sub-agent for broad discovery. Code modifications are always direct — never delegate writes. Independent operations always run in parallel; dependent ones never do.
+
 ## Context
 
 Loaded alongside `constitution` and `scratchpad` at the start of every task.

@@ -20,6 +20,10 @@ metadata:
 > bandwidth. The optimal loop: human steers, AI executes, AI seeks corrections,
 > human redirects — repeat."_
 
+## Kernel
+
+Before any significant action, count viable alternatives and assess reversibility. Confidence > 95% **and** reversible → proceed and log; otherwise present 2-4 options with pros/cons/recommendation and let the user steer. Irreversible actions (delete, drop, deploy, schema migration) ALWAYS require a checkpoint regardless of confidence. Strategy can pivot mid-task — the pivot itself is a checkpoint. Never silently continue a strategy that exploration has shown to be suboptimal.
+
 ## Context
 
 Loaded alongside `constitution` and `scratchpad` at the start of every task.

@@ -113,22 +113,30 @@ Today's foundation skills (see [`registry.yaml`](../registry.yaml) `foundation:`
 | [`token-efficiency`](../skills/00-foundation/token-efficiency/SKILL.md) | Picks model tier and tool depth per mode. |
 | [`pragmatism`](../skills/00-foundation/pragmatism/SKILL.md) | Aparigraha — check before create, stay surgical, validate edge cases. |
 
+### What is *actually* always loaded
+
+The single file [`skills/00-foundation/KERNEL.md`](../skills/00-foundation/KERNEL.md). Nothing else.
+
+`KERNEL.md` is an aggregator that quotes the `## Kernel` section of each foundation `SKILL.md` — the smallest set of rules every task needs. The rest of each foundation `SKILL.md` (full micro-skills, examples, audit log shapes, edge-case tables) is loaded on demand by the `librarian` when its domain fires. So `pragya`'s checkpoint *protocol* is in the kernel, but `pragya`'s 6 worked examples are not.
+
+This bounds the always-loaded cost to one file (currently ~85 lines) regardless of how many foundation skills exist.
+
 ### What it costs
 
-Always-loaded means every single agent turn pays the token cost of every foundation skill. If foundation grows unbounded, every task pays for capability nobody is using on this turn.
+Even at one file, the kernel pays a token cost on every turn. If a new foundation skill is added, its `## Kernel` paragraph extends `KERNEL.md`. Keep kernels to **1-2 paragraphs** of essential rules; everything richer goes in the parent `SKILL.md`.
 
 ### What it does *not* do
 
-- **It is not a runtime enforcement engine.** Loading the constitution does not magically prevent a violation; the [`auditor`](../skills/00-foundation/auditor/SKILL.md) (also loaded) is what flags drift.
+- **It is not a runtime enforcement engine.** Loading the constitution kernel does not magically prevent a violation; the [`auditor`](../skills/00-foundation/auditor/SKILL.md) (whose own kernel is also loaded) is what flags drift.
 - **It is not a substitute for category skills.** Foundation skills set rules and route; concrete patterns live in `10-` through `90-`.
-- **It is not free.** A future hardening pass introduces a `KERNEL.md` aggregator so each foundation `SKILL.md` exposes only its essential `## Kernel` section in the always-loaded path; the rest loads on demand. Until then, keep new foundation skills lean.
+- **It is not the full foundation.** Anything not in `KERNEL.md` loads on demand. Reading the full `pragya/SKILL.md` body, for example, only happens when a real direction checkpoint is being constructed.
 
 ### When to add a foundation skill
 
 Only when **every single task** would otherwise have to re-derive what the skill encodes. Three sanity checks before promoting a category skill to foundation:
 
 1. Is it truly cross-cutting? (Pragmatism is — it applies whether you are reviewing code, writing docs, or shipping a release.)
-2. Can it be expressed in ≲150 lines of essential rules? If not, split: kernel in foundation, body in a category.
+2. Can its kernel be expressed in 1-2 paragraphs of essential rules? If not, split: kernel in foundation, full body remains a category skill.
 3. Would removing it break the system, or merely make it less elegant? If only the latter, keep it as a category skill.
 
 ---
