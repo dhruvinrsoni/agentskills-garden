@@ -262,6 +262,12 @@ implementation:
     tags: [category, build, resilience, reversible]
     reasoning_mode: linear
 
+  - name: feature-shipping
+    path: skills/30-implementation/feature-shipping/SKILL.md
+    description: Master workflow for shipping a feature end-to-end. Orchestrates prd -> task-decomposition -> tdd-workflow -> code-review -> release-pipeline -> auditor. Composes the release-pipeline master as the delivery sub-workflow.
+    tags: [master, build, coding, reversible]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Quality Layer (40)
 # --------------------------------------------------------------------------
