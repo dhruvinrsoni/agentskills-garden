@@ -466,6 +466,12 @@ devops:
     tags: [category, operate, devops, infra, reversible]
     reasoning_mode: plan-execute
 
+  - name: release-pipeline
+    path: skills/70-devops/release-pipeline/SKILL.md
+    description: Master workflow for cutting a release. Orchestrates test-strategy -> changelog-generation -> ci-pipeline -> auditor as a single named sequence. No implementation logic.
+    tags: [master, ship, devops, irreversible]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Documentation Layer (80)
 # --------------------------------------------------------------------------
