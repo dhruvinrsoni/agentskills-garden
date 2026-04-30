@@ -22,22 +22,14 @@ Alongside the Constitution, the **[Pragmatism (Aparigraha)](#pragmatism-25--apar
 
 ## Quick Start
 
-**Linux / macOS:**
-```bash
-git clone https://github.com/dhruvinrsoni/agentskills-garden.git
-cd agentskills-garden
-chmod +x setup_skills.sh && ./setup_skills.sh
-```
+The supported install path is the **bridge-link** workflow described below — one
+Windows junction (or POSIX symlink) makes the garden's `skills/` folder live-visible
+inside any consumer repo, with no copy step.
 
-**Windows (PowerShell):**
-```powershell
-git clone https://github.com/dhruvinrsoni/agentskills-garden.git
-cd agentskills-garden
-.\setup_skills.ps1            # Full native installer, no WSL required
-.\setup_skills.ps1 -Force     # Overwrite existing files
-```
-
-Both scripts create the full directory structure and all skill files from scratch.
+> **Looking for the old `setup_skills.sh` / `setup_skills.ps1` installers?**
+> They have been moved to [`legacy/`](legacy/) and are preserved for historical
+> reference only. They are significantly out of sync with the current 88-skill
+> hierarchical layout and will not be regenerated. See [`legacy/README.md`](legacy/README.md).
 
 ---
 

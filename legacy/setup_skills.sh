@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 # ============================================================================
-# Agent Skills Garden — Mega Installer (Bash)
+# DEPRECATED — preserved for historical reference only.
+#
+# This installer was the original way to provision the garden when it had
+# ~35 skills in a flat layout. The current garden has 88 skills organised
+# under a hierarchical category tree (skills/00-foundation/ through
+# skills/90-maintenance/) with multi-skill categories, master skills, and a
+# foundation kernel. This script is significantly out of sync with that
+# layout and IS NOT regenerated as new skills land.
+#
+# Use the bridge-link workflow documented in README.md instead. See
+# docs/skills-bridge.md for the design notes. See legacy/README.md for why
+# these installers are kept around.
+# ============================================================================
+# Agent Skills Garden — Mega Installer (Bash) [LEGACY]
 # Run: chmod +x setup_skills.sh && ./setup_skills.sh
 # ============================================================================
 set -euo pipefail
