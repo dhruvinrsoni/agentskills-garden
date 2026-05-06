@@ -99,7 +99,7 @@ under the same section. No new env var to document.
 The brand-new-machine flow uses PowerShell's web-install pattern:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/bootstrap.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
 ```
 
 - `iwr` = `Invoke-WebRequest` (PowerShell's HTTP client, like `curl`).
@@ -114,7 +114,7 @@ and consider pinning to a commit SHA rather than `main` to freeze what gets
 executed:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/bootstrap.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/setup-garden.ps1 | iex
 ```
 
 ## 6. Industry precedents
@@ -147,7 +147,7 @@ it should be a 1:1 mirror of the PowerShell one at the user-facing level.
 ## 8. Troubleshooting
 
 ### "Could not locate agentskills-garden"
-Run [scripts/bootstrap.ps1](../scripts/bootstrap.ps1), or set things manually:
+Run [scripts/setup-garden.ps1](../scripts/setup-garden.ps1), or set things manually:
 
 ```powershell
 git config --global agentskills.path "C:\path\to\agentskills-garden"
@@ -173,5 +173,5 @@ Windows will follow the junction and try to commit everything inside it.
 ## 9. Related files
 
 - [scripts/link-skills.ps1](../scripts/link-skills.ps1) — per-consumer link/unlink/status.
-- [scripts/bootstrap.ps1](../scripts/bootstrap.ps1) — first-machine setup.
+- [scripts/setup-garden.ps1](../scripts/setup-garden.ps1) — first-machine setup.
 - `~/.gitconfig` — stores the `[agentskills]` section.

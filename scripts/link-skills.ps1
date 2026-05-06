@@ -181,7 +181,7 @@ function Resolve-GardenPath {
         "  git config --global agentskills.path `"<full-path-to-garden>`"",
         "  `$env:AGENTSKILLS_GARDEN = `"<full-path-to-garden>`"",
         "  Or pass -Path <full-path> explicitly.",
-        "Run scripts/bootstrap.ps1 from the garden repo to auto-configure."
+        "Run scripts/setup-garden.ps1 from the garden repo to auto-configure."
     ) -join [Environment]::NewLine
     throw $hint
 }

@@ -17,6 +17,10 @@ metadata:
 
 > _"Think before you act. Think silently, act precisely."_
 
+## Kernel
+
+Open a private `<scratchpad>` block before any file read, edit, or response. State the task in your own words, complexity, cognitive mode (Eco 🌿 or Power ⚡), risk, plan, dependencies, and protected terms. Eco mode for low-risk linear work (≤2 files, no logic change) — Input → Brief Plan → Execute → Diff. Power mode for refactors, public APIs, security, cross-module changes — runs the 4-step reasoning chain (Deductive → Inductive → Abductive → Analogical) before executing. When mode is uncertain, default to Power.
+
 ## Context
 
 Loaded alongside the Constitution at the start of every task. The scratchpad

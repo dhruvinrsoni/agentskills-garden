@@ -17,6 +17,10 @@ metadata:
 
 > _"Trust, but verify."_
 
+## Kernel
+
+Runs after every skill execution — non-skippable. Verifies plan-vs-diff alignment (every planned change appears in the diff; every diff change traces to a planned step), the four constitutional pillars hold, no protected term was modified without approval, and any destructive operation (delete, drop, deploy, public-API change) has recorded user consent. Violations block delivery; user dismissals require a logged rationale.
+
 ## Context
 
 The Auditor is invoked **after** any skill produces output (diffs, code,

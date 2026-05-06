@@ -17,6 +17,10 @@ metadata:
 
 > _"You don't need to know the skill's name. Just tell me what you want to do."_
 
+## Kernel
+
+Routes user intent to the right skill via a six-tier waterfall: **EXACT** (1.00) → **PREFIX** (0.85) → **SUBSTRING** (0.65) → **TAG** (0.50) → **SEMANTIC** (Levenshtein, 0.35) → **NONE**. Never auto-loads when confidence < 0.7 — asks instead. Multi-skill tasks load in dependency order. Tags drawn from the closed taxonomy in `docs/tags.md`. The librarian has no side effects; it only reads and routes.
+
 ## Context
 
 The Librarian is invoked whenever the user's request doesn't map directly
