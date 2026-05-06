@@ -209,6 +209,10 @@ It mirrors the checklist defined in the foundation `pragmatism` skill.
 2. If `Reuse` or `Reuse-with-guards`: do not author a wrapper class or
    method that simply re-exposes the library function. The Rule of Three
    says: wait for three real call sites before extracting.
+   **Twist:** if a vetted dependency already covers the case (with edge-case
+   validation green), use the library directly — do not wait for the third
+   call site. The Rule of Three guards against premature *local*
+   generalisation, not against pulling in already-imported capability.
 3. If `Write-fresh`: keep the helper local to the call site (function-
    local or file-private) until the third use site appears.
 
