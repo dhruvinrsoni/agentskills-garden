@@ -19,6 +19,8 @@ Inspired by the [Agent Skills](https://agentskills.io/) open format.
 
 Alongside the Constitution, the **[Pragmatism (Aparigraha)](#pragmatism-25--aparigraha-)** category gives the garden its bias for *real, ongoing business projects*: the agent *checks* before creating, *conforms* within the scope of the change, stays *surgical*, and *validates edge cases* before trusting any reuse or improvement of existing code. Direction-of-thought, not rigid rule.
 
+For an industry-vocabulary map of these ideas (YAGNI, Strangler Fig, Boy Scout Rule, Chesterton's Fence, …) into the garden's pragmatism skills, see [docs/named-principles.md](docs/named-principles.md).
+
 ---
 
 ## Quick Start
