@@ -166,7 +166,9 @@ collateral damage.
      committing.
 4. Prefer **expand-and-contract** patterns when the change is
    irreversible-by-nature (additive then later subtractive) so each
-   step remains reversible on its own.
+   step remains reversible on its own. (For larger system rewrites, the
+   same shape is the **Strangler Fig** pattern — see
+   [legacy-upgrade](../../90-maintenance/legacy-upgrade/SKILL.md).)
 
 ### 5. Commit Splitting ⚡ (Power Mode)
 
