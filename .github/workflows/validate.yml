@@ -25,3 +25,6 @@ jobs:
 
       - name: Run skill validator
         run: python scripts/validate_skills.py
+
+      - name: Check internal markdown links
+        run: python scripts/check-links.py
