@@ -12,6 +12,8 @@ Checks:
   7. metadata.dependencies (if present) all resolve to known skills
   8. metadata.skill_type is present and is one of {standard, master}
   9. license is present and equals 'Apache-2.0'
+ 10. registry tags classify into the five-axis taxonomy and cover the
+     required axes for the entry's scope
 
 Exit code 0 = all good, exit code 1 = validation errors found.
 """
@@ -21,6 +23,13 @@ import re
 import sys
 import yaml
 from typing import Any, Dict, List, Tuple
+
+from tag_axes import (
+    AXES,
+    REQUIRED_AXES_BY_SCOPE,
+    MAX_TAGS_PER_SKILL,
+    classify,
+)
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 REGISTRY_PATH = os.path.join(REPO_ROOT, "registry.yaml")
@@ -81,6 +90,52 @@ def _validate_name(name: str) -> List[str]:
             f"name {name!r} is invalid: only lowercase alphanumeric and hyphens allowed, "
             "must not start or end with a hyphen"
         )
+    return errors
+
+
+def _validate_tags(entry: Dict[str, Any]) -> List[str]:
+    """Validate a registry entry's tags against the five-axis taxonomy.
+
+    See docs/tags.md and scripts/tag_axes.py for the canonical vocabulary.
+    """
+    errors: List[str] = []
+    tags = entry.get("tags")
+    if tags is None:
+        return ["tags missing (every skill must declare tags per docs/tags.md)"]
+    if not isinstance(tags, list):
+        return [f"tags must be a YAML list, got {type(tags).__name__}"]
+    if not tags:
+        return ["tags list is empty (every skill must declare tags)"]
+    if len(tags) > MAX_TAGS_PER_SKILL:
+        errors.append(
+            f"tags exceed cap of {MAX_TAGS_PER_SKILL} (got {len(tags)}: {tags})"
+        )
+
+    # Classify each tag, collect unknowns and per-axis presence.
+    found_axes: set = set()
+    for tag in tags:
+        axis = classify(str(tag))
+        if axis is None:
+            errors.append(
+                f"unknown tag {tag!r} (not in any of {sorted(AXES)} axes per docs/tags.md)"
+            )
+        else:
+            found_axes.add(axis)
+
+    # Find the scope tag; required axes depend on it.
+    scope_tag = next((t for t in tags if t in AXES["scope"]), None)
+    if scope_tag is None:
+        errors.append(
+            f"tags missing a scope tag (one of: {sorted(AXES['scope'])})"
+        )
+    else:
+        required = REQUIRED_AXES_BY_SCOPE.get(scope_tag, ())
+        missing = [axis for axis in required if axis not in found_axes]
+        if missing:
+            errors.append(
+                f"tags missing required axes {missing} for scope={scope_tag!r}"
+            )
+
     return errors
 
 
@@ -246,7 +301,10 @@ def validate() -> int:
                         _validate_frontmatter(fm, skill_name, skill_dir_name, all_names)
                     )
 
-        # f. Registry-level: description present
+        # f. Registry-level: tags conform to the five-axis taxonomy
+        skill_errors.extend(_validate_tags(entry))
+
+        # g. Registry-level: description present
         if not entry.get("description", "").strip():
             warn_count += 1
             print(f"  [WARN] {prefix}: registry entry has no description")
