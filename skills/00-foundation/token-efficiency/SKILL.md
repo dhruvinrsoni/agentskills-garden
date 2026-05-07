@@ -11,6 +11,7 @@ metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 # Token Efficiency — Resource-Aware Agent Operations

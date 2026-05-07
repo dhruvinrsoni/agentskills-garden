@@ -13,6 +13,7 @@ metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragya"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 

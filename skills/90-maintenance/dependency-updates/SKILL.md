@@ -9,6 +9,7 @@ metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, test-strategy"
   reasoning_mode: plan-execute
+  skill_type: standard
 ---
 
 

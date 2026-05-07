@@ -9,6 +9,7 @@ metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"
   reasoning_mode: mixed
+  skill_type: standard
 ---
 
 

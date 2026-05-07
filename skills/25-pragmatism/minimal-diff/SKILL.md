@@ -11,6 +11,7 @@ metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism, auditor, style-conformance"
   reasoning_mode: plan-execute
+  skill_type: standard
 ---
 
 

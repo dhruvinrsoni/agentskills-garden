@@ -10,6 +10,7 @@ metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, openapi-specs"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 
