@@ -9,6 +9,7 @@ metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, test-strategy"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 

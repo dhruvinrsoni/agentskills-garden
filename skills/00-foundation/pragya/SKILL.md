@@ -12,6 +12,7 @@ metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 # Pragya — Direction-Seeking Protocol

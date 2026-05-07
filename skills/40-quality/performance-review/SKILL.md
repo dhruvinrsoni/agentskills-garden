@@ -10,6 +10,7 @@ metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, profiling-analysis"
   reasoning_mode: plan-execute
+  skill_type: standard
 ---
 
 

@@ -11,6 +11,7 @@ metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, librarian, pragya"
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 # Orchestrator — Mid-Task Skill Injection

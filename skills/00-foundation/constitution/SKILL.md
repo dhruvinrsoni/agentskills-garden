@@ -8,6 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 metadata:
   version: 1.0.0
   reasoning_mode: linear
+  skill_type: standard
 ---
 
 
