@@ -10,6 +10,7 @@ Checks:
   5. directory name matches frontmatter name field
   6. metadata.reasoning_mode (if present) is one of the allowed values
   7. metadata.dependencies (if present) all resolve to known skills
+  8. metadata.skill_type is present and is one of {standard, master}
 
 Exit code 0 = all good, exit code 1 = validation errors found.
 """
@@ -31,6 +32,9 @@ NAME_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
 
 # Allowed reasoning_mode values (stored in metadata)
 ALLOWED_REASONING_MODES = {"linear", "plan-execute", "tdd", "mixed"}
+
+# Allowed skill_type values (stored in metadata; required)
+VALID_SKILL_TYPES = {"standard", "master"}
 
 # Registry sections that are not skill groups
 _META_KEYS = {"version", "templates"}
@@ -125,6 +129,19 @@ def _validate_frontmatter(
             errors.append(
                 f"metadata.reasoning_mode {rm!r} is invalid; "
                 f"allowed: {sorted(ALLOWED_REASONING_MODES)}"
+            )
+
+        # skill_type (required: 'standard' or 'master')
+        st = meta.get("skill_type")
+        if st is None:
+            errors.append(
+                "metadata.skill_type missing; "
+                f"required: one of {sorted(VALID_SKILL_TYPES)}"
+            )
+        elif str(st) not in VALID_SKILL_TYPES:
+            errors.append(
+                f"metadata.skill_type {st!r} is invalid; "
+                f"allowed: {sorted(VALID_SKILL_TYPES)}"
             )
 
         # dependencies (comma-separated string or absent)
