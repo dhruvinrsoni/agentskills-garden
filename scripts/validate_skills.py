@@ -11,6 +11,7 @@ Checks:
   6. metadata.reasoning_mode (if present) is one of the allowed values
   7. metadata.dependencies (if present) all resolve to known skills
   8. metadata.skill_type is present and is one of {standard, master}
+  9. license is present and equals 'Apache-2.0'
 
 Exit code 0 = all good, exit code 1 = validation errors found.
 """
@@ -25,7 +26,10 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 REGISTRY_PATH = os.path.join(REPO_ROOT, "registry.yaml")
 
 # Spec-required frontmatter fields
-REQUIRED_FRONTMATTER = {"name", "description"}
+REQUIRED_FRONTMATTER = {"name", "description", "license"}
+
+# Required exact value for the license field
+REQUIRED_LICENSE = "Apache-2.0"
 
 # name: lowercase alphanumeric + hyphens, no leading/trailing/consecutive hyphens
 NAME_RE = re.compile(r"^[a-z0-9]([a-z0-9-]*[a-z0-9])?$")
@@ -117,6 +121,11 @@ def _validate_frontmatter(
         errors.append("description must be non-empty")
     elif len(desc) > 1024:
         errors.append(f"description exceeds 1024 characters ({len(desc)} chars)")
+
+    # 5b. license value
+    license_val = fm.get("license")
+    if license_val is not None and license_val != REQUIRED_LICENSE:
+        errors.append(f"license must be {REQUIRED_LICENSE!r}, got {license_val!r}")
 
     # 6. Optional metadata validations
     meta = fm.get("metadata") or {}
