@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} &mdash; {{ site.name }}{% endblock %}
+{% block meta_description %}{{ subtitle or title }} &mdash; {{ site.name }}.{% endblock %}
+
+{% block content %}
+{% if breadcrumb %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ base_url }}/">Home</a> &rsaquo; <span>{{ title }}</span>
+</nav>
+{% endif %}
+
+<article class="prose">
+  {{ body_html|safe }}
+
+  {% if source_url %}
+  <hr>
+  <p class="muted">
+    Source: <a href="{{ source_url }}" rel="noopener">{{ source_label }}</a>
+  </p>
+  {% endif %}
+</article>
+{% endblock %}

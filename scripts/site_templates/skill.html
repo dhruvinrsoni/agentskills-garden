@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}{{ skill.name }} &mdash; {{ site.name }}{% endblock %}
+{% block meta_description %}{{ skill.description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "{{ skill.name }}",
+  "description": {{ skill.description|tojson }},
+  "codeRepository": "{{ site.github_url }}",
+  "programmingLanguage": "Markdown",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "url": "{{ site.canonical_root }}{{ page_url }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ base_url }}/">Home</a>
+  &rsaquo;
+  <a href="{{ base_url }}/categories/{{ skill.category_dir }}/">{{ skill.category_dir }}</a>
+  &rsaquo;
+  <span>{{ skill.name }}</span>
+</nav>
+
+<div class="skill-layout">
+  <article class="skill-content">
+    <h1>{{ skill.title }}</h1>
+
+    {{ skill.first_paragraph_html|safe }}
+
+    <div class="cta-card">
+      <p><strong>Read the full skill on GitHub.</strong> The site shows the first section; the canonical full content with all principles, examples, and rules lives in the repo.</p>
+      <a class="btn btn-primary" href="{{ skill.github_blob_url }}" rel="noopener">View full SKILL.md on GitHub &rsaquo;</a>
+    </div>
+
+    {% if skill.preview_sections %}
+    <section class="skill-preview">
+      <h2>What the full skill covers</h2>
+      <ul>
+      {% for section in skill.preview_sections %}<li>{{ section }}</li>{% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+  </article>
+
+  <aside class="skill-aside" aria-label="Skill metadata">
+    <div class="aside-card">
+      <h2>Frontmatter</h2>
+      <div class="kv"><span class="kv-key">version</span><span class="kv-val">{{ skill.version }}</span></div>
+      <div class="kv"><span class="kv-key">reasoning</span><span class="kv-val">{{ skill.reasoning_mode }}</span></div>
+      <div class="kv"><span class="kv-key">type</span><span class="kv-val">{{ skill.skill_type }}</span></div>
+      <div class="kv"><span class="kv-key">license</span><span class="kv-val">{{ skill.license }}</span></div>
+      {% if skill.dependencies %}
+      <div class="kv"><span class="kv-key">deps</span><span class="kv-val">{{ skill.dependencies|length }}</span></div>
+      {% endif %}
+    </div>
+
+    <div class="aside-card">
+      <h2>Tags</h2>
+      <div class="tag-list">
+        {% for tag in skill.tags %}
+        <a class="tag {% if tag in scope_set %}tag-scope{% endif %}{% if tag == 'safety-critical' %} tag-risk-safety-critical{% elif tag == 'irreversible' %} tag-risk-irreversible{% endif %}"
+           href="{{ base_url }}/tags/{{ tag }}/">{{ tag }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if skill.dependencies %}
+    <div class="aside-card">
+      <h2>Depends on</h2>
+      <ul>
+      {% for dep in skill.dependencies %}
+        <li><a href="{{ base_url }}/skills/{{ dep }}/">{{ dep }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% if related %}
+    <div class="aside-card">
+      <h2>Related skills</h2>
+      <ul>
+      {% for r in related %}
+        <li><a href="{{ base_url }}/skills/{{ r.name }}/">{{ r.name }}</a></li>
+      {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <div class="aside-card">
+      <h2>Source</h2>
+      <ul>
+        <li><a href="{{ skill.github_blob_url }}" rel="noopener">View on GitHub</a></li>
+        <li><a href="{{ skill.github_edit_url }}" rel="noopener">Edit on GitHub</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+{% endblock %}
