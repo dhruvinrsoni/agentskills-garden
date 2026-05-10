@@ -98,3 +98,6 @@ evals/cache/
 # Temporary files
 *.tmp
 *.bak
+
+# Generated site (build output of scripts/build_site.py)
+_site/
