@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}#{{ tag }} &mdash; {{ site.name }}{% endblock %}
+{% block meta_description %}{{ skills|length }} skills tagged {{ tag }} ({{ axis }} axis).{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ base_url }}/">Home</a> &rsaquo;
+  <a href="{{ base_url }}/tags/">Tags</a> &rsaquo;
+  <span>{{ tag }}</span>
+</nav>
+
+<section class="hero" style="text-align:left; padding: 1rem 0 0.5rem;">
+  <h1 style="margin:0;">#{{ tag }}</h1>
+  <p class="tagline" style="text-align:left; margin: 0.5rem 0 0;">
+    {{ skills|length }} skills tagged <code>{{ tag }}</code>{% if axis %} &middot; <em>{{ axis }}</em> axis{% endif %}.
+  </p>
+</section>
+
+<div class="card-grid" style="margin-top: 1.5rem;">
+  {% for skill in skills %}
+  <article class="card">
+    <h3 class="card-title">
+      <a href="{{ base_url }}/skills/{{ skill.name }}/">{{ skill.name }}</a>
+    </h3>
+    <p class="card-desc">{{ skill.description }}</p>
+    <div class="card-meta">
+      {% for t in skill.tags %}
+      <a class="tag {% if t in scope_set %}tag-scope{% endif %}{% if t == 'safety-critical' %} tag-risk-safety-critical{% elif t == 'irreversible' %} tag-risk-irreversible{% endif %}"
+         href="{{ base_url }}/tags/{{ t }}/">{{ t }}</a>
+      {% endfor %}
+    </div>
+    <div class="card-footer">
+      <span>{{ skill.reasoning_mode }}</span>
+      <span>v{{ skill.version }}</span>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}

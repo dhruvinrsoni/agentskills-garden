@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site.name }} &mdash; {{ site.tagline }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>&#127793; {{ site.name }}</h1>
+  <p class="tagline">{{ site.tagline }}</p>
+  <div class="stats">
+    <span><strong>{{ site.skill_count }}</strong> skills</span>
+    <span><strong>{{ site.category_count }}</strong> categories</span>
+    <span><strong>4</strong> reasoning modes</span>
+    <span>Apache-2.0</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn btn-primary" href="#skills">Explore skills</a>
+    <a class="btn" href="{{ base_url }}/skills/constitution/">Read the constitution</a>
+    <a class="btn" href="{{ site.github_url }}" rel="noopener">View on GitHub</a>
+  </div>
+</section>
+
+<section class="pillars" aria-label="The Four Pillars">
+  {% for pillar in pillars %}
+  <div class="pillar">
+    <div class="pillar-name">{{ pillar.name }}</div>
+    <div class="pillar-meaning">{{ pillar.meaning }}</div>
+  </div>
+  {% endfor %}
+</section>
+
+<h2 class="section-h" id="skills">Browse skills</h2>
+
+<form class="filter-bar" data-filter-bar role="search" aria-label="Filter skills" onsubmit="return false;">
+  {% for axis_name, values in axes.items() %}
+  <label>
+    {{ axis_name }}
+    <select data-filter="{{ axis_name }}">
+      <option value="">all</option>
+      {% for v in values %}<option value="{{ v }}">{{ v }}</option>{% endfor %}
+    </select>
+  </label>
+  {% endfor %}
+  <label>
+    search
+    <input type="search" data-filter-search placeholder="name or description...">
+  </label>
+</form>
+
+<div class="filter-meta">
+  <span data-filter-count>{{ skills|length }} skills</span>
+  <button type="button" class="btn-clear" data-filter-clear>Clear filters</button>
+</div>
+
+<div class="card-grid" data-card-grid>
+  {% for skill in skills %}
+  <article class="card"
+           data-skill
+           data-scope="{{ skill.axes.scope|join(' ') }}"
+           data-lifecycle="{{ skill.axes.lifecycle|join(' ') }}"
+           data-capability="{{ skill.axes.capability|join(' ') }}"
+           data-domain="{{ skill.axes.domain|join(' ') }}"
+           data-risk="{{ skill.axes.risk|join(' ') }}"
+           data-text="{{ skill.search_text }}">
+    <h3 class="card-title">
+      <a href="{{ base_url }}/skills/{{ skill.name }}/">{{ skill.name }}</a>
+    </h3>
+    <p class="card-desc">{{ skill.description }}</p>
+    <div class="card-meta">
+      {% for tag in skill.tags %}
+      <a class="tag {% if tag in scope_set %}tag-scope{% endif %}{% if tag == 'safety-critical' %} tag-risk-safety-critical{% elif tag == 'irreversible' %} tag-risk-irreversible{% endif %}"
+         href="{{ base_url }}/tags/{{ tag }}/">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <div class="card-footer">
+      <span>{{ skill.reasoning_mode }}</span>
+      <span>v{{ skill.version }}</span>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<p class="no-results" data-no-results hidden>No skills match these filters.</p>
+
+<h2 class="section-h">Categories</h2>
+<div class="category-grid">
+  {% for cat in categories %}
+  <a class="category-tile" href="{{ base_url }}/categories/{{ cat.dir }}/">
+    <div class="category-num">{{ cat.dir }}</div>
+    <div class="category-name">{{ cat.name }}</div>
+    <div class="category-count">{{ cat.count }} skills</div>
+  </a>
+  {% endfor %}
+</div>
+
+<h2 class="section-h">Documentation</h2>
+<div class="category-grid">
+  {% for doc in prose_docs %}
+  <a class="category-tile" href="{{ base_url }}/{{ doc.slug }}/">
+    <div class="category-num">docs</div>
+    <div class="category-name">{{ doc.title }}</div>
+    <div class="category-count">{{ doc.subtitle }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

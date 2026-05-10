@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ site.name }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ site.tagline }}{% endblock %}">
+  <link rel="canonical" href="{% block canonical %}{{ site.canonical_root }}{{ page_url }}{% endblock %}">
+
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+  <meta property="og:url" content="{{ site.canonical_root }}{{ page_url }}">
+  <meta property="og:site_name" content="{{ site.name }}">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{ self.og_title() }}">
+  <meta name="twitter:description" content="{{ self.og_description() }}">
+
+  {% block jsonld %}{% endblock %}
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%B1%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ base_url }}/assets/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'light' || saved === 'dark') {
+          document.documentElement.dataset.theme = saved;
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="brand" href="{{ base_url }}/">
+        <span class="brand-mark" aria-hidden="true">&#127793;</span>
+        <span class="brand-name">{{ site.name }}</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="{{ base_url }}/#skills">Skills</a>
+        <a href="{{ base_url }}/concepts/">Concepts</a>
+        <a href="{{ base_url }}/tags/">Tags</a>
+        <a href="{{ site.github_url }}" rel="noopener">GitHub</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" data-theme-toggle>
+        <span class="theme-icon-light" aria-hidden="true">&#9728;</span>
+        <span class="theme-icon-dark" aria-hidden="true">&#9790;</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p>
+        <a href="{{ site.github_url }}" rel="noopener">{{ site.repo_name }}</a>
+        &middot; Apache-2.0
+        &middot; {{ site.skill_count }} skills, {{ site.category_count }} categories
+      </p>
+      <p class="muted">
+        Generated {{ site.generated_at }} from
+        <a href="{{ site.github_url }}/blob/main/registry.yaml" rel="noopener">registry.yaml</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="{{ base_url }}/assets/filter.js" defer></script>
+</body>
+</html>
