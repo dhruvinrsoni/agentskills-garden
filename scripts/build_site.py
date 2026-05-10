@@ -495,6 +495,8 @@ def render_site(base_url: str, canonical_root: str) -> None:
     os.makedirs(assets_dir, exist_ok=True)
     shutil.copy(os.path.join(TEMPLATES_DIR, "style.css"), os.path.join(assets_dir, "style.css"))
     shutil.copy(os.path.join(TEMPLATES_DIR, "filter.js"), os.path.join(assets_dir, "filter.js"))
+    # Web app manifest sits at site root, not under assets/
+    shutil.copy(os.path.join(TEMPLATES_DIR, "manifest.webmanifest"), os.path.join(OUTPUT_DIR, "manifest.webmanifest"))
 
     # ── sitemap.xml + robots.txt ───────────────────────────────────────────
     write(os.path.join(OUTPUT_DIR, "sitemap.xml"), _sitemap(canonical_root, routes))
