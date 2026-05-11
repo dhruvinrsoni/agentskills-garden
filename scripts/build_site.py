@@ -497,6 +497,11 @@ def render_site(base_url: str, canonical_root: str) -> None:
     shutil.copy(os.path.join(TEMPLATES_DIR, "filter.js"), os.path.join(assets_dir, "filter.js"))
     # Web app manifest sits at site root, not under assets/
     shutil.copy(os.path.join(TEMPLATES_DIR, "manifest.webmanifest"), os.path.join(OUTPUT_DIR, "manifest.webmanifest"))
+    # OG image for social sharing and apple touch icon
+    if os.path.exists(os.path.join(TEMPLATES_DIR, "og-image.png")):
+        shutil.copy(os.path.join(TEMPLATES_DIR, "og-image.png"), os.path.join(OUTPUT_DIR, "og-image.png"))
+    if os.path.exists(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png")):
+        shutil.copy(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png"), os.path.join(OUTPUT_DIR, "apple-touch-icon.png"))
 
     # ── sitemap.xml + robots.txt ───────────────────────────────────────────
     write(os.path.join(OUTPUT_DIR, "sitemap.xml"), _sitemap(canonical_root, routes))
