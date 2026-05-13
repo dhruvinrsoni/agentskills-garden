@@ -157,6 +157,12 @@ planning:
     tags: [category, design, planning, advisory]
     reasoning_mode: plan-execute
 
+  - name: plan-as-agreement
+    path: skills/20-planning/plan-as-agreement/SKILL.md
+    description: Writes the plan.md as a fit-for-purpose agreement — auto-picks from 16 named formats (top-level, file-by-file, exact-diff, pseudocode, component-tree, sequence-diagram, state-machine, trace-before-patch, stats-driven-cleanup, spike, api-contract, data-migration, benchmark, multi-pr-staged, security-patch, test-coverage) and supports 2-3 format hybrids. Composes task-decomposition, risk-assessment, root-cause-analysis. Complements Claude Code, Cursor, Cline plan-mode harnesses.
+    tags: [category, design, planning, advisory]
+    reasoning_mode: plan-execute
+
 # --------------------------------------------------------------------------
 # Pragmatism Layer (25) — Aparigraha (non-accumulation)
 # Fires before implementation. Direction-of-thought, not rigid rule.
