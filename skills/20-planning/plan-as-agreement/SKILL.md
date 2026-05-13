@@ -662,3 +662,4 @@ Log entries are append-only.
 - [Skill: `risk-assessment`](../risk-assessment/SKILL.md) — risk matrix that feeds Data-Migration, API-Contract (breaking), Security-Patch, Multi-PR Staged.
 - [Skill: `estimation`](../estimation/SKILL.md) — sizing add-on.
 - [Skill: `root-cause-analysis`](../../60-debugging/root-cause-analysis/SKILL.md) — trace logic for Trace-Before-Patch.
+- [Docs: `plan-formats.md`](../../../docs/plan-formats.md) — 1-page cheat-sheet of all 16 formats.
