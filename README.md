@@ -40,38 +40,93 @@ inside any consumer repo, with no copy step.
 
 Treat this garden as a **single source of truth** for every other repo on your
 machine. A single Windows junction makes the `skills/` folder live-visible at a
-conventional path (`.cursor/skills`, `.claude/skills`, `.github/skills`, or
+conventional path (`.claude/skills`, `.cursor/skills`, `.github/skills`, or
 `skills`) inside any consumer repo. Edit or `git pull` here once — all
 consumer repos see the change immediately. No copies, no sync step.
 
-**First-machine setup (one time):**
+Two scripts do the work:
+
+1. **`setup-garden.ps1`** — run **once per machine**. Clones the garden into a
+   predictable, fork-safe path and remembers where it is.
+2. **`link-skills.ps1`** — run **once per consumer repo**. Creates the live
+   junction inside that repo.
+
+Both are safe by default: they print a **plan** of every action they're about to
+take and wait for `y/N` confirmation. Pass `-Yes` to skip the prompt for
+unattended runs (CI, scripting). Pass `-Help`, `-h`, `--help`, or `/?` for the
+short usage block; `-?` or `Get-Help -Detailed` for the full PowerShell help.
+
+### Help flags (both scripts accept all of these)
+
+| Flag | What you get |
+|------|--------------|
+| `-h`, `--help`, `-Help`, `/?` | Short, human-friendly usage block |
+| `-?` | Full comment-based help (PowerShell native, longer) |
+| `Get-Help .\<script>.ps1 -Detailed` | Full reference incl. all parameters, notes, examples |
+| `Get-Help .\<script>.ps1 -Examples` | Just the examples |
+| `Get-Help .\<script>.ps1 -Full` | Everything |
+
+### First-machine setup (one time)
 
 ```powershell
 iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
 ```
 
-This clones the garden to a fork-safe path (`<root>\github\<gh-user>\agentskills-garden`)
-and persists settings in `~/.gitconfig` under `[agentskills]`.
+You will be asked which agent convention you mostly use (`cursor` / `claude` /
+`github` / `generic`) — the answer is persisted as `agentskills.defaultTarget`
+in `~/.gitconfig` and reused by `link-skills.ps1` as its default. The script
+then prints a plan, waits for `y/N`, and on confirm clones the garden into
+`<root>\github\<gh-user>\agentskills-garden`.
 
-**Per consumer repo (run inside the repo):**
+For unattended setup (e.g. provisioning):
 
 ```powershell
-# Default: link the garden's skills into .cursor/skills
+.\setup-garden.ps1 -GhUser yourname -AddToPath -Yes
+```
+
+### Per consumer repo
+
+Run inside the repo:
+
+```powershell
+# Interactive: auto-detects .claude/ / .cursor/ / .github/ in $PWD,
+# shows a menu with the detected one highlighted, prints a plan, asks y/N.
 & "<garden>\scripts\link-skills.ps1"
 
-# Pick a different convention
-& "<garden>\scripts\link-skills.ps1" -Target claude      # .claude/skills
-& "<garden>\scripts\link-skills.ps1" -Target github      # .github/skills
-& "<garden>\scripts\link-skills.ps1" -Target generic     # skills
+# Skip the menu by naming a target explicitly:
+& "<garden>\scripts\link-skills.ps1" -Target claude       # .claude/skills
+& "<garden>\scripts\link-skills.ps1" -Target cursor       # .cursor/skills
+& "<garden>\scripts\link-skills.ps1" -Target github       # .github/skills
+& "<garden>\scripts\link-skills.ps1" -Target generic      # skills
 & "<garden>\scripts\link-skills.ps1" -Target custom -LinkPath ".agent/skills"
+
+# Skip BOTH the menu and the confirm prompt (CI / scripting):
+& "<garden>\scripts\link-skills.ps1" -Target claude -Yes
 
 # Inspect / remove
 & "<garden>\scripts\link-skills.ps1" -Status
 & "<garden>\scripts\link-skills.ps1" -Unlink
 ```
 
+If you ran `setup-garden.ps1 -AddToPath`, drop the `& "<garden>\scripts\"`
+prefix and just type `link-skills.ps1 ...`.
+
+### Quick reference cheat-sheet
+
+```
+# one-time, per machine
+setup-garden.ps1 -GhUser <you> -AddToPath
+
+# every consumer repo
+link-skills.ps1                 # interactive
+link-skills.ps1 -Status         # what is currently linked here?
+link-skills.ps1 -Unlink         # remove the link
+link-skills.ps1 -Help           # short usage; -? for full
+```
+
 Background, design decisions, and troubleshooting notes live in
-[docs/skills-bridge.md](docs/skills-bridge.md).
+[docs/skills-bridge.md](docs/skills-bridge.md). A linear walk-through for first-time
+users is in [docs/getting-started.md](docs/getting-started.md).
 
 ---
 

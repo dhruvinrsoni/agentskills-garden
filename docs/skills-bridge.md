@@ -58,7 +58,7 @@ restarts, and naturally groups related keys together.
     path = C:\root\github\dhruvinrsoni\agentskills-garden
     root = C:\root\github
     ghUser = dhruvinrsoni
-    defaultTarget = cursor
+    defaultTarget = claude
 ```
 
 Full resolution order in [scripts/link-skills.ps1](../scripts/link-skills.ps1):
@@ -93,6 +93,71 @@ git config --global --list | Select-String '^agentskills\.'
 prints everything in one shot. Extension is also trivial: want to add a
 default namespace for Cursor skills vs Claude skills? Just add another key
 under the same section. No new env var to document.
+
+## 4b. Target picker: which `.<convention>/skills` to create
+
+`link-skills.ps1` supports four named conventions plus a `custom` escape
+hatch:
+
+| Target    | Link path        | Intended for                          |
+|-----------|------------------|----------------------------------------|
+| `cursor`  | `.cursor/skills` | Cursor IDE                             |
+| `claude`  | `.claude/skills` | Claude Code / `claude.md`-driven flows |
+| `github`  | `.github/skills` | GitHub-flavoured agents                |
+| `generic` | `skills`         | No opinion / vanilla layout            |
+| `custom`  | (any path)       | Requires `-LinkPath <path>`            |
+
+When you pass `-Target <name>` on the CLI, the script just uses it and skips
+the menu. When you don't pass `-Target`, the script tries to be helpful:
+
+1. **Auto-detect.** It checks `$PWD` for an existing `.claude/`, `.cursor/`,
+   or `.github/` folder. If exactly one is present, that becomes the
+   highlighted default in the menu.
+2. **Persisted preference.** If auto-detect doesn't find exactly one folder,
+   it falls back to `agentskills.defaultTarget` from `~/.gitconfig` (set
+   by `setup-garden.ps1` the first time you ran it).
+3. **First-run default.** If neither of the above yields a value, it offers
+   `claude` — the project is Claude-Code-flavoured and `.claude/` is the most
+   common consumer layout for this garden's users.
+
+Worked example. In a repo that already has a `.claude/` folder:
+
+```
+Pick link target (in C:\work\my-app):
+  1) cursor   -> .cursor/skills
+  2) claude   -> .claude/skills          [detected in $PWD; default — Enter accepts]
+  3) github   -> .github/skills
+  4) generic  -> skills
+  5) custom   -> <your custom path>
+Choice [2]:                                          <-- press Enter
+```
+
+The script then prints a plan:
+
+```
+Plan:
+  Garden source:   C:\root\github\dhruvinrsoni\agentskills-garden\skills
+  Link target:     .claude/skills   (in C:\work\my-app)
+  Method:          junction (/J)
+  Add '/.claude/skills' to .gitignore (with a header comment).
+
+Proceed? [y/N]:                                      <-- press y, Enter
+```
+
+…and only after you confirm does it touch the filesystem.
+
+To skip the menu entirely (CI / scripting): `-Target claude -Yes`. To skip
+just the prompt but keep the menu: there isn't a flag for that on purpose —
+if you know your target, naming it on the CLI is shorter than answering a
+menu.
+
+**Cross-script integration**: `agentskills.defaultTarget` is set by
+`setup-garden.ps1` (which asks you once during first-machine setup) and read
+by `link-skills.ps1`. You can change it any time:
+
+```powershell
+git config --global agentskills.defaultTarget claude
+```
 
 ## 5. The `iwr | iex` one-liner
 
@@ -169,6 +234,60 @@ then re-run.
 The script auto-appends the link path to `.gitignore`. If you bypass this
 (e.g. not in a git repo), remember to do it manually — otherwise git on
 Windows will follow the junction and try to commit everything inside it.
+
+### "A confirmation prompt appeared in the middle of `iwr | iex`"
+By default both scripts print a plan and wait for `y/N`. The interactive
+prompt works because your terminal's stdin is still attached even through
+the `iex` pipe. For unattended runs (CI, provisioning), pass `-Yes`:
+
+```powershell
+$s = (iwr https://.../setup-garden.ps1).Content
+& ([scriptblock]::Create("$s -GhUser yourname -Yes"))
+```
+
+### "How do I dry-run / preview without committing?"
+Run the script without `-Yes`, read the printed `Plan:` block, then answer
+`n` at the `Proceed? [y/N]` prompt. Nothing has been changed yet at that
+point.
+
+### "I want to undo everything"
+Reverse order of operations:
+
+1. In every consumer repo that has a bridge link:
+   ```powershell
+   link-skills.ps1 -Unlink
+   ```
+   (Optionally remove the `.gitignore` entry the script added.)
+2. Remove the persisted git-config settings:
+   ```powershell
+   git config --global --remove-section agentskills
+   ```
+3. If you used `-AddToPath`, remove `<garden>\scripts` from your User PATH
+   (search User-scope env vars in Windows settings, or via PowerShell).
+4. Delete the garden folder.
+
+### "How do I pin to a specific commit for reproducibility?"
+Replace `/main/` in the `iwr` URL with the commit SHA:
+
+```powershell
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/setup-garden.ps1 | iex
+```
+
+### Where is the full reference for each script?
+Both scripts ship with extensive comment-based help:
+
+```powershell
+Get-Help .\scripts\setup-garden.ps1 -Detailed   # full reference
+Get-Help .\scripts\setup-garden.ps1 -Examples   # just examples
+Get-Help .\scripts\link-skills.ps1   -Full      # absolutely everything
+
+.\scripts\setup-garden.ps1 -Help                # short usage block
+.\scripts\link-skills.ps1   -h                  # same, short form
+```
+
+`-?` is also accepted by both scripts; PowerShell's native handling shows
+the long comment-based help. `-h`, `--help`, `-Help`, and `/?` show the
+short usage block.
 
 ## 9. Related files
 
