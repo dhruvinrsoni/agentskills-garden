@@ -1,0 +1,1281 @@
+{
+  "version": "4.0.0",
+  "foundation": [
+    {
+      "name": "auditor",
+      "path": "skills/000-foundation/auditor/SKILL.md",
+      "description": "The constitutional compliance validator. Cross-references every skill's output against the Constitution's three pillars and the task plan. Acts as \"law enforcement\" for the Agent Skills Garden.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "auditing",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "constitution",
+      "path": "skills/000-foundation/constitution/SKILL.md",
+      "description": "The foundational constitution of the Agent Skills Garden. Every skill, every action, every line of code must honour these principles.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "principles",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "librarian",
+      "path": "skills/000-foundation/librarian/SKILL.md",
+      "description": "Skill discovery and routing engine. Given a user's intent (even with typos or vague phrasing), finds and loads the most relevant skill(s) from the registry using fuzzy matching and semantic search.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "routing",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "orchestrator",
+      "path": "skills/000-foundation/orchestrator/SKILL.md",
+      "description": "Lightweight mid-task skill injection engine. Monitors task context as it evolves, detects domain shifts, and suggests loading relevant skills. Modular and non-intrusive — can be enabled or disabled independently without affecting core direction-seeking or routing.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "routing",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "pragmatism",
+      "path": "skills/000-foundation/pragmatism/SKILL.md",
+      "description": "Direction-of-thought protocol for working on real, ongoing business projects. Implements the Aparigraha pillar — non-accumulation of code, utilities, and refactors beyond what the task requires. Forces the agent to check before creating, conform within scope, stay surgical, and validate edge cases before trusting any reuse or improvement of existing code. Always loaded alongside the Constitution.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "principles",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "pragya",
+      "path": "skills/000-foundation/pragya/SKILL.md",
+      "description": "Direction-seeking protocol for AI agents. Implements the Pragya constitutional pillar — seek corrections rather than assume, present options with trade-offs, let the human steer. Embeds adaptive strategy evolution so agents pivot toward the greater good as exploration reveals new information.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "reasoning",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "scratchpad",
+      "path": "skills/000-foundation/scratchpad/SKILL.md",
+      "description": "Defines the agent's internal monologue protocol. Before producing any output, the agent reasons privately in a scratchpad block, selects Eco or Power mode, and applies the appropriate reasoning depth.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "reasoning",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "token-efficiency",
+      "path": "skills/000-foundation/token-efficiency/SKILL.md",
+      "description": "Optimizes agent resource consumption by selecting the right model tier, tool, delegation strategy, and parallelization pattern for each operation. Integrates with Eco/Power cognitive modes to scale resource usage proportionally to task complexity.",
+      "domain": "foundation",
+      "tags": [
+        "core",
+        "efficiency",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    }
+  ],
+  "discovery": [
+    {
+      "name": "domain-modeling",
+      "path": "skills/100-engineering/10-discovery/domain-modeling/SKILL.md",
+      "description": "Create and maintain a domain glossary with entities, relationships, and Protected Terms that must never be renamed.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "discovery",
+        "requirements",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "prd",
+      "path": "skills/100-engineering/10-discovery/prd/SKILL.md",
+      "description": "Adaptive PRD authoring — selects the right format (lean 1-pager, full structured, working backwards, or hypothesis-driven), guides section-by-section completion, and manages document lifecycle with versioning, status transitions, and amendment logging.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "discovery",
+        "requirements",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "requirements-elicitation",
+      "path": "skills/100-engineering/10-discovery/requirements-elicitation/SKILL.md",
+      "description": "Interview the user to extract goals, constraints, success metrics, and acceptance criteria before any code is written.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "discovery",
+        "requirements",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "architecture": [
+    {
+      "name": "adr-management",
+      "path": "skills/100-engineering/20-architecture/adr-management/SKILL.md",
+      "description": "Create, index, and maintain Architecture Decision Records (ADRs) using the Michael Nygard template.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "api-contract-design",
+      "path": "skills/100-engineering/20-architecture/api-contract-design/SKILL.md",
+      "description": "Design REST or gRPC API contracts (OpenAPI/Protobuf) before any implementation code is written. Contract-first development.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "database-design",
+      "path": "skills/100-engineering/20-architecture/database-design/SKILL.md",
+      "description": "Schema design, normalization analysis, migration planning, and index strategy for relational and NoSQL databases.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "db",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "pipeline-context",
+      "path": "skills/100-engineering/20-architecture/pipeline-context/SKILL.md",
+      "description": "Pre-compute expensive operations once and pass via shared context object to all pipeline stages. Eliminates O(n) recomputation in multi-stage processing.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "schema-driven-config",
+      "path": "skills/100-engineering/20-architecture/schema-driven-config/SKILL.md",
+      "description": "Define configuration as a single schema that powers defaults, validation, storage, and optional UI generation. One entry per setting, zero duplication.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "scorer-pipeline",
+      "path": "skills/100-engineering/20-architecture/scorer-pipeline/SKILL.md",
+      "description": "Decompose complex evaluation into independent, composable micro-scorers with shared context and explicit weights. Universal pattern for any multi-factor ranking or assessment system.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "system-design",
+      "path": "skills/100-engineering/20-architecture/system-design/SKILL.md",
+      "description": "High-level system architecture: component diagrams, data flow, scalability trade-offs, and technology selection.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "architecture",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "planning": [
+    {
+      "name": "dependency-analysis",
+      "path": "skills/100-engineering/20-planning/dependency-analysis/SKILL.md",
+      "description": "Analyse project dependencies — build dependency graphs, detect circular references, assess upgrade risks, and plan version migrations.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "planning",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "estimation",
+      "path": "skills/100-engineering/20-planning/estimation/SKILL.md",
+      "description": "Produce effort estimates with confidence intervals, calibrate against historical data, and communicate uncertainty clearly.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "planning",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "plan-as-agreement",
+      "path": "skills/100-engineering/20-planning/plan-as-agreement/SKILL.md",
+      "description": "Writes the plan.md as a fit-for-purpose agreement between user and agent. Auto-selects one of 16 named plan formats (or a 2-3 format hybrid) based on task signals — top-level, file-by-file, exact-diff, pseudocode-first, component-tree, sequence-diagram, state-machine, trace-before-patch, stats-driven-cleanup, spike, api-contract, data-migration, benchmark, multi-pr-staged, security-patch, test-coverage. Composes task-decomposition, risk-assessment, estimation, root-cause-analysis when needed. Complements Claude Code, Cursor, and Cline plan-mode harnesses — doesn't replace them.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "planning",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "risk-assessment",
+      "path": "skills/100-engineering/20-planning/risk-assessment/SKILL.md",
+      "description": "Identify project and technical risks, evaluate probability and impact, build risk matrices, and define mitigation strategies.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "planning",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "task-decomposition",
+      "path": "skills/100-engineering/20-planning/task-decomposition/SKILL.md",
+      "description": "Break complex tasks into ordered subtasks with dependency mapping, effort estimation, and parallel execution opportunities.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "planning",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "pragmatism": [
+    {
+      "name": "aparigraha-task",
+      "path": "skills/100-engineering/25-pragmatism/aparigraha-task/SKILL.md",
+      "description": "Master workflow for any change touching an existing project. Walks the Aparigraha gates end-to-end — onboarding, dependency awareness, style detection, reuse-first authoring, surgical diff, post-execution audit — by orchestrating the foundation `pragmatism` philosophy and the `25-pragmatism` category skills. Contains no implementation logic.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "brownfield-onboarding",
+      "path": "skills/100-engineering/25-pragmatism/brownfield-onboarding/SKILL.md",
+      "description": "Structured first-touch protocol for understanding an existing codebase before contributing to it. Reads the README, ADRs, most-changed and most-recent files, dependency manifests, build/CI config, and test layout, and emits an onboarding cheat-sheet other Aparigraha skills (style-conformance, reuse-first, minimal-diff, chesterton-fence) consume on subsequent tasks.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "discovery",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "chesterton-fence",
+      "path": "skills/100-engineering/25-pragmatism/chesterton-fence/SKILL.md",
+      "description": "Before deleting, refactoring, or \"cleaning up\" code that looks unused, redundant, or weird, investigate why it exists. Produces a why-it-exists memo plus an edge-case checklist that must be confirmed before any change to the existing code is committed. Implements the Chesterton's-Fence side of Validate-Before-Trust under Aparigraha.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "dependency-utility-scout",
+      "path": "skills/100-engineering/25-pragmatism/dependency-utility-scout/SKILL.md",
+      "description": "Mine the project's declared dependencies (BOM, package.json, requirements.txt, Pipfile, go.mod, Cargo.toml, etc.) and produce a curated inventory of the utilities they expose, so reuse-first and other Aparigraha skills can decide quickly without rediscovering the graph each time. Consults; never auto-rewrites.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "minimal-diff",
+      "path": "skills/100-engineering/25-pragmatism/minimal-diff/SKILL.md",
+      "description": "Generate the smallest correct change that solves the stated problem. No drive-by formatting, no opportunistic renames, no \"while I'm here\" expansions. Implements the Surgical-Before-Sweeping gate of Aparigraha with diff-size guardrails, scope checks, and reversibility validation.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "reuse-first",
+      "path": "skills/100-engineering/25-pragmatism/reuse-first/SKILL.md",
+      "description": "Before authoring any new utility, helper, wrapper, or abstraction, scan the project's existing source and declared dependencies for an equivalent. Reuse only after fit and edge-case validation; otherwise document why nothing fit and write fresh. Implements the Check-Before-Create and Validate-Before-Trust gates of Aparigraha.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "style-conformance",
+      "path": "skills/100-engineering/25-pragmatism/style-conformance/SKILL.md",
+      "description": "Detect the project's existing coding conventions — naming, formatting, error handling, logging, test structure, comment style, module layout — and produce a \"house style profile\" that downstream skills consult when writing or modifying code. Awareness, not enforcement: the agent conforms within the scope of the change and surfaces deviations rather than auto-fixing them.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "pragmatism",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "implementation": [
+    {
+      "name": "api-implementation",
+      "path": "skills/100-engineering/30-implementation/api-implementation/SKILL.md",
+      "description": "Implement API handlers/controllers based on an existing API contract (OpenAPI spec). Generates route handlers, validation, and error handling.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "coding",
+        "backend",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "cleanup",
+      "path": "skills/100-engineering/30-implementation/cleanup/SKILL.md",
+      "description": "Remove noise, enforce formatting, and safely rename identifiers. A mixed-mode skill: cosmetic fixes run in Eco, renaming runs in Power.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "refactoring",
+        "reversible"
+      ],
+      "reasoning_mode": "mixed",
+      "status": "published"
+    },
+    {
+      "name": "code-generation",
+      "path": "skills/100-engineering/30-implementation/code-generation/SKILL.md",
+      "description": "Generate production-ready code from specifications, templates, and domain models. Enforces language idioms, DRY principles, and project conventions.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "coding",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "data-access",
+      "path": "skills/100-engineering/30-implementation/data-access/SKILL.md",
+      "description": "Implement data access layers using the Repository pattern. Prevents N+1 queries, manages transactions, and optimizes reads.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "coding",
+        "db",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "error-handling",
+      "path": "skills/100-engineering/30-implementation/error-handling/SKILL.md",
+      "description": "Standardize error types, logging formats, and error response structures across the project.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "resilience",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "feature-shipping",
+      "path": "skills/100-engineering/30-implementation/feature-shipping/SKILL.md",
+      "description": "Master workflow for shipping a feature end-to-end. Orchestrates PRD authoring, task decomposition, TDD implementation, code review, and the release pipeline as a single named sequence ending in an audit. Contains no implementation logic.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "build",
+        "coding",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "refactoring",
+      "path": "skills/100-engineering/30-implementation/refactoring/SKILL.md",
+      "description": "Safely restructure code while preserving external behavior. Applies proven refactoring patterns with mandatory test verification.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "refactoring",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "refactoring-suite",
+      "path": "skills/100-engineering/30-implementation/refactoring-suite/SKILL.md",
+      "description": "Complex refactoring operations with strict test verification. Every refactor follows: Test → Refactor → Test → Revert-on-Fail.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "refactoring",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "refactoring-workflow",
+      "path": "skills/100-engineering/30-implementation/refactoring-workflow/SKILL.md",
+      "description": "Master workflow for refactoring at four named depth levels — cosmetic, micro, meso, architectural — that compose as a ladder. Always runs chesterton-fence and style-conformance up front; always closes with a characterisation/test safety net, minimal-diff scope checks, and the auditor. Contains no implementation logic; orchestrates only existing category skills.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "build",
+        "refactoring",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "resilience-patterns",
+      "path": "skills/100-engineering/30-implementation/resilience-patterns/SKILL.md",
+      "description": "Graceful degradation when external dependencies fail. Circuit breaker state machine, retry with backoff, bulkhead isolation, fallback chains, and timeout management.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "resilience",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "tdd-workflow",
+      "path": "skills/100-engineering/30-implementation/tdd-workflow/SKILL.md",
+      "description": "Drive implementation through the Red-Green-Refactor cycle. Write failing tests first, implement minimal code to pass, then refactor.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "testing",
+        "reversible"
+      ],
+      "reasoning_mode": "tdd",
+      "status": "published"
+    }
+  ],
+  "quality": [
+    {
+      "name": "code-review",
+      "path": "skills/100-engineering/40-quality/code-review/SKILL.md",
+      "description": "Perform structured code reviews with checklists, PR feedback, defect categorization, and severity classification.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "review",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "integration-testing",
+      "path": "skills/100-engineering/40-quality/integration-testing/SKILL.md",
+      "description": "Test across component boundaries using real databases, HTTP clients, and message queues via Docker containers.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "testing",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "mutation-testing",
+      "path": "skills/100-engineering/40-quality/mutation-testing/SKILL.md",
+      "description": "Verify test suite quality by injecting faults (mutants) into the code and checking if tests catch them.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "testing",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "performance-review",
+      "path": "skills/100-engineering/40-quality/performance-review/SKILL.md",
+      "description": "Identify performance bottlenecks through complexity analysis, profiling review, caching strategy evaluation, and resource utilization assessment.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "performance",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "pr-review-flow",
+      "path": "skills/100-engineering/40-quality/pr-review-flow/SKILL.md",
+      "description": "Master workflow for a thorough PR review. Orchestrates code review, security review, and performance review in parallel, then routes the findings into PR management for triage and merge decisioning. No implementation logic.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "ship",
+        "review",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "security-review",
+      "path": "skills/100-engineering/40-quality/security-review/SKILL.md",
+      "description": "Perform security-focused code review covering OWASP Top 10, vulnerability scanning, secret detection, and input validation.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "security",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "test-strategy",
+      "path": "skills/100-engineering/40-quality/test-strategy/SKILL.md",
+      "description": "Define the testing pyramid for a project: unit, integration, E2E. Set coverage targets and testing conventions.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "testing",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "testing-strategy",
+      "path": "skills/100-engineering/40-quality/testing-strategy/SKILL.md",
+      "description": "Define test pyramid structure, coverage analysis, test type selection, and boundary condition identification for comprehensive quality assurance.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "testing",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "two-pass-analysis",
+      "path": "skills/100-engineering/40-quality/two-pass-analysis/SKILL.md",
+      "description": "Decouple metric collection from pass/fail gating. Pass 1 gathers raw data. Pass 2 applies thresholds. Enables trend analysis without blocking, while still enforcing standards.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "review",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "unit-testing",
+      "path": "skills/100-engineering/40-quality/unit-testing/SKILL.md",
+      "description": "Generate unit tests following AAA pattern (Arrange-Act-Assert). Supports Jest, JUnit, Go Test, PyTest, and more.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "testing",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    }
+  ],
+  "documentation": [
+    {
+      "name": "api-documentation",
+      "path": "skills/100-engineering/50-documentation/api-documentation/SKILL.md",
+      "description": "Generate, validate, and maintain API endpoint documentation including OpenAPI specs, request/response examples, and versioned API references.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "changelog-generation",
+      "path": "skills/100-engineering/50-documentation/changelog-generation/SKILL.md",
+      "description": "Generate changelogs from commit history using semantic versioning and conventional commits, including release notes and breaking change notices.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "decision-records",
+      "path": "skills/100-engineering/50-documentation/decision-records/SKILL.md",
+      "description": "Create, manage, and query Architectural Decision Records (ADRs) using the context/decision/consequences format to capture design rationale.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "inline-documentation",
+      "path": "skills/100-engineering/50-documentation/inline-documentation/SKILL.md",
+      "description": "Analyze, generate, and improve inline code documentation including JSDoc, docstrings, type annotations, and comment quality.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    }
+  ],
+  "performance": [
+    {
+      "name": "caching-strategy",
+      "path": "skills/100-engineering/50-performance/caching-strategy/SKILL.md",
+      "description": "Design and implement caching layers using Redis, Memcached, or in- memory caches with proper invalidation strategies.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "performance",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "db-tuning",
+      "path": "skills/100-engineering/50-performance/db-tuning/SKILL.md",
+      "description": "Database performance tuning: index analysis, query plan optimization, connection pooling, and configuration tuning.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "performance",
+        "db",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "profiling-analysis",
+      "path": "skills/100-engineering/50-performance/profiling-analysis/SKILL.md",
+      "description": "Analyze application performance using profiling tools, traces, and logs to identify bottlenecks and hotspots.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "performance",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "progressive-execution",
+      "path": "skills/100-engineering/50-performance/progressive-execution/SKILL.md",
+      "description": "Return fast approximate results immediately (Phase 1), then enhance with slower enriched results (Phase 2). Phase 1 is standalone. Phase 2 is optional enhancement. If Phase 2 fails, Phase 1 stands.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "performance",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "resource-awareness",
+      "path": "skills/100-engineering/50-performance/resource-awareness/SKILL.md",
+      "description": "Monitor memory, CPU, time, and rate-limit constraints. Adapt behavior gracefully — degrade, shed load, switch algorithms. Prevents runaway resource usage and cascading failures.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "performance",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    }
+  ],
+  "debugging": [
+    {
+      "name": "error-handling-debug",
+      "path": "skills/100-engineering/60-debugging/error-handling-debug/SKILL.md",
+      "description": "Debug and improve error handling strategies including exception hierarchies, retry logic, graceful degradation, and circuit breakers.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "debugging",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "log-analysis",
+      "path": "skills/100-engineering/60-debugging/log-analysis/SKILL.md",
+      "description": "Parse, correlate, and analyze application logs to detect patterns, anomalies, and causal chains across distributed systems.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "debugging",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "root-cause-analysis",
+      "path": "skills/100-engineering/60-debugging/root-cause-analysis/SKILL.md",
+      "description": "Systematically trace symptoms back to their underlying cause using 5-whys, fault trees, bisection, and symptom-to-cause mapping.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "debugging",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "security": [
+    {
+      "name": "auth-implementation",
+      "path": "skills/100-engineering/60-security/auth-implementation/SKILL.md",
+      "description": "Implement authentication and authorization safely: JWT, OAuth2, RBAC, or API key strategies.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "security",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "dependency-scanning",
+      "path": "skills/100-engineering/60-security/dependency-scanning/SKILL.md",
+      "description": "Scan project dependencies for known CVEs and license compliance issues. Works with npm, pip, go mod, Maven, NuGet.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "security",
+        "safety-critical"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "secure-coding-review",
+      "path": "skills/100-engineering/60-security/secure-coding-review/SKILL.md",
+      "description": "Review code for OWASP Top 10 vulnerabilities, common security anti- patterns, and language-specific pitfalls.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "security",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "threat-modeling",
+      "path": "skills/100-engineering/60-security/threat-modeling/SKILL.md",
+      "description": "Identify threats using STRIDE methodology, assess risk, and prioritize mitigations for a system or component.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "design",
+        "security",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "devops": [
+    {
+      "name": "ci-pipeline",
+      "path": "skills/100-engineering/70-devops/ci-pipeline/SKILL.md",
+      "description": "Generate CI/CD pipeline configurations for GitHub Actions, GitLab CI, or Azure Pipelines.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "devops",
+        "infra",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "docker-containerization",
+      "path": "skills/100-engineering/70-devops/docker-containerization/SKILL.md",
+      "description": "Write optimized Dockerfiles with multi-stage builds, security best practices, and minimal image sizes.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "devops",
+        "infra",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "kubernetes-helm",
+      "path": "skills/100-engineering/70-devops/kubernetes-helm/SKILL.md",
+      "description": "Generate Kubernetes manifests and Helm charts for deploying containerized applications to K8s clusters.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "devops",
+        "infra",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "monitoring-setup",
+      "path": "skills/100-engineering/70-devops/monitoring-setup/SKILL.md",
+      "description": "Design and configure observability stacks covering metrics, logs, traces, alerting, SLIs/SLOs, and dashboards.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "devops",
+        "infra",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "release-pipeline",
+      "path": "skills/100-engineering/70-devops/release-pipeline/SKILL.md",
+      "description": "Master workflow for cutting a release. Orchestrates test strategy selection, changelog generation, and CI pipeline invocation as a single named sequence ending in an audit. Contains no implementation logic.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "ship",
+        "devops",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "terraform-iac",
+      "path": "skills/100-engineering/70-devops/terraform-iac/SKILL.md",
+      "description": "Generate Infrastructure as Code using Terraform (or OpenTofu). Modules, state management, and environment separation.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "devops",
+        "infra",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "collaboration": [
+    {
+      "name": "git-workflow",
+      "path": "skills/100-engineering/80-collaboration/git-workflow/SKILL.md",
+      "description": "Guide branching strategies, commit conventions, merge vs rebase decisions, and conflict resolution workflows for consistent version control practices.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "collaboration",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "knowledge-sharing",
+      "path": "skills/100-engineering/80-collaboration/knowledge-sharing/SKILL.md",
+      "description": "Establish documentation culture, wikis, runbooks, onboarding guides, and tribal knowledge capture to reduce bus factor and accelerate teams.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "collaboration",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "naming-conventions",
+      "path": "skills/100-engineering/80-collaboration/naming-conventions/SKILL.md",
+      "description": "Name scripts, tools, and files so their name tells you when and how to use them. CLI tools you run are verb-noun; imported libraries are nouns; internal helpers start with an underscore. Apply when adding or renaming any script.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "collaboration",
+        "advisory"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "pair-programming",
+      "path": "skills/100-engineering/80-collaboration/pair-programming/SKILL.md",
+      "description": "Facilitate effective pair and mob programming sessions including role rotation, session structure, and knowledge transfer practices.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "build",
+        "collaboration",
+        "advisory"
+      ],
+      "reasoning_mode": "mixed",
+      "status": "published"
+    },
+    {
+      "name": "pr-management",
+      "path": "skills/100-engineering/80-collaboration/pr-management/SKILL.md",
+      "description": "Manage pull request lifecycle including templates, reviewer assignment, merge criteria, and stale PR handling for efficient code integration.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "collaboration",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ],
+  "docs": [
+    {
+      "name": "openapi-specs",
+      "path": "skills/100-engineering/80-docs/openapi-specs/SKILL.md",
+      "description": "Generate or update OpenAPI (Swagger) specifications from existing code, or validate code against existing specs.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "readme-generation",
+      "path": "skills/100-engineering/80-docs/readme-generation/SKILL.md",
+      "description": "Create comprehensive README files with installation instructions, usage examples, API reference, and contribution guidelines.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    },
+    {
+      "name": "release-notes",
+      "path": "skills/100-engineering/80-docs/release-notes/SKILL.md",
+      "description": "Parse git history to generate changelogs and release notes following Conventional Commits and Keep a Changelog formats.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "ship",
+        "docs",
+        "reversible"
+      ],
+      "reasoning_mode": "linear",
+      "status": "published"
+    }
+  ],
+  "maintenance": [
+    {
+      "name": "dependency-updates",
+      "path": "skills/100-engineering/90-maintenance/dependency-updates/SKILL.md",
+      "description": "Automate and manage dependency updates with semver-aware compatibility checks, breaking change detection, and lockfile management.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "deprecation-management",
+      "path": "skills/100-engineering/90-maintenance/deprecation-management/SKILL.md",
+      "description": "Manage deprecation lifecycles including notices, sunset timelines, migration paths, and backward compatibility guarantees.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "incident-response",
+      "path": "skills/100-engineering/90-maintenance/incident-response/SKILL.md",
+      "description": "Structured steps to triage, mitigate, and resolve production incidents. Includes severity classification and postmortem template.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "operate",
+        "maintenance",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "incident-response-flow",
+      "path": "skills/100-engineering/90-maintenance/incident-response-flow/SKILL.md",
+      "description": "Master workflow for production incidents. Orchestrates incident response triage, root-cause analysis, log analysis, and decision-record capture into a single named sequence ending in an audit. Contains no implementation logic.",
+      "domain": "engineering",
+      "tags": [
+        "master",
+        "operate",
+        "maintenance",
+        "safety-critical"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "legacy-upgrade",
+      "path": "skills/100-engineering/90-maintenance/legacy-upgrade/SKILL.md",
+      "description": "Plan and execute upgrades of major frameworks, languages, or runtime versions with minimal disruption.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "migration-planning",
+      "path": "skills/100-engineering/90-maintenance/migration-planning/SKILL.md",
+      "description": "Plan and coordinate version upgrades, data migrations, rollback strategies, and blue-green deployments for safe system transitions.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "irreversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "repo-maintenance",
+      "path": "skills/100-engineering/90-maintenance/repo-maintenance/SKILL.md",
+      "description": "Adaptive cleanup framework for repo-wide structural optimization. Embodies the principle: start simple, explore, discover value, pivot strategy toward the greater good. Deletion is the last resort. Cleanup is the example — adaptive direction-seeking is the lesson.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "reversible"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    },
+    {
+      "name": "tech-debt-tracking",
+      "path": "skills/100-engineering/90-maintenance/tech-debt-tracking/SKILL.md",
+      "description": "Categorize, score, and prioritize technical debt with impact analysis, payoff estimation, and debt budget management.",
+      "domain": "engineering",
+      "tags": [
+        "category",
+        "maintain",
+        "maintenance",
+        "advisory"
+      ],
+      "reasoning_mode": "plan-execute",
+      "status": "published"
+    }
+  ]
+}

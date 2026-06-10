@@ -1,0 +1,12 @@
+# Foundation skills (generated)
+
+| skill | what it does | keywords | path |
+|---|---|---|---|
+| auditor | The constitutional compliance validator. Cross-references every skill's output against the Constitution's three pillars and the task plan. Acts as "law enforcement" for the Agent Skills Garden. |  | skills/000-foundation/auditor/SKILL.md |
+| constitution | The foundational constitution of the Agent Skills Garden. Every skill, every action, every line of code must honour these principles. |  | skills/000-foundation/constitution/SKILL.md |
+| librarian | Skill discovery and routing engine. Given a user's intent (even with typos or vague phrasing), finds and loads the most relevant skill(s) from the registry using fuzzy matching and semantic search. |  | skills/000-foundation/librarian/SKILL.md |
+| orchestrator | Lightweight mid-task skill injection engine. Monitors task context as it evolves, detects domain shifts, and suggests loading relevant skills. Modular and non-intrusive — can be enabled or disabled independently without affecting core direction-seeking or routing. |  | skills/000-foundation/orchestrator/SKILL.md |
+| pragmatism | Direction-of-thought protocol for working on real, ongoing business projects. Implements the Aparigraha pillar — non-accumulation of code, utilities, and refactors beyond what the task requires. Forces the agent to check before creating, conform within scope, stay surgical, and validate edge cases before trusting any reuse or improvement of existing code. Always loaded alongside the Constitution. |  | skills/000-foundation/pragmatism/SKILL.md |
+| pragya | Direction-seeking protocol for AI agents. Implements the Pragya constitutional pillar — seek corrections rather than assume, present options with trade-offs, let the human steer. Embeds adaptive strategy evolution so agents pivot toward the greater good as exploration reveals new information. |  | skills/000-foundation/pragya/SKILL.md |
+| scratchpad | Defines the agent's internal monologue protocol. Before producing any output, the agent reasons privately in a scratchpad block, selects Eco or Power mode, and applies the appropriate reasoning depth. |  | skills/000-foundation/scratchpad/SKILL.md |
+| token-efficiency | Optimizes agent resource consumption by selecting the right model tier, tool, delegation strategy, and parallelization pattern for each operation. Integrates with Eco/Power cognitive modes to scale resource usage proportionally to task complexity. |  | skills/000-foundation/token-efficiency/SKILL.md |

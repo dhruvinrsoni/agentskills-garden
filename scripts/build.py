@@ -1,14 +1,14 @@
 """
-build_site.py — Static site generator for agentskills-garden.
+build.py — Static site generator for agentskills-garden.
 
 Reads registry.yaml + skills/**/SKILL.md + docs/**/*.md and emits a static
 site to _site/. Open-closed: adding a skill or category does not require
 touching this script. The 5-axis tag taxonomy is consumed from
-scripts/tag_axes.py (the same source of truth validate_skills.py uses).
+scripts/taxonomy.py (the same source of truth validate.py uses).
 
 Usage:
-  python scripts/build_site.py            # build to _site/
-  python scripts/build_site.py --serve    # build then serve at :8000
+  python scripts/build.py            # build to _site/
+  python scripts/build.py --serve    # build then serve at :8000
 
 Env vars:
   BASE_URL         path prefix for production (e.g. /agentskills-garden).
@@ -38,9 +38,12 @@ try:
 except ImportError:
     md_lib = None
 
-# Local helper module — same axis vocab the validator uses.
+# Local helper modules — same vocab + parsing the validator uses.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from tag_axes import AXES, classify  # noqa: E402
+from taxonomy import (  # noqa: E402
+    AXES, classify, REGISTERED_DOMAINS, FLAT_DOMAINS, domain_folder,
+)
+from skill_lib import walk_skills  # noqa: E402
 
 # ──────────────────────────────────────────────────────────────────────────
 # Paths
@@ -52,6 +55,11 @@ SKILLS_DIR = os.path.join(REPO_ROOT, "skills")
 DOCS_DIR = os.path.join(REPO_ROOT, "docs")
 TEMPLATES_DIR = os.path.join(SCRIPT_DIR, "site_templates")
 OUTPUT_DIR = os.path.join(REPO_ROOT, "_site")
+INDEX_DIR = os.path.join(SKILLS_DIR, "_index")  # generated tiered index (committed)
+REGISTRY_JSON_PATH = os.path.join(REPO_ROOT, "registry.json")
+SEARCH_INDEX_PATH = os.path.join(OUTPUT_DIR, "search-index.json")
+
+REGISTRY_VERSION = "4.0.0"  # v4 = frontmatter-as-source, generated registry
 
 GITHUB_REPO_URL = "https://github.com/dhruvinrsoni/agentskills-garden"
 DEFAULT_CANONICAL = "https://dhruvinrsoni.github.io/agentskills-garden"
@@ -66,14 +74,14 @@ PILLARS = [
     {"name": "Pragya", "meaning": "wisdom & direction"},
 ]
 
+# Optional pretty-name overrides. Any folder not listed here derives its display
+# name from the folder slug (open-closed: a new category/domain needs no edit).
 CATEGORY_DISPLAY = {
-    "00-foundation":   "Foundation",
     "10-discovery":    "Discovery",
     "20-architecture": "Architecture",
     "20-planning":     "Planning",
     "25-pragmatism":   "Pragmatism",
     "30-implementation": "Implementation",
-    "30-debugging":    "Debugging",
     "40-quality":      "Quality",
     "50-performance":  "Performance",
     "50-documentation": "Documentation",
@@ -84,6 +92,23 @@ CATEGORY_DISPLAY = {
     "80-collaboration": "Collaboration",
     "90-maintenance":  "Maintenance",
 }
+
+DOMAIN_DISPLAY = {
+    "foundation":  "Foundation",
+    "engineering": "Engineering",
+    "writing":     "Writing",
+    "data-ml":     "Data & ML",
+    "business":    "Business",
+}
+
+
+def display_name(slug: str, override: Dict[str, str]) -> str:
+    """Pretty name for a folder/domain slug, with optional override map."""
+    if slug in override:
+        return override[slug]
+    # '30-implementation' -> 'Implementation'; 'data-ml' -> 'Data Ml'
+    tail = slug.split("-", 1)[-1] if slug[:2].isdigit() else slug
+    return tail.replace("-", " ").title()
 
 # Top-level docs to surface as prose pages. Path is relative to docs/.
 PROSE_PAGES = [
@@ -187,7 +212,7 @@ def md_to_html(text: str) -> str:
 # Data model
 # ──────────────────────────────────────────────────────────────────────────
 def axis_split(tags: List[str]) -> Dict[str, List[str]]:
-    """Group tags by the axis they belong to (per scripts/tag_axes.py)."""
+    """Group tags by the axis they belong to (per scripts/taxonomy.py)."""
     out = {axis: [] for axis in AXES}
     for tag in tags:
         axis = classify(str(tag))
@@ -196,42 +221,48 @@ def axis_split(tags: List[str]) -> Dict[str, List[str]]:
     return out
 
 
-def build_skill(entry: Dict[str, Any]) -> Dict[str, Any]:
-    name = entry["name"]
-    rel_path = entry["path"]
-    abs_path = os.path.join(REPO_ROOT, rel_path.replace("/", os.sep))
-    tags = list(entry.get("tags") or [])
+def _norm(text: str) -> str:
+    """Collapse whitespace (block-scalar descriptions span lines)."""
+    return " ".join(str(text or "").split())
 
-    fm: Dict[str, Any] = {}
-    body = ""
-    if os.path.isfile(abs_path):
-        with open(abs_path, "r", encoding="utf-8") as fh:
-            text = fh.read()
-        fm, body = split_frontmatter(text)
+
+def build_skill(rec: Dict[str, Any]) -> Dict[str, Any]:
+    """Build a render-ready skill dict from a walk_skills() record. Frontmatter
+    is the source of truth for tags/description/keywords/status/domain."""
+    fm = rec["fm"]
+    body = rec["body"]
+    name = fm.get("name") or rec["dir_name"]
+    rel_path = rec["rel_path"]
+    tags = list(fm.get("tags") or [])
+    keywords = [str(k) for k in (fm.get("keywords") or [])]
 
     meta = (fm.get("metadata") or {}) if isinstance(fm, dict) else {}
     deps_raw = meta.get("dependencies") or ""
     deps = [d.strip() for d in str(deps_raw).split(",") if d.strip()]
 
     title = extract_h1(body) or name
-    first_md = extract_first_section_md(body)
-    first_html = md_to_html(first_md)
+    first_html = md_to_html(extract_first_section_md(body))
     sections = list_section_headings(body)
-    # Skip the first section in the "what the full skill covers" list, since
-    # we already render it on the page. Keep up to 8 follow-on sections.
     preview_sections = sections[1:9] if len(sections) > 1 else []
 
-    parts = rel_path.split("/")
-    category_dir = parts[1] if len(parts) >= 3 else ""
+    description = _norm(fm.get("description", ""))
+    domain = rec["domain"]
+    category_dir = rec["category_dir"] or ""
+    category = rec["category"] or ""
 
     return {
         "name": name,
-        "description": entry.get("description", "").strip(),
+        "description": description,
         "tags": tags,
         "axes": axis_split(tags),
-        "reasoning_mode": entry.get("reasoning_mode", meta.get("reasoning_mode", "")),
+        "keywords": keywords,
+        "status": str(fm.get("status", "published")),
+        "reasoning_mode": str(meta.get("reasoning_mode", "")),
+        "domain": domain,
+        "domain_name": display_name(domain, DOMAIN_DISPLAY),
         "category_dir": category_dir,
-        "category_section": entry.get("_section", ""),
+        "category": category,
+        "category_name": display_name(category_dir, CATEGORY_DISPLAY) if category_dir else "",
         "rel_path": rel_path,
         "github_blob_url": f"{GITHUB_REPO_URL}/blob/main/{rel_path}",
         "github_edit_url": f"{GITHUB_REPO_URL}/edit/main/{rel_path}",
@@ -242,52 +273,71 @@ def build_skill(entry: Dict[str, Any]) -> Dict[str, Any]:
         "skill_type": str(meta.get("skill_type", "standard")),
         "license": str(fm.get("license", "")),
         "dependencies": deps,
-        "search_text": (name + " " + entry.get("description", "")).lower(),
+        "search_text": " ".join([name, description, " ".join(keywords), " ".join(tags)]).lower(),
     }
 
 
-def load_registry() -> Tuple[List[Dict[str, Any]], Dict[str, List[Dict[str, Any]]]]:
-    with open(REGISTRY_PATH, "r", encoding="utf-8") as fh:
-        reg = yaml.safe_load(fh)
+# Statuses that appear on the public site / in search.
+_PUBLIC_STATUSES = {"published", "deprecated"}
 
-    skills: List[Dict[str, Any]] = []
-    by_section: Dict[str, List[Dict[str, Any]]] = {}
 
-    for section, items in reg.items():
-        if section in _META_KEYS or not isinstance(items, list):
-            continue
-        for entry in items:
-            if not isinstance(entry, dict) or "name" not in entry:
-                continue
-            entry = dict(entry)  # don't mutate the parsed yaml
-            entry["_section"] = section
-            # Skip entries that don't point at a SKILL.md (templates excluded).
-            path = entry.get("path", "")
-            if not path.endswith("SKILL.md"):
-                continue
-            built = build_skill(entry)
-            skills.append(built)
-            by_section.setdefault(section, []).append(built)
-
-    skills.sort(key=lambda s: (s["category_dir"], s["name"]))
-    return skills, by_section
+def load_skills() -> List[Dict[str, Any]]:
+    """Frontmatter-driven discovery: walk skills/ and build every public skill.
+    Replaces the old registry-driven load_registry()."""
+    skills = [build_skill(rec) for rec in walk_skills(SKILLS_DIR)]
+    skills = [s for s in skills if s["status"] in _PUBLIC_STATUSES]
+    skills.sort(key=lambda s: (s["domain"], s["category_dir"], s["name"]))
+    return skills
 
 
 def build_categories(skills: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     by_dir: Dict[str, List[Dict[str, Any]]] = {}
+    domain_of: Dict[str, str] = {}
     for s in skills:
         if not s["category_dir"]:
             continue
         by_dir.setdefault(s["category_dir"], []).append(s)
+        domain_of[s["category_dir"]] = s["domain"]
     cats = []
     for d, ss in sorted(by_dir.items()):
         cats.append({
             "dir": d,
-            "name": CATEGORY_DISPLAY.get(d, d.split("-", 1)[-1].title()),
+            "name": display_name(d, CATEGORY_DISPLAY),
+            "domain": domain_of[d],
+            "domain_name": display_name(domain_of[d], DOMAIN_DISPLAY),
             "skills": ss,
             "count": len(ss),
         })
     return cats
+
+
+def build_domains(skills: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Group skills by top-level domain, preserving REGISTERED_DOMAINS order."""
+    by_domain: Dict[str, List[Dict[str, Any]]] = {}
+    for s in skills:
+        by_domain.setdefault(s["domain"], []).append(s)
+
+    order = list(REGISTERED_DOMAINS.keys())
+    def dkey(d: str) -> int:
+        return order.index(d) if d in order else len(order)
+
+    domains = []
+    for d in sorted(by_domain, key=dkey):
+        ss = sorted(by_domain[d], key=lambda s: (s["category_dir"], s["name"]))
+        cat_dirs = sorted({s["category_dir"] for s in ss if s["category_dir"]})
+        domains.append({
+            "slug": d,
+            "name": display_name(d, DOMAIN_DISPLAY),
+            "folder": domain_folder(d) or d,
+            "skills": ss,
+            "count": len(ss),
+            "categories": [
+                {"dir": cd, "name": display_name(cd, CATEGORY_DISPLAY),
+                 "count": sum(1 for s in ss if s["category_dir"] == cd)}
+                for cd in cat_dirs
+            ],
+        })
+    return domains
 
 
 def build_tag_indexes(skills: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
@@ -314,7 +364,7 @@ def build_axis_choices(skills: List[Dict[str, Any]]) -> Dict[str, List[str]]:
 
 def find_related(skills: List[Dict[str, Any]], skill: Dict[str, Any], limit: int = 4) -> List[Dict[str, Any]]:
     """Skills sharing the most tags (excluding scope/risk which are too generic)."""
-    weight_axes = {"lifecycle", "capability", "domain"}
+    weight_axes = {"lifecycle", "capability", "stack"}
     own_tags = set()
     for axis in weight_axes:
         own_tags.update(skill["axes"].get(axis, []))
@@ -338,8 +388,138 @@ def find_related(skills: List[Dict[str, Any]], skill: Dict[str, Any], limit: int
 # ──────────────────────────────────────────────────────────────────────────
 def write(path: str, content: str) -> None:
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as fh:
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         fh.write(content)
+
+
+# ──────────────────────────────────────────────────────────────────────────
+# Generated artifacts: tiered index, registry, search index
+# ──────────────────────────────────────────────────────────────────────────
+def _md_cell(text: str) -> str:
+    """Escape a value for a markdown table cell."""
+    return _norm(text).replace("|", "\\|")
+
+
+def _tier1_table(skills: List[Dict[str, Any]]) -> str:
+    rows = ["| skill | what it does | keywords | path |",
+            "|---|---|---|---|"]
+    for s in sorted(skills, key=lambda s: s["name"]):
+        kw = ", ".join(s["keywords"])
+        rows.append(f"| {s['name']} | {_md_cell(s['description'])} | "
+                    f"{_md_cell(kw)} | {s['rel_path']} |")
+    return "\n".join(rows) + "\n"
+
+
+def generate_index(domains: List[Dict[str, Any]]) -> Dict[str, int]:
+    """Write the tiered discovery index under skills/_index/:
+      Tier 0  MAP.md                  domains -> categories (always-load map)
+      Tier 1  <domain>/<cat>.md       per-category skill tables (load on demand)
+              <domain>.md             flat domains (foundation)
+      plus    index.json             flat machine-readable mirror
+    Returns size stats for the build log / benchmark."""
+    if os.path.isdir(INDEX_DIR):
+        shutil.rmtree(INDEX_DIR)
+    os.makedirs(INDEX_DIR, exist_ok=True)
+
+    # ── The map (MAP.md) — DOMAINS ONLY, so it stays tiny no matter how many ─
+    #    skills/categories exist — it grows only with the number of domains. ──
+    #    Every domain links to its own <domain>/INDEX.md (consistent shape).
+    lines = ["# Skill Garden Map (generated — do not edit)", "",
+             "Pick a domain and open its INDEX. A flat domain's INDEX lists its "
+             "skills directly; other domains' INDEX lists categories, and each "
+             "category file lists its skills. Paths are relative to this folder.",
+             "", "Navigation: map -> domain index -> category index -> skill.", ""]
+    for dom in domains:
+        flat = dom["slug"] in FLAT_DOMAINS or not dom["categories"]
+        suffix = "" if flat else f", {len(dom['categories'])} categories"
+        lines.append(f"## {dom['slug']} ({dom['count']} skills{suffix})  ->  {dom['slug']}/INDEX.md")
+    write(os.path.join(INDEX_DIR, "MAP.md"), "\n".join(lines) + "\n")
+
+    # ── Domain index (<domain>/INDEX.md) + category index (<domain>/<cat>.md) ─
+    largest_category_index = 0   # largest per-category SKILL table
+    largest_domain_index = 0     # largest per-domain index file
+    for dom in domains:
+        flat = dom["slug"] in FLAT_DOMAINS or not dom["categories"]
+        if flat:
+            # Flat domain: its INDEX.md IS the skill table.
+            content = (f"# {dom['name']} skills (generated)\n\n"
+                       + _tier1_table(dom["skills"]))
+            write(os.path.join(INDEX_DIR, dom["slug"], "INDEX.md"), content)
+            largest_domain_index = max(largest_domain_index, len(content.encode("utf-8")))
+            continue
+        # Domain index: lists the domain's categories.
+        idx = [f"# {dom['name']} categories (generated)", ""]
+        for cat in dom["categories"]:
+            idx.append(f"- {cat['dir']} ({cat['count']} skills)  ->  {cat['dir']}.md")
+        idx_content = "\n".join(idx) + "\n"
+        write(os.path.join(INDEX_DIR, dom["slug"], "INDEX.md"), idx_content)
+        largest_domain_index = max(largest_domain_index, len(idx_content.encode("utf-8")))
+        # Category index: one skill table per category.
+        for cat in dom["categories"]:
+            cat_skills = [s for s in dom["skills"] if s["category_dir"] == cat["dir"]]
+            content = (f"# {dom['name']} / {cat['name']} (generated)\n\n"
+                       + _tier1_table(cat_skills))
+            write(os.path.join(INDEX_DIR, dom["slug"], f"{cat['dir']}.md"), content)
+            largest_category_index = max(largest_category_index, len(content.encode("utf-8")))
+
+    # ── index.json — flat machine-readable mirror ──────────────────────────
+    flat_rows = []
+    for dom in domains:
+        for s in dom["skills"]:
+            flat_rows.append({
+                "name": s["name"], "domain": s["domain"], "category": s["category"],
+                "status": s["status"], "description": s["description"],
+                "keywords": s["keywords"], "tags": s["tags"], "path": s["rel_path"],
+            })
+    write(os.path.join(INDEX_DIR, "index.json"),
+          json.dumps(flat_rows, indent=2, ensure_ascii=False) + "\n")
+
+    map_bytes = os.path.getsize(os.path.join(INDEX_DIR, "MAP.md"))
+    return {"map_bytes": map_bytes, "largest_category_index_bytes": largest_category_index,
+            "largest_domain_index_bytes": largest_domain_index, "skills": len(flat_rows)}
+
+
+def generate_registry(domains: List[Dict[str, Any]]) -> None:
+    """Emit a GENERATED registry.yaml + registry.json for back-compat
+    (skills_loader.py and external consumers). Frontmatter is the real source;
+    this is a derived artifact — never hand-edit it."""
+    sections: Dict[str, List[Dict[str, Any]]] = {}
+    for dom in domains:
+        for s in dom["skills"]:
+            section = s["category"] or s["domain"]
+            sections.setdefault(section, []).append({
+                "name": s["name"],
+                "path": s["rel_path"],
+                "description": s["description"],
+                "domain": s["domain"],
+                "tags": s["tags"],
+                "reasoning_mode": s["reasoning_mode"],
+                "status": s["status"],
+            })
+
+    data: Dict[str, Any] = {"version": REGISTRY_VERSION}
+    data.update(sections)
+
+    header = ("# ==========================================================================\n"
+              "# GENERATED by scripts/build.py — DO NOT EDIT.\n"
+              "# Source of truth is each skill's SKILL.md frontmatter. Re-run the build\n"
+              "# to regenerate. Kept for back-compat with skills_loader.py / consumers.\n"
+              "# ==========================================================================\n")
+    body = yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=100)
+    write(REGISTRY_PATH, header + body)
+    write(REGISTRY_JSON_PATH, json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+
+
+def generate_search_index(skills: List[Dict[str, Any]], base_url: str) -> None:
+    """Emit _site/search-index.json for client-side fuzzy search."""
+    rows = [{
+        "name": s["name"], "domain": s["domain"], "category": s["category"],
+        "description": s["description"], "keywords": s["keywords"],
+        "tags": s["tags"], "status": s["status"],
+        "reasoning_mode": s["reasoning_mode"], "version": s["version"],
+        "url": f"{base_url}/skills/{s['name']}/",
+    } for s in skills if s["status"] != "draft"]
+    write(SEARCH_INDEX_PATH, json.dumps(rows, ensure_ascii=False))
 
 
 def render_site(base_url: str, canonical_root: str) -> None:
@@ -350,12 +530,17 @@ def render_site(base_url: str, canonical_root: str) -> None:
         lstrip_blocks=False,
     )
 
-    skills, _by_section = load_registry()
+    skills = load_skills()
     categories = build_categories(skills)
+    domains = build_domains(skills)
     tag_indexes = build_tag_indexes(skills)
     axes_choices = build_axis_choices(skills)
 
     scope_set = set(AXES["scope"])
+
+    # Generated artifacts (committed into the repo, not just _site/).
+    index_stats = generate_index(domains)
+    generate_registry(domains)
 
     if os.path.isdir(OUTPUT_DIR):
         shutil.rmtree(OUTPUT_DIR)
@@ -368,6 +553,7 @@ def render_site(base_url: str, canonical_root: str) -> None:
         "repo_name": "agentskills-garden",
         "skill_count": len(skills),
         "category_count": len(categories),
+        "domain_count": len(domains),
         "generated_at": _dt.datetime.now(_dt.timezone.utc).strftime("%Y-%m-%d"),
         "canonical_root": canonical_root,
     }
@@ -386,6 +572,7 @@ def render_site(base_url: str, canonical_root: str) -> None:
         page_url="/",
         skills=skills,
         categories=categories,
+        domains=domains,
         axes=axes_choices,
         pillars=PILLARS,
         prose_docs=[{"slug": p["slug"], "title": p["title"], "subtitle": p["subtitle"]}
@@ -393,6 +580,18 @@ def render_site(base_url: str, canonical_root: str) -> None:
     )
     write(os.path.join(OUTPUT_DIR, "index.html"), home_html)
     routes.append("/")
+
+    # ── Domain pages ─────────────────────────────────────────────────────────
+    for dom in domains:
+        page_url = f"/domains/{dom['slug']}/"
+        html = env.get_template("domain.html").render(
+            **common,
+            page_url=page_url,
+            domain=dom,
+            skills=dom["skills"],
+        )
+        write(os.path.join(OUTPUT_DIR, "domains", dom["slug"], "index.html"), html)
+        routes.append(page_url)
 
     # ── Skill pages ────────────────────────────────────────────────────────
     for s in skills:
@@ -503,13 +702,23 @@ def render_site(base_url: str, canonical_root: str) -> None:
     if os.path.exists(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png")):
         shutil.copy(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png"), os.path.join(OUTPUT_DIR, "apple-touch-icon.png"))
 
+    # ── Search index (client-side fuzzy search) ────────────────────────────
+    generate_search_index(skills, base_url)
+
+    # ── Mirror the tiered index into the published site ─────────────────────
+    if os.path.isdir(INDEX_DIR):
+        shutil.copytree(INDEX_DIR, os.path.join(OUTPUT_DIR, "index"))
+
     # ── sitemap.xml + robots.txt ───────────────────────────────────────────
     write(os.path.join(OUTPUT_DIR, "sitemap.xml"), _sitemap(canonical_root, routes))
     write(os.path.join(OUTPUT_DIR, "robots.txt"),
           f"User-agent: *\nAllow: /\nSitemap: {canonical_root}/sitemap.xml\n")
 
-    print(f"[build] {len(skills)} skills, {len(categories)} categories, "
+    print(f"[build] {len(skills)} skills, {len(domains)} domains, {len(categories)} categories, "
           f"{len(tag_indexes)} tags -> {os.path.relpath(OUTPUT_DIR, REPO_ROOT)}/")
+    print(f"[index] Tier-0 MAP.md={index_stats['map_bytes']}B  "
+          f"largest domain-index={index_stats['largest_domain_index_bytes']}B  "
+          f"largest category-index={index_stats['largest_category_index_bytes']}B")
     print(f"[build] base_url={base_url!r}  canonical_root={canonical_root!r}")
 
 
@@ -558,7 +767,23 @@ def main() -> int:
     ap.add_argument("--serve", action="store_true",
                     help="serve the built site locally on port 8000 after building")
     ap.add_argument("--port", type=int, default=8000)
+    ap.add_argument("--skills-dir", help="override the skills/ source dir (used by benchmark.py)")
+    ap.add_argument("--out-dir", help="override the _site/ output dir; also redirects "
+                                      "the generated index/registry there (keeps the real ones safe)")
     args = ap.parse_args()
+
+    # Path overrides for isolated builds (benchmark / experiments). Reassign the
+    # module globals the rest of the build reads.
+    global SKILLS_DIR, INDEX_DIR, OUTPUT_DIR, SEARCH_INDEX_PATH, REGISTRY_PATH, REGISTRY_JSON_PATH
+    if args.skills_dir:
+        SKILLS_DIR = os.path.abspath(args.skills_dir)
+        INDEX_DIR = os.path.join(SKILLS_DIR, "_index")
+    if args.out_dir:
+        OUTPUT_DIR = os.path.abspath(args.out_dir)
+        SEARCH_INDEX_PATH = os.path.join(OUTPUT_DIR, "search-index.json")
+        # keep the real registry.yaml safe — write the isolated build's into out-dir
+        REGISTRY_PATH = os.path.join(OUTPUT_DIR, "registry.yaml")
+        REGISTRY_JSON_PATH = os.path.join(OUTPUT_DIR, "registry.json")
 
     base_url = os.environ.get("BASE_URL", "")
     canonical_root = os.environ.get("CANONICAL_ROOT", DEFAULT_CANONICAL)

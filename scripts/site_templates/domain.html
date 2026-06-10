@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{{ domain.name }} &mdash; {{ site.name }}{% endblock %}
+{% block meta_description %}{{ domain.count }} skills in the {{ domain.name }} domain.{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ base_url }}/">Home</a> &rsaquo; <span>{{ domain.slug }}</span>
+</nav>
+
+<section class="hero" style="text-align:left; padding: 1rem 0 0.5rem;">
+  <h1 style="margin:0;">{{ domain.name }}</h1>
+  <p class="tagline" style="text-align:left; margin: 0.5rem 0 0;">{{ domain.count }} skills in this domain.</p>
+</section>
+
+{% if domain.categories %}
+<div class="category-grid" style="margin-top: 1rem;">
+  {% for cat in domain.categories %}
+  <a class="category-tile" href="{{ base_url }}/categories/{{ cat.dir }}/">
+    <div class="category-num">{{ cat.dir }}</div>
+    <div class="category-name">{{ cat.name }}</div>
+    <div class="category-count">{{ cat.count }} skills</div>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="card-grid" style="margin-top: 1.5rem;">
+  {% for skill in skills %}
+  <article class="card">
+    <h3 class="card-title">
+      <a href="{{ base_url }}/skills/{{ skill.name }}/">{{ skill.name }}</a>
+    </h3>
+    <p class="card-desc">{{ skill.description }}</p>
+    <div class="card-meta">
+      {% for tag in skill.tags %}
+      <a class="tag {% if tag in scope_set %}tag-scope{% endif %}{% if tag == 'safety-critical' %} tag-risk-safety-critical{% elif tag == 'irreversible' %} tag-risk-irreversible{% endif %}"
+         href="{{ base_url }}/tags/{{ tag }}/">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <div class="card-footer">
+      <span>{{ skill.reasoning_mode }}</span>
+      <span>v{{ skill.version }}</span>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}
