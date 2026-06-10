@@ -8,13 +8,13 @@ Read this once. Then `registry.yaml` and any individual `SKILL.md` will be self-
 
 ## 1. The four-level hierarchy
 
-From [`skills/00-foundation/constitution/SKILL.md`](../skills/00-foundation/constitution/SKILL.md) (the "Skill Hierarchy" section):
+From [`skills/00-foundation/constitution/SKILL.md`](../skills/000-foundation/constitution/SKILL.md) (the "Skill Hierarchy" section):
 
 | Level | What it is | Where it lives | Concrete example |
 |-------|------------|----------------|------------------|
-| **Nano-skill** | A 1-2 line atomic technique. The smallest reusable unit. | Inline inside a micro-skill, marked `**Nano: <Name>**`. | `**Nano: Exponential Backoff with Jitter**` in [`resilience-patterns`](../skills/30-implementation/resilience-patterns/SKILL.md) |
-| **Micro-skill** | A numbered `### N. Name` section that composes nano-skills into one coherent unit of work. | Inside a `SKILL.md`. | `### 2. Retry with Backoff 🌿 (Eco Mode)` in [`resilience-patterns`](../skills/30-implementation/resilience-patterns/SKILL.md) |
-| **Skill** | One `SKILL.md` file. The unit the agent loads on demand for a task. | `skills/<category>/<name>/SKILL.md` | [`resilience-patterns`](../skills/30-implementation/resilience-patterns/SKILL.md) loaded when external dependencies start failing. |
+| **Nano-skill** | A 1-2 line atomic technique. The smallest reusable unit. | Inline inside a micro-skill, marked `**Nano: <Name>**`. | `**Nano: Exponential Backoff with Jitter**` in [`resilience-patterns`](../skills/100-engineering/30-implementation/resilience-patterns/SKILL.md) |
+| **Micro-skill** | A numbered `### N. Name` section that composes nano-skills into one coherent unit of work. | Inside a `SKILL.md`. | `### 2. Retry with Backoff 🌿 (Eco Mode)` in [`resilience-patterns`](../skills/100-engineering/30-implementation/resilience-patterns/SKILL.md) |
+| **Skill** | One `SKILL.md` file. The unit the agent loads on demand for a task. | `skills/<category>/<name>/SKILL.md` | [`resilience-patterns`](../skills/100-engineering/30-implementation/resilience-patterns/SKILL.md) loaded when external dependencies start failing. |
 | **Master skill** | A workflow that orchestrates other skills in sequence. Contains invocation steps, never implementation. Marked with `skill_type: master` in metadata. | `skills/<category>/<name>/SKILL.md` like any other skill. | `release-pipeline` (planned) — invokes `test-strategy` → `changelog-generation` → `ci-pipeline`. |
 
 The hierarchy is **read upward**: a master skill is built from skills, a skill is built from micro-skills, a micro-skill is built from nano-skills.
@@ -27,7 +27,7 @@ Nano-skills are inline in prose, not separate files. The marker is the contract 
 
 **Why this exact format:**
 
-- **Greppable.** `rg '\*\*Nano:'` returns every nano-skill in the garden. See for yourself; today there are nano-skills inside [`resilience-patterns`](../skills/30-implementation/resilience-patterns/SKILL.md), [`pragya`](../skills/00-foundation/pragya/SKILL.md), [`prd`](../skills/10-discovery/prd/SKILL.md), [`ci-pipeline`](../skills/70-devops/ci-pipeline/SKILL.md).
+- **Greppable.** `rg '\*\*Nano:'` returns every nano-skill in the garden. See for yourself; today there are nano-skills inside [`resilience-patterns`](../skills/100-engineering/30-implementation/resilience-patterns/SKILL.md), [`pragya`](../skills/000-foundation/pragya/SKILL.md), [`prd`](../skills/100-engineering/10-discovery/prd/SKILL.md), [`ci-pipeline`](../skills/100-engineering/70-devops/ci-pipeline/SKILL.md).
 - **Cross-referenceable.** `**Nano: Exponential Backoff**` defined in `resilience-patterns` can be cited from `error-handling` by name without copying the technique.
 - **Right-sized signal.** A nano is an atom (1-2 sentences of mechanism). If it grows, promote it to a micro-skill instead.
 
@@ -50,11 +50,11 @@ Each micro-skill is tagged with the cognitive mode the agent should use to execu
 
 A skill solves a domain (resilience, refactoring, API implementation). Inside that domain, some micro-skills are routine (response shape, dead-code removal) and others are risky (circuit-breaker state machine, dependency inversion). Tagging each micro-skill independently lets the agent stay cheap on the easy parts and thorough on the dangerous parts.
 
-[`resilience-patterns`](../skills/30-implementation/resilience-patterns/SKILL.md) is the canonical example: `1. Circuit Breaker ⚡` and `2. Retry with Backoff 🌿` live in the same file and use different reasoning depths.
+[`resilience-patterns`](../skills/100-engineering/30-implementation/resilience-patterns/SKILL.md) is the canonical example: `1. Circuit Breaker ⚡` and `2. Retry with Backoff 🌿` live in the same file and use different reasoning depths.
 
 ### Auto-detection rule
 
-From [`skills/00-foundation/scratchpad/SKILL.md`](../skills/00-foundation/scratchpad/SKILL.md) (the "Mode Auto-Detection Heuristic" section):
+From [`skills/00-foundation/scratchpad/SKILL.md`](../skills/000-foundation/scratchpad/SKILL.md) (the "Mode Auto-Detection Heuristic" section):
 
 ```text
 IF task.changes_logic == false
@@ -83,10 +83,10 @@ Every `SKILL.md` declares one `reasoning_mode` in its YAML frontmatter. This is 
 
 | Value | What it triggers | When to use it | Example skill |
 |-------|------------------|----------------|---------------|
-| `linear` | Eco-style: short plan, one execution pass, no checkpoint loop. | Foundation skills, docs generation, advisory inventory builders, anything inherently sequential. | [`constitution`](../skills/00-foundation/constitution/SKILL.md), [`scratchpad`](../skills/00-foundation/scratchpad/SKILL.md), [`token-efficiency`](../skills/00-foundation/token-efficiency/SKILL.md), [`docker-containerization`](../skills/70-devops/docker-containerization/SKILL.md), [`release-notes`](../skills/80-docs/release-notes/SKILL.md) |
-| `plan-execute` | Power-style: 4-step reasoning, explicit Plan → Execute → Verify loop, output diff before applying. | Refactors, code generation, security review, dependency updates — anything where wrong action is expensive. | [`auditor`](../skills/00-foundation/auditor/SKILL.md), [`code-review`](../skills/40-quality/code-review/SKILL.md), [`code-generation`](../skills/30-implementation/code-generation/SKILL.md), [`reuse-first`](../skills/25-pragmatism/reuse-first/SKILL.md) |
+| `linear` | Eco-style: short plan, one execution pass, no checkpoint loop. | Foundation skills, docs generation, advisory inventory builders, anything inherently sequential. | [`constitution`](../skills/000-foundation/constitution/SKILL.md), [`scratchpad`](../skills/000-foundation/scratchpad/SKILL.md), [`token-efficiency`](../skills/000-foundation/token-efficiency/SKILL.md), [`docker-containerization`](../skills/100-engineering/70-devops/docker-containerization/SKILL.md), [`release-notes`](../skills/100-engineering/80-docs/release-notes/SKILL.md) |
+| `plan-execute` | Power-style: 4-step reasoning, explicit Plan → Execute → Verify loop, output diff before applying. | Refactors, code generation, security review, dependency updates — anything where wrong action is expensive. | [`auditor`](../skills/000-foundation/auditor/SKILL.md), [`code-review`](../skills/100-engineering/40-quality/code-review/SKILL.md), [`code-generation`](../skills/100-engineering/30-implementation/code-generation/SKILL.md), [`reuse-first`](../skills/100-engineering/25-pragmatism/reuse-first/SKILL.md) |
 | `tdd` | Test-first cycle: write failing test → minimal code → refactor. Every micro-skill enters with a red test and exits with a green one. | TDD-strict authoring tasks where tests gate every step. | TDD workflow skills (e.g. `tdd-workflow`). |
-| `mixed` | Some micro-skills are linear, others are plan-execute. The skill explicitly opts into per-section mode tagging. | Skills that span both routine and risky operations. | [`pair-programming`](../skills/80-collaboration/pair-programming/SKILL.md) |
+| `mixed` | Some micro-skills are linear, others are plan-execute. The skill explicitly opts into per-section mode tagging. | Skills that span both routine and risky operations. | [`pair-programming`](../skills/100-engineering/80-collaboration/pair-programming/SKILL.md) |
 
 If `reasoning_mode` is missing, the auditor flags the skill. Default to `linear` only when truly justified.
 
@@ -104,18 +104,18 @@ Today's foundation skills (see [`registry.yaml`](../registry.yaml) `foundation:`
 
 | Skill | Why it is always loaded |
 |-------|------------------------|
-| [`constitution`](../skills/00-foundation/constitution/SKILL.md) | Defines the four pillars (Satya, Dharma, Ahimsa, Pragya). Every other skill inherits these. |
-| [`scratchpad`](../skills/00-foundation/scratchpad/SKILL.md) | Forces a private reasoning pass before any output. |
-| [`auditor`](../skills/00-foundation/auditor/SKILL.md) | Runs after every action; needs to see the original plan. |
-| [`librarian`](../skills/00-foundation/librarian/SKILL.md) | Routes the task to the right category skill. |
-| [`pragya`](../skills/00-foundation/pragya/SKILL.md) | Direction-seeking checkpoints. |
-| [`orchestrator`](../skills/00-foundation/orchestrator/SKILL.md) | Mid-task skill injection on domain shift. |
-| [`token-efficiency`](../skills/00-foundation/token-efficiency/SKILL.md) | Picks model tier and tool depth per mode. |
-| [`pragmatism`](../skills/00-foundation/pragmatism/SKILL.md) | Aparigraha — check before create, stay surgical, validate edge cases. |
+| [`constitution`](../skills/000-foundation/constitution/SKILL.md) | Defines the four pillars (Satya, Dharma, Ahimsa, Pragya). Every other skill inherits these. |
+| [`scratchpad`](../skills/000-foundation/scratchpad/SKILL.md) | Forces a private reasoning pass before any output. |
+| [`auditor`](../skills/000-foundation/auditor/SKILL.md) | Runs after every action; needs to see the original plan. |
+| [`librarian`](../skills/000-foundation/librarian/SKILL.md) | Routes the task to the right category skill. |
+| [`pragya`](../skills/000-foundation/pragya/SKILL.md) | Direction-seeking checkpoints. |
+| [`orchestrator`](../skills/000-foundation/orchestrator/SKILL.md) | Mid-task skill injection on domain shift. |
+| [`token-efficiency`](../skills/000-foundation/token-efficiency/SKILL.md) | Picks model tier and tool depth per mode. |
+| [`pragmatism`](../skills/000-foundation/pragmatism/SKILL.md) | Aparigraha — check before create, stay surgical, validate edge cases. |
 
 ### What is *actually* always loaded
 
-The single file [`skills/00-foundation/KERNEL.md`](../skills/00-foundation/KERNEL.md). Nothing else.
+The single file [`skills/00-foundation/KERNEL.md`](../skills/000-foundation/KERNEL.md). Nothing else.
 
 `KERNEL.md` is an aggregator that quotes the `## Kernel` section of each foundation `SKILL.md` — the smallest set of rules every task needs. The rest of each foundation `SKILL.md` (full micro-skills, examples, audit log shapes, edge-case tables) is loaded on demand by the `librarian` when its domain fires. So `pragya`'s checkpoint *protocol* is in the kernel, but `pragya`'s 6 worked examples are not.
 
@@ -127,7 +127,7 @@ Even at one file, the kernel pays a token cost on every turn. If a new foundatio
 
 ### What it does *not* do
 
-- **It is not a runtime enforcement engine.** Loading the constitution kernel does not magically prevent a violation; the [`auditor`](../skills/00-foundation/auditor/SKILL.md) (whose own kernel is also loaded) is what flags drift.
+- **It is not a runtime enforcement engine.** Loading the constitution kernel does not magically prevent a violation; the [`auditor`](../skills/000-foundation/auditor/SKILL.md) (whose own kernel is also loaded) is what flags drift.
 - **It is not a substitute for category skills.** Foundation skills set rules and route; concrete patterns live in `10-` through `90-`.
 - **It is not the full foundation.** Anything not in `KERNEL.md` loads on demand. Reading the full `pragya/SKILL.md` body, for example, only happens when a real direction checkpoint is being constructed.
 

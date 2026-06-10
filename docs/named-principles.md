@@ -28,8 +28,8 @@ same as it always did. Take the 5-line `if/else` over the AI's 200-line
 "perfect" architecture. The hidden cost is paid by the next reader.
 
 **In this garden:**
-- [reuse-first](../skills/25-pragmatism/reuse-first/SKILL.md) — no thin wrappers, no premature generalisation.
-- [minimal-diff](../skills/25-pragmatism/minimal-diff/SKILL.md) — diff-size caps and "while I'm here" detection.
+- [reuse-first](../skills/100-engineering/25-pragmatism/reuse-first/SKILL.md) — no thin wrappers, no premature generalisation.
+- [minimal-diff](../skills/100-engineering/25-pragmatism/minimal-diff/SKILL.md) — diff-size caps and "while I'm here" detection.
 
 ---
 
@@ -45,8 +45,8 @@ write a 10-line custom regex helper instead of using `StringUtils.isBlank`.
 own. Offload the responsibility to battle-tested libraries whenever possible.
 
 **In this garden:**
-- [reuse-first](../skills/25-pragmatism/reuse-first/SKILL.md) — mandatory pre-search before any new helper.
-- [dependency-utility-scout](../skills/25-pragmatism/dependency-utility-scout/SKILL.md) — mines declared deps to build a capability inventory.
+- [reuse-first](../skills/100-engineering/25-pragmatism/reuse-first/SKILL.md) — mandatory pre-search before any new helper.
+- [dependency-utility-scout](../skills/100-engineering/25-pragmatism/dependency-utility-scout/SKILL.md) — mines declared deps to build a capability inventory.
 
 ---
 
@@ -65,7 +65,7 @@ against premature *local* generalisation, not against using already-imported
 capability.
 
 **In this garden:**
-- [reuse-first](../skills/25-pragmatism/reuse-first/SKILL.md) — Rule of Three named explicitly; library-twist stated alongside it.
+- [reuse-first](../skills/100-engineering/25-pragmatism/reuse-first/SKILL.md) — Rule of Three named explicitly; library-twist stated alongside it.
 
 ---
 
@@ -83,7 +83,7 @@ call sites) **before** deleting. Ugly code is often desperate code that fixed
 something undocumented.
 
 **In this garden:**
-- [chesterton-fence](../skills/25-pragmatism/chesterton-fence/SKILL.md) — produces a "why-it-exists" memo and edge-case checklist before any change.
+- [chesterton-fence](../skills/100-engineering/25-pragmatism/chesterton-fence/SKILL.md) — produces a "why-it-exists" memo and edge-case checklist before any change.
 
 ---
 
@@ -101,9 +101,9 @@ out-of-scope PRs are unreviewable, conflict-prone, and infuriating to QA.
 Cleanups stay surgical and bounded to the ticket.
 
 **In this garden:**
-- [minimal-diff](../skills/25-pragmatism/minimal-diff/SKILL.md) — diff caps and "no drive-by" detection; in-scope correctness fixes are kept.
-- [cleanup](../skills/30-implementation/cleanup/SKILL.md) — opportunistic cleanup with intent-marker preservation.
-- [repo-maintenance](../skills/90-maintenance/repo-maintenance/SKILL.md) — value assessment before deletion.
+- [minimal-diff](../skills/100-engineering/25-pragmatism/minimal-diff/SKILL.md) — diff caps and "no drive-by" detection; in-scope correctness fixes are kept.
+- [cleanup](../skills/100-engineering/30-implementation/cleanup/SKILL.md) — opportunistic cleanup with intent-marker preservation.
+- [repo-maintenance](../skills/100-engineering/90-maintenance/repo-maintenance/SKILL.md) — value assessment before deletion.
 
 ---
 
@@ -121,8 +121,8 @@ modern ones. Check the ego at the door; if the project ships and makes
 money, match its conventions.
 
 **In this garden:**
-- [style-conformance](../skills/25-pragmatism/style-conformance/SKILL.md) — detects idioms, conforms within scope, surfaces deviations without auto-fixing.
-- [brownfield-onboarding](../skills/25-pragmatism/brownfield-onboarding/SKILL.md) — read the room before you redecorate.
+- [style-conformance](../skills/100-engineering/25-pragmatism/style-conformance/SKILL.md) — detects idioms, conforms within scope, surfaces deviations without auto-fixing.
+- [brownfield-onboarding](../skills/100-engineering/25-pragmatism/brownfield-onboarding/SKILL.md) — read the room before you redecorate.
 
 ---
 
@@ -141,8 +141,8 @@ low noise. For migrations, build the new beside the old, route gradually,
 strangle the old until it's safe to delete.
 
 **In this garden:**
-- [minimal-diff](../skills/25-pragmatism/minimal-diff/SKILL.md) — surgical diffs; expand-and-contract for irreversible changes.
-- [legacy-upgrade](../skills/90-maintenance/legacy-upgrade/SKILL.md) — names Strangler Fig directly as the strategy of choice for large upgrades.
+- [minimal-diff](../skills/100-engineering/25-pragmatism/minimal-diff/SKILL.md) — surgical diffs; expand-and-contract for irreversible changes.
+- [legacy-upgrade](../skills/100-engineering/90-maintenance/legacy-upgrade/SKILL.md) — names Strangler Fig directly as the strategy of choice for large upgrades.
 
 ---
 
