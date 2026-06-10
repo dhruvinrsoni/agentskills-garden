@@ -4,7 +4,7 @@
     location on your machine, remembers where it is, and (optionally) makes its
     helper scripts callable from anywhere.
 
-    (Renamed from bootstrap.ps1 to setup-garden.ps1 — the action verb is clearer
+    (Renamed from bootstrap.ps1 to install-garden.ps1 — the action verb is clearer
     for end users. The old name lives on only in older blog posts and forks.)
 
 .DESCRIPTION
@@ -61,13 +61,13 @@
         `git config --global --remove-section agentskills`).
 
     Web-install one-liner
-        iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+        iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 
         The script reads from your terminal for prompts, so the interactive
         confirmation still works through `iex`. For unattended use, fetch the
         script first and pass -Yes, e.g.:
 
-            $s = (iwr https://.../setup-garden.ps1).Content
+            $s = (iwr https://.../install-garden.ps1).Content
             & ([scriptblock]::Create("$s -GhUser yourname -Yes"))
 
 .PARAMETER GhUser
@@ -104,29 +104,29 @@
     longer comment-based help instead — both formats are intentional.)
 
 .EXAMPLE
-    .\setup-garden.ps1 -GhUser dhruvinrsoni -AddToPath
+    .\install-garden.ps1 -GhUser dhruvinrsoni -AddToPath
 
     Recommended first-time interactive setup. You will see a target picker, a
     plan, and a y/N prompt before anything happens.
 
 .EXAMPLE
-    iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+    iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 
     Web one-liner. Asks for confirmation interactively in your shell.
 
 .EXAMPLE
-    .\setup-garden.ps1 -GhUser dhruvinrsoni -AddToPath -Yes
+    .\install-garden.ps1 -GhUser dhruvinrsoni -AddToPath -Yes
 
     Fully unattended run (CI / scripting). No prompts.
 
 .EXAMPLE
-    .\setup-garden.ps1 -GhUser dhruvinrsoni -Root D:\code -Force -Yes
+    .\install-garden.ps1 -GhUser dhruvinrsoni -Root D:\code -Force -Yes
 
     Re-persist config after moving the garden folder to D:\code. Skips clone
     because -Force is set on an existing garden.
 
 .EXAMPLE
-    .\setup-garden.ps1 -Help
+    .\install-garden.ps1 -Help
 
     Print the short usage block and exit. Same as -h, --help, /?.
 
@@ -206,16 +206,16 @@ $ErrorActionPreference = 'Stop'
 
 # ---------- output helpers ----------
 
-function Write-Step([string]$msg)    { Write-Host "[setup-garden] $msg" -ForegroundColor Cyan }
-function Write-StepOk([string]$msg)  { Write-Host "[setup-garden] $msg" -ForegroundColor Green }
-function Write-StepWarn([string]$msg){ Write-Host "[setup-garden] $msg" -ForegroundColor Yellow }
-function Write-StepErr([string]$msg) { Write-Host "[setup-garden] $msg" -ForegroundColor Red }
+function Write-Step([string]$msg)    { Write-Host "[install-garden] $msg" -ForegroundColor Cyan }
+function Write-StepOk([string]$msg)  { Write-Host "[install-garden] $msg" -ForegroundColor Green }
+function Write-StepWarn([string]$msg){ Write-Host "[install-garden] $msg" -ForegroundColor Yellow }
+function Write-StepErr([string]$msg) { Write-Host "[install-garden] $msg" -ForegroundColor Red }
 
 # ---------- short usage block ----------
 
 function Show-Usage {
     @'
-setup-garden.ps1
+install-garden.ps1
    First-time setup for the agentskills-garden. Clones the garden repo into a
    predictable location on your machine, remembers where it went, and
    (optionally) makes its scripts callable from anywhere.
@@ -224,7 +224,7 @@ setup-garden.ps1
    settings.
 
 USAGE
-   .\setup-garden.ps1 [options]
+   .\install-garden.ps1 [options]
 
    Options can be in any order. PowerShell parameters are case-INsensitive
    and accept -foo, -Foo, or -FOO identically.
@@ -268,13 +268,13 @@ WHAT IT WILL DO (printed as a plan before any change)
 
 EXAMPLES
    First-time interactive setup (recommended):
-      .\setup-garden.ps1 -GhUser dhruvinrsoni -AddToPath
+      .\install-garden.ps1 -GhUser dhruvinrsoni -AddToPath
 
    Web one-liner (asks for confirmation interactively):
-      iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+      iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 
    Fully unattended:
-      .\setup-garden.ps1 -GhUser dhruvinrsoni -AddToPath -Yes
+      .\install-garden.ps1 -GhUser dhruvinrsoni -AddToPath -Yes
 
 WHERE THINGS GO
    Garden folder:    <Root>\github\<GhUser>\agentskills-garden
@@ -301,8 +301,8 @@ TROUBLESHOOTING
 MORE
    For the full PowerShell-formatted reference (parameter types, all aliases,
    notes section, links), use either of:
-      Get-Help .\setup-garden.ps1 -Detailed
-      Get-Help .\setup-garden.ps1 -Full
+      Get-Help .\install-garden.ps1 -Detailed
+      Get-Help .\install-garden.ps1 -Full
 
    Project repo:        https://github.com/dhruvinrsoni/agentskills-garden
    Companion script:    link-skills.ps1   (run with -Help for details)
@@ -549,6 +549,6 @@ if ($AddToPath) {
     Write-Host "          link-skills.ps1 -Help                (full help; also -h, --help, /?)" -ForegroundColor White
 } else {
     Write-Host "  2. Run:  & `"$scriptsDir\link-skills.ps1`"" -ForegroundColor White
-    Write-Host "     Or re-run setup-garden with -AddToPath for a shorter invocation." -ForegroundColor White
+    Write-Host "     Or re-run install-garden with -AddToPath for a shorter invocation." -ForegroundColor White
 }
 Write-Host ''

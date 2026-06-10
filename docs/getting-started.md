@@ -36,10 +36,10 @@ That's it. No Node, no Python, no chocolatey, no admin rights.
 Open PowerShell and paste this one-liner:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 ```
 
-What that does: downloads `setup-garden.ps1` and runs it. The script is
+What that does: downloads `install-garden.ps1` and runs it. The script is
 defensive — **it will not change anything on your machine until you
 confirm**.
 
@@ -86,10 +86,10 @@ The script then clones the garden and writes four small keys to
 
 ### Optional: make the scripts callable from any folder
 
-Re-run setup-garden once with `-AddToPath`:
+Re-run install-garden once with `-AddToPath`:
 
 ```powershell
-.\setup-garden.ps1 -AddToPath
+.\install-garden.ps1 -AddToPath
 ```
 
 This prepends `<garden>\scripts` to your User PATH. **Open a new
@@ -179,7 +179,7 @@ persisted `agentskills.defaultTarget`.
 
 ```powershell
 # fully unattended setup
-.\setup-garden.ps1 -GhUser yourname -AddToPath -Yes
+.\install-garden.ps1 -GhUser yourname -AddToPath -Yes
 
 # fully unattended link
 link-skills.ps1 -Target claude -Yes

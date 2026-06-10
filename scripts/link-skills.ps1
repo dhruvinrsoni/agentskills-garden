@@ -26,7 +26,7 @@
                          <gh-user>= agentskills.ghUser | $env:GITHUB_USER
                 e. The script's own parent directory (useful when invoked from
                    inside a cloned garden, e.g. during dev/testing).
-           Run `setup-garden.ps1` once on a new machine to populate (b).
+           Run `install-garden.ps1` once on a new machine to populate (b).
         2. Picks WHERE inside the current directory the link should live. If
            you did NOT pass -Target on the CLI, the script auto-detects which
            agent convention this repo uses by looking for existing .claude/,
@@ -35,7 +35,7 @@
                 a. The single agent-convention folder it detected (claude /
                    cursor / github), if exactly one is present.
                 b. agentskills.defaultTarget from git config (set by
-                   setup-garden.ps1).
+                   install-garden.ps1).
                 c. 'claude'  (the project's sensible first-run default).
            If -Target is on the CLI, the menu is skipped entirely.
         3. Prints a "Plan:" block describing every action it is about to take.
@@ -170,7 +170,7 @@
     docs/skills-bridge.md
 
 .LINK
-    setup-garden.ps1
+    install-garden.ps1
 #>
 
 [CmdletBinding(DefaultParameterSetName = 'Link')]
@@ -269,7 +269,7 @@ OPTIONS
        .github/ already exist in $PWD and shows a menu. The default
        highlighted option comes from (in order):
            1. The single agent-convention folder it found in $PWD
-           2. agentskills.defaultTarget from git config (set by setup-garden)
+           2. agentskills.defaultTarget from git config (set by install-garden)
            3. 'claude'
 
    -LinkPath <path>
@@ -329,11 +329,11 @@ GARDEN DISCOVERY ORDER
    5. The script's own parent directory          (only if it looks like a
                                                    garden — has skills/ and
                                                    registry.yaml)
-   Run setup-garden.ps1 once on a new machine to populate level 2.
+   Run install-garden.ps1 once on a new machine to populate level 2.
 
 TROUBLESHOOTING
    "Could not locate agentskills-garden"
-       Run setup-garden.ps1 once (it populates the git-config values), or
+       Run install-garden.ps1 once (it populates the git-config values), or
        pass -Path <full-path-to-garden>.
 
    "A junction already exists at <path> pointing to '<other>'"
@@ -361,7 +361,7 @@ MORE
       Get-Help .\link-skills.ps1 -Full
 
    Project repo:        https://github.com/dhruvinrsoni/agentskills-garden
-   Companion script:    setup-garden.ps1   (run with -Help for details)
+   Companion script:    install-garden.ps1   (run with -Help for details)
 '@ | Write-Host
 }
 
@@ -459,7 +459,7 @@ function Resolve-GardenPath {
         "  git config --global agentskills.path `"<full-path-to-garden>`"",
         "  `$env:AGENTSKILLS_GARDEN = `"<full-path-to-garden>`"",
         "  Or pass -Path <full-path> explicitly.",
-        "Run scripts/setup-garden.ps1 from the garden repo to auto-configure."
+        "Run scripts/install-garden.ps1 from the garden repo to auto-configure."
     ) -join [Environment]::NewLine
     throw $hint
 }
