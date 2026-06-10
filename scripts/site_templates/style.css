@@ -461,3 +461,71 @@ th { background: var(--bg-muted); }
 }
 .footer-row p { margin: 0.2rem 0; }
 .footer-row .muted { color: var(--text-muted); font-size: 0.85rem; }
+
+/* ── Scroll FABs (bottom-right: ↓ jump to bottom, ↑ jump to top) ──────── */
+.scroll-fab {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 45;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.18s ease, transform 0.18s ease, border-color 0.15s, background 0.15s;
+}
+.scroll-fab.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.scroll-fab:hover { border-color: var(--accent); background: var(--bg-muted); }
+.scroll-fab:active { transform: scale(0.94); }
+.scroll-fab svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#scroll-bottom { bottom: max(18px, env(safe-area-inset-bottom)); }
+#scroll-top    { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 56px); }
+@media (min-width: 700px) {
+  .scroll-fab { width: 50px; height: 50px; right: max(24px, env(safe-area-inset-right)); }
+  .scroll-fab svg { width: 24px; height: 24px; }
+  #scroll-bottom { bottom: max(24px, env(safe-area-inset-bottom)); }
+  #scroll-top    { bottom: calc(max(24px, env(safe-area-inset-bottom)) + 62px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-fab { transition: opacity 0.18s ease; transform: none; }
+  .scroll-fab.visible { transform: none; }
+}
+
+/* ── Mobile / small screens ───────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .container { padding: 0 1rem; }
+  .primary-nav { gap: 0.9rem; }
+  .primary-nav a { font-size: 0.88rem; }
+  .hero { padding: 2.25rem 0 1.25rem; }
+  .hero .tagline { font-size: 1.05rem; }
+  .section-h { margin: 2.25rem 0 0.85rem; font-size: 1.3rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .pillars { grid-template-columns: repeat(2, 1fr); }
+  /* wide markdown tables (tags, etc.) scroll instead of overflowing the page */
+  .prose table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+@media (max-width: 460px) {
+  .brand-name { display: none; }   /* keep the 🌱 mark; reclaim header width */
+  .primary-nav { gap: 0.7rem; }
+  .primary-nav a { font-size: 0.85rem; }
+  .theme-toggle { width: 32px; height: 32px; }
+  .pillars { grid-template-columns: 1fr; }
+}

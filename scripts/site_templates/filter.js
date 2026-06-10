@@ -156,3 +156,36 @@
     });
   }
 })();
+
+// ── Scroll FABs — runs on every page (long docs/skill pages too) ───────────
+//   #scroll-bottom: jumps to the bottom; hidden once you're near it.
+//   #scroll-top:    appears after scrolling down a little; jumps back to top.
+(function () {
+  var toTop = document.getElementById('scroll-top');
+  var toBottom = document.getElementById('scroll-bottom');
+  if (!toTop && !toBottom) return;
+
+  function update() {
+    var doc = document.documentElement;
+    var total = doc.scrollHeight;
+    var seen = window.scrollY + window.innerHeight;
+    if (toTop) {
+      toTop.classList.toggle('visible', window.scrollY > 400);
+    }
+    if (toBottom) {
+      var hasRoom = total > window.innerHeight + 200;
+      var nearBottom = total - seen < 120;
+      toBottom.classList.toggle('visible', hasRoom && !nearBottom);
+    }
+  }
+
+  if (toTop) toTop.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  if (toBottom) toBottom.addEventListener('click', function () {
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
+  });
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  requestAnimationFrame(update);
+})();
