@@ -99,5 +99,8 @@ evals/cache/
 *.tmp
 *.bak
 
-# Generated site (build output of scripts/build_site.py)
+# Generated site (build output of scripts/build.py)
 _site/
+
+# Scaling benchmark scratch tree + report (scripts/benchmark.py)
+.bench/

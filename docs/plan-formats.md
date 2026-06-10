@@ -1,6 +1,6 @@
 # Plan Formats — Cheat-Sheet
 
-The 16 named plan formats produced by the [`plan-as-agreement`](../skills/20-planning/plan-as-agreement/SKILL.md) skill. One page, skim-fit. Use this to figure out which format your task wants — or to recognise a format the skill picked for you.
+The 16 named plan formats produced by the [`plan-as-agreement`](../skills/100-engineering/20-planning/plan-as-agreement/SKILL.md) skill. One page, skim-fit. Use this to figure out which format your task wants — or to recognise a format the skill picked for you.
 
 ---
 
@@ -132,6 +132,6 @@ The skill auto-selects, but the user always wins. Plain English overrides — no
 
 ## See also
 
-- [Skill: `plan-as-agreement`](../skills/20-planning/plan-as-agreement/SKILL.md) — the full skill, including the Format Decision Matrix, micro-skills, examples, and audit format.
+- [Skill: `plan-as-agreement`](../skills/100-engineering/20-planning/plan-as-agreement/SKILL.md) — the full skill, including the Format Decision Matrix, micro-skills, examples, and audit format.
 - [Concepts primer](concepts.md) — the four-level hierarchy and nano/micro/skill/master vocabulary.
-- [Skill: `prd`](../skills/10-discovery/prd/SKILL.md) — when you need a living document with lifecycle (versioning, amendment log, approval states) rather than a single-shot plan.
+- [Skill: `prd`](../skills/100-engineering/10-discovery/prd/SKILL.md) — when you need a living document with lifecycle (versioning, amendment log, approval states) rather than a single-shot plan.

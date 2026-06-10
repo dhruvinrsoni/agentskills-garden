@@ -26,7 +26,7 @@ Three properties follow from this:
 
 ## Hard rules (non-negotiable)
 
-These are enforced by the [`auditor`](../skills/00-foundation/auditor/SKILL.md). Violation = the master is rejected.
+These are enforced by the [`auditor`](../skills/000-foundation/auditor/SKILL.md). Violation = the master is rejected.
 
 1. **Frontmatter `skill_type: master`.** This is what makes the file a master. Without it, the auditor treats it as a standard skill and the orchestration enforcement does not fire.
 2. **Every micro-skill starts with `**Invokes:**` line.** Names the skill(s) the step delegates to. This is the orchestration contract.
@@ -106,7 +106,7 @@ The auditor recognises namespaced outputs and verifies each invoked skill produc
 
 ## Interaction with the auditor
 
-The [`auditor`](../skills/00-foundation/auditor/SKILL.md) is mandatory as the **last** step of every master. It receives:
+The [`auditor`](../skills/000-foundation/auditor/SKILL.md) is mandatory as the **last** step of every master. It receives:
 
 - The original scratchpad plan that triggered the master.
 - The aggregated diff across every step's invoked skill.
@@ -150,5 +150,5 @@ If all three are yes — write the master.
 - [`templates/skill-template.md`](../templates/skill-template.md) — the scaffold including the master-variant section.
 - [`docs/concepts.md`](concepts.md) — the four-level hierarchy.
 - [`docs/tags.md`](tags.md) — the `master` scope tag.
-- [`skills/00-foundation/constitution/SKILL.md`](../skills/00-foundation/constitution/SKILL.md) — definition of master skills in the hierarchy table.
-- [`skills/00-foundation/auditor/SKILL.md`](../skills/00-foundation/auditor/SKILL.md) — the validator masters must terminate with.
+- [`skills/00-foundation/constitution/SKILL.md`](../skills/000-foundation/constitution/SKILL.md) — definition of master skills in the hierarchy table.
+- [`skills/00-foundation/auditor/SKILL.md`](../skills/000-foundation/auditor/SKILL.md) — the validator masters must terminate with.

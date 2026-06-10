@@ -8,8 +8,8 @@
   <p class="tagline">{{ site.tagline }}</p>
   <div class="stats">
     <span><strong>{{ site.skill_count }}</strong> skills</span>
+    <span><strong>{{ site.domain_count }}</strong> domains</span>
     <span><strong>{{ site.category_count }}</strong> categories</span>
-    <span><strong>4</strong> reasoning modes</span>
     <span>Apache-2.0</span>
   </div>
   <div class="cta-row">
@@ -51,14 +51,17 @@
   <button type="button" class="btn-clear" data-filter-clear>Clear filters</button>
 </div>
 
-<div class="card-grid" data-card-grid>
-  {% for skill in skills %}
+<div class="card-grid" data-card-grid
+     data-base-url="{{ base_url }}"
+     data-search-url="{{ base_url }}/search-index.json"
+     data-page-size="60">
+  {% for skill in skills[:60] %}
   <article class="card"
            data-skill
            data-scope="{{ skill.axes.scope|join(' ') }}"
            data-lifecycle="{{ skill.axes.lifecycle|join(' ') }}"
            data-capability="{{ skill.axes.capability|join(' ') }}"
-           data-domain="{{ skill.axes.domain|join(' ') }}"
+           data-stack="{{ skill.axes.stack|join(' ') }}"
            data-risk="{{ skill.axes.risk|join(' ') }}"
            data-text="{{ skill.search_text }}">
     <h3 class="card-title">
@@ -80,6 +83,18 @@
 </div>
 
 <p class="no-results" data-no-results hidden>No skills match these filters.</p>
+<div data-load-sentinel aria-hidden="true" style="height:1px;"></div>
+
+<h2 class="section-h">Domains</h2>
+<div class="category-grid">
+  {% for dom in domains %}
+  <a class="category-tile" href="{{ base_url }}/domains/{{ dom.slug }}/">
+    <div class="category-num">{{ dom.folder }}</div>
+    <div class="category-name">{{ dom.name }}</div>
+    <div class="category-count">{{ dom.count }} skills</div>
+  </a>
+  {% endfor %}
+</div>
 
 <h2 class="section-h">Categories</h2>
 <div class="category-grid">
