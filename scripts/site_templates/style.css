@@ -258,6 +258,8 @@ th { background: var(--bg-muted); }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
   margin-bottom: 0.75rem;
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -272,12 +274,70 @@ th { background: var(--bg-muted); }
 }
 .filter-meta button.btn-clear:hover { text-decoration: underline; }
 
+/* ── View toggle (Grid / List / Compact) ──────────────────────────────── */
+.view-toggle { display: inline-flex; align-items: center; gap: 0.35rem; }
+.view-label {
+  font-size: 0.78rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em; margin-right: 0.15rem;
+}
+.view-btn {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.32rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+.view-btn:hover { background: var(--bg-muted); color: var(--text); }
+.view-btn.active { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+.view-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
 /* ── Skill cards ──────────────────────────────────────────────────────── */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1rem;
 }
+
+/* List view — one roomy card per row (title + desc inline on wider screens) */
+.card-grid[data-view="list"] { grid-template-columns: 1fr; gap: 0.6rem; }
+.card-grid[data-view="list"] .card { padding: 0.85rem 1.1rem; }
+@media (min-width: 720px) {
+  .card-grid[data-view="list"] .card {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.1rem;
+  }
+  .card-grid[data-view="list"] .card-title { flex: 0 0 220px; margin: 0; }
+  .card-grid[data-view="list"] .card-desc { flex: 1; }
+  .card-grid[data-view="list"] .card-meta { flex: 0 0 auto; margin-top: 0; }
+  .card-grid[data-view="list"] .card-footer { flex: 0 0 auto; min-width: 90px; justify-content: flex-end; gap: 0.6rem; }
+}
+
+/* Compact view — dense single-column rows; name + tags only */
+.card-grid[data-view="compact"] {
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--border);
+}
+.card-grid[data-view="compact"] .card {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
+}
+.card-grid[data-view="compact"] .card:hover { transform: none; background: var(--bg-muted); }
+.card-grid[data-view="compact"] .card-title { margin: 0; font-size: 0.98rem; flex: 0 0 auto; }
+.card-grid[data-view="compact"] .card-desc { display: none; }
+.card-grid[data-view="compact"] .card-footer { display: none; }
+.card-grid[data-view="compact"] .card-meta { margin: 0 0 0 auto; flex-wrap: nowrap; }
 .card {
   background: var(--bg-elev);
   border: 1px solid var(--border);
@@ -520,6 +580,9 @@ th { background: var(--bg-muted); }
   .section-h { margin: 2.25rem 0 0.85rem; font-size: 1.3rem; }
   .card-grid { grid-template-columns: 1fr; }
   .pillars { grid-template-columns: repeat(2, 1fr); }
+  /* icon-only view pills on phones to save row width */
+  .view-label { display: none; }
+  .view-btn { font-size: 0; gap: 0; padding: 0.34rem 0.5rem; }
   /* wide markdown tables (tags, etc.) scroll instead of overflowing the page */
   .prose table { display: block; overflow-x: auto; white-space: nowrap; }
 }

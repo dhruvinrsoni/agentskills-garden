@@ -32,6 +32,22 @@
   var noResults = document.querySelector('[data-no-results]');
   var sentinel = document.querySelector('[data-load-sentinel]');
 
+  // ── View mode (grid / list / compact), remembered in localStorage ──────
+  var viewBtns = document.querySelectorAll('.view-btn');
+  function setView(v) {
+    grid.dataset.view = v;
+    viewBtns.forEach(function (b) { b.classList.toggle('active', b.dataset.view === v); });
+    try { localStorage.setItem('garden-view', v); } catch (e) {}
+  }
+  if (viewBtns.length) {
+    var savedView = 'grid';
+    try { savedView = localStorage.getItem('garden-view') || 'grid'; } catch (e) {}
+    setView(savedView);
+    viewBtns.forEach(function (b) {
+      b.addEventListener('click', function () { setView(b.dataset.view); });
+    });
+  }
+
   var SCOPE = { core: 1, category: 1, master: 1, meta: 1 };
   var all = [];
   var filtered = [];
