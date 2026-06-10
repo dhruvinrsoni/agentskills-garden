@@ -2,11 +2,11 @@
 
 > *A hierarchical, constitution-driven skill library that serves as the "brain" for AI agents.*
 >
-> *88 skills across 15 categories — these hierarchical skills enable any model to reason as well as the best frontier models.*
+> *88 skills across domain namespaces (foundation + engineering, designed to scale to thousands) — these hierarchical skills enable any model to reason as well as the best frontier models.*
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 
-Skills are markdown files with YAML frontmatter that agents discover at runtime via a central registry. Every action is governed by a **Constitution** rooted in four principles:
+Skills are markdown files with YAML frontmatter. **The frontmatter is the single source of truth** — the build walks `skills/` and generates a *tiered discovery index* (and a back-compat `registry.yaml`) from it, so an agent finds the right skill among hundreds or thousands while loading near-constant tokens. Skills are organised into top-level **domains** (`000-foundation`, `100-engineering`, and room to grow into writing, data-ml, business, …). Every action is governed by a **Constitution** rooted in four principles:
 
 | Pillar | Sanskrit | Meaning |
 |--------|----------|---------|
@@ -46,7 +46,7 @@ consumer repos see the change immediately. No copies, no sync step.
 
 Two scripts do the work:
 
-1. **`setup-garden.ps1`** — run **once per machine**. Clones the garden into a
+1. **`install-garden.ps1`** — run **once per machine**. Clones the garden into a
    predictable, fork-safe path and remembers where it is.
 2. **`link-skills.ps1`** — run **once per consumer repo**. Creates the live
    junction inside that repo.
@@ -69,7 +69,7 @@ short usage block; `-?` or `Get-Help -Detailed` for the full PowerShell help.
 ### First-machine setup (one time)
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 ```
 
 You will be asked which agent convention you mostly use (`cursor` / `claude` /
@@ -81,7 +81,7 @@ then prints a plan, waits for `y/N`, and on confirm clones the garden into
 For unattended setup (e.g. provisioning):
 
 ```powershell
-.\setup-garden.ps1 -GhUser yourname -AddToPath -Yes
+.\install-garden.ps1 -GhUser yourname -AddToPath -Yes
 ```
 
 ### Per consumer repo
@@ -108,14 +108,14 @@ Run inside the repo:
 & "<garden>\scripts\link-skills.ps1" -Unlink
 ```
 
-If you ran `setup-garden.ps1 -AddToPath`, drop the `& "<garden>\scripts\"`
+If you ran `install-garden.ps1 -AddToPath`, drop the `& "<garden>\scripts\"`
 prefix and just type `link-skills.ps1 ...`.
 
 ### Quick reference cheat-sheet
 
 ```
 # one-time, per machine
-setup-garden.ps1 -GhUser <you> -AddToPath
+install-garden.ps1 -GhUser <you> -AddToPath
 
 # every consumer repo
 link-skills.ps1                 # interactive
@@ -154,15 +154,15 @@ flowchart TD
     Auditor --> Output
 ```
 
-**The runtime in plain English.** Every turn loads exactly one file from the foundation: [`KERNEL.md`](skills/00-foundation/KERNEL.md). It contains the 1-2 paragraph kernel of every foundation skill — the rules the agent cannot operate without. The full `SKILL.md` body of each foundation skill loads only when its domain actually fires (a real direction checkpoint, a real audit, a real domain shift). The librarian routes the user's intent to the right category skill or master skill. Master skills orchestrate other skills as named workflows. The `auditor` runs last and blocks delivery on misalignment.
+**The runtime in plain English.** Every turn loads exactly one file from the foundation: [`KERNEL.md`](skills/000-foundation/KERNEL.md). It contains the 1-2 paragraph kernel of every foundation skill — the rules the agent cannot operate without. The full `SKILL.md` body of each foundation skill loads only when its domain actually fires (a real direction checkpoint, a real audit, a real domain shift). The librarian routes the user's intent to the right category skill or master skill. Master skills orchestrate other skills as named workflows. The `auditor` runs last and blocks delivery on misalignment.
 
 ### What's loaded when
 
 | Path | Loaded when | Token cost |
 |------|-------------|------------|
-| [`skills/00-foundation/KERNEL.md`](skills/00-foundation/KERNEL.md) | Every turn | Always paid (~85 lines) |
-| Full foundation `SKILL.md` (e.g. [`pragya`](skills/00-foundation/pragya/SKILL.md)) | Domain trigger fires (real checkpoint, real audit, real domain shift) | Paid only when needed |
-| Category skills [`10-`](skills/10-discovery/) through [`90-`](skills/90-maintenance/) | Librarian routes to them | Paid only when invoked |
+| [`skills/00-foundation/KERNEL.md`](skills/000-foundation/KERNEL.md) | Every turn | Always paid (~85 lines) |
+| Full foundation `SKILL.md` (e.g. [`pragya`](skills/000-foundation/pragya/SKILL.md)) | Domain trigger fires (real checkpoint, real audit, real domain shift) | Paid only when needed |
+| Category skills [`10-`](skills/100-engineering/10-discovery) through [`90-`](skills/100-engineering/90-maintenance) | Librarian routes to them | Paid only when invoked |
 | Master skills (anywhere with `skill_type: master`) | User asks for the named workflow | Paid only when invoked |
 
 ---
@@ -171,12 +171,14 @@ flowchart TD
 
 | Document | What it explains |
 |----------|------------------|
+| [`docs/how-it-works.md`](docs/how-it-works.md) | **Start here.** 2-minute plain-words model: what a skill is, where skills live, how one is found, how to add or share one. |
+| [`docs/scripts.md`](docs/scripts.md) | Cheat-sheet — every script and the one thing you run it for. |
 | [`docs/concepts.md`](docs/concepts.md) | The four-level hierarchy (nano → micro → skill → master), the `**Nano:**` marker, Eco 🌿 / Power ⚡ tags, the `reasoning_mode` frontmatter values, and what "always loaded" actually means. |
-| [`docs/tags.md`](docs/tags.md) | The five-axis tag taxonomy (`scope`, `lifecycle`, `capability`, `domain`, `risk`) every entry in `registry.yaml` follows. |
+| [`docs/tags.md`](docs/tags.md) | The five-axis tag taxonomy (`scope`, `lifecycle`, `capability`, `stack`, `risk`), the top-level **domain** namespaces, and the v2 frontmatter fields every `SKILL.md` declares. |
 | [`docs/master-skills.md`](docs/master-skills.md) | Authoring guide for master skills — the hard rules, micro-skill anatomy, branching, parallel invocation, and how masters interact with the auditor. |
 | [`docs/skills-bridge.md`](docs/skills-bridge.md) | Design notes for the live bridge-link distribution mechanism. |
 
-If you read those four pages plus this README, you have the complete mental model.
+New here? Read `how-it-works.md` first, then this README — that's the complete mental model.
 
 ---
 
@@ -184,43 +186,60 @@ If you read those four pages plus this README, you have the complete mental mode
 
 ```
 agentskills-garden/
-├── registry.yaml                            # Single source of truth — skill index
+├── registry.yaml                            # GENERATED back-compat index (do not edit)
+├── registry.json                            # GENERATED machine mirror
 ├── README.md                                # This file
 ├── skills/
-│   ├── 00-foundation/        (8 skills + KERNEL.md)
+│   ├── _index/                              # GENERATED discovery index (map→domain→category→skill)
+│   │   ├── MAP.md                           #   the map — domains only (always-load, tiny)
+│   │   ├── foundation/INDEX.md              #   domain index — flat domain: lists skills
+│   │   ├── engineering/INDEX.md             #   domain index — lists categories
+│   │   ├── engineering/30-implementation.md #   category index — lists skills
+│   │   └── index.json                       #   flat machine mirror
+│   ├── 000-foundation/      (8 skills + KERNEL.md)   # domain: foundation (flat, universal)
 │   │   ├── KERNEL.md                        # The always-loaded aggregator
 │   │   └── constitution/SKILL.md            # Each skill is a directory + SKILL.md
-│   ├── 10-discovery/         (3 skills)     # Requirements, domain modeling, PRD
-│   ├── 20-architecture/      (7 skills)     # System, API, DB, ADR, scorer, schema, pipeline
-│   ├── 20-planning/          (4 skills)     # Task decomposition, risk, dependencies, estimation
-│   ├── 25-pragmatism/        (6 + 1 master) # Aparigraha — check, conform, surgical, validate
-│   ├── 30-implementation/    (9 + 2 masters)# Code gen, refactoring, TDD, cleanup, resilience
-│   ├── 40-quality/           (9 + 1 master) # Reviews, testing strategies, mutation, two-pass
-│   ├── 50-documentation/     (4 skills)     # API docs, ADRs, changelogs, inline
-│   ├── 50-performance/       (5 skills)     # Caching, DB tuning, profiling, progressive, resources
-│   ├── 60-debugging/         (3 skills)     # Root cause, log analysis, error handling
-│   ├── 60-security/          (4 skills)     # Auth, threat modeling, secure coding, dep scanning
-│   ├── 70-devops/            (5 + 1 master) # CI/CD, Docker, K8s, Terraform, monitoring
-│   ├── 80-collaboration/     (4 skills)     # Git workflow, PRs, pair programming, knowledge
-│   ├── 80-docs/              (3 skills)     # OpenAPI, README, release notes
-│   └── 90-maintenance/       (7 + 1 master) # Incidents, migrations, tech debt, deprecation
+│   └── 100-engineering/                     # domain: engineering (NN-phase folders inside)
+│       ├── 10-discovery/    (3 skills)      # Requirements, domain modeling, PRD
+│       ├── 20-architecture/ (7 skills)      # System, API, DB, ADR, scorer, schema, pipeline
+│       ├── 20-planning/     (4 skills)      # Task decomposition, risk, dependencies, estimation
+│       ├── 25-pragmatism/   (6 + 1 master)  # Aparigraha — check, conform, surgical, validate
+│       ├── 30-implementation/ (9 + 2 masters)# Code gen, refactoring, TDD, cleanup, resilience
+│       ├── 40-quality/      (9 + 1 master)  # Reviews, testing strategies, mutation, two-pass
+│       ├── 50-documentation/ (4 skills)     # API docs, ADRs, changelogs, inline
+│       ├── 50-performance/  (5 skills)      # Caching, DB tuning, profiling, progressive, resources
+│       ├── 60-debugging/    (3 skills)      # Root cause, log analysis, error handling
+│       ├── 60-security/     (4 skills)      # Auth, threat modeling, secure coding, dep scanning
+│       ├── 70-devops/       (5 + 1 master)  # CI/CD, Docker, K8s, Terraform, monitoring
+│       ├── 80-collaboration/ (4 skills)     # Git workflow, PRs, pair programming, knowledge
+│       ├── 80-docs/         (3 skills)      # OpenAPI, README, release notes
+│       └── 90-maintenance/  (7 + 1 master)  # Incidents, migrations, tech debt, deprecation
+│   (future domains: 200-writing/, 300-data-ml/, 400-business/, …)
 ├── templates/
 │   └── skill-template.md                    # Boilerplate for new skills (incl. master variant)
 ├── scripts/
-│   ├── link-skills.ps1                      # Per-consumer bridge-link manager (Windows)
-│   └── setup-garden.ps1                     # First-machine clone + git config setup
+│   ├── build.py                        # Run to build site + generate index/registry (--serve previews)
+│   ├── validate.py                     # Run to validate skill frontmatter (--strict = v2)
+│   ├── benchmark.py                     # Run to prove lookup cost stays flat at 1000s of skills
+│   ├── migrate.py                      # One-shot: v1 → domain-namespace migration
+│   ├── taxonomy.py                     # Library: tag axes + domain allowlist (imported)
+│   ├── skill_lib.py                    # Library: shared parse/validate/tree-walk (imported)
+│   ├── link-skills.ps1                      # Per-consumer bridge-link (download direction)
+│   ├── install-garden.ps1                     # First-machine clone + git config setup
+│   ├── promote-skills.ps1                          # Push a repo's ready drafts up into the garden
+│   ├── gather-skills.ps1                    # Garden-side bulk-pull ready drafts from all repos
+│   └── _common.ps1              # Shared helpers for the promotion scripts
 ├── docs/
+│   ├── how-it-works.md                      # START HERE — 2-min plain-words mental model
+│   ├── scripts.md                           # Cheat-sheet: every script, one line
 │   ├── concepts.md                          # Hierarchy, nano, Eco/Power, reasoning_mode, kernel
-│   ├── tags.md                              # Five-axis tag taxonomy
+│   ├── tags.md                              # Five-axis tags + domain namespaces + v2 fields
 │   ├── master-skills.md                     # Master-skill authoring guide
-│   └── skills-bridge.md                     # Bridge-link design notes + troubleshooting
+│   └── skills-bridge.md                     # Bridge-link + promotion-flow design notes
 └── legacy/                                  # Deprecated installers, kept for history
-    ├── README.md                            # Why this folder exists
-    ├── setup_skills.sh
-    └── setup_skills.ps1
 ```
 
-**Total: 88 skills (78 standard + 8 foundation + 6 masters - already counted within categories) + 1 template + registry**
+**Total: 89 skills (across the foundation + engineering domains, incl. 6 masters) + 1 template; index & registry are generated**
 
 > 6 of the 88 entries are **master skills** (`skill_type: master`): `aparigraha-task`, `feature-shipping`, `refactoring-workflow`, `pr-review-flow`, `release-pipeline`, `incident-response-flow`. They live under their natural categories and are marked by the `master` scope tag.
 
@@ -242,9 +261,13 @@ Frontmatter schema:
 name: cleanup                    # required: lowercase alphanumeric + hyphens, max 64 chars
 description: >                   # required: 1-1024 chars, what it does + when to use it
   Remove noise, enforce formatting, and safely rename identifiers.
-license: Apache-2.0              # optional
+license: Apache-2.0              # required: must be exactly Apache-2.0
 compatibility: Designed for Claude Code and compatible AI agent environments
-metadata:                        # optional: arbitrary key-value pairs
+domain: engineering              # required: top-level namespace (foundation|engineering|writing|…)
+tags: [category, build, refactoring, reversible]  # required: five-axis tags (see docs/tags.md)
+keywords: [tidy, format, lint, dead-code]         # required (may be []): search synonyms
+status: published                # required: draft|ready|published|deprecated
+metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, auditor"
   reasoning_mode: mixed          # linear | plan-execute | tdd | mixed
@@ -252,7 +275,12 @@ metadata:                        # optional: arbitrary key-value pairs
 ---
 ```
 
-Foundation skills additionally carry a `## Kernel` section at the top — the 1-2 paragraph essential rules that get aggregated into [`skills/00-foundation/KERNEL.md`](skills/00-foundation/KERNEL.md). The rest of each foundation `SKILL.md` body is loaded on demand.
+`tags` now live in frontmatter (not `registry.yaml`). The five axes are `scope`,
+`lifecycle`, `capability`, `stack`, `risk` — see [`docs/tags.md`](docs/tags.md).
+`domain` is validated against an allowlist (`REGISTERED_DOMAINS` in
+[`scripts/taxonomy.py`](scripts/taxonomy.py)); extend it to add a domain.
+
+Foundation skills additionally carry a `## Kernel` section at the top — the 1-2 paragraph essential rules that get aggregated into [`skills/00-foundation/KERNEL.md`](skills/000-foundation/KERNEL.md). The rest of each foundation `SKILL.md` body is loaded on demand.
 
 The markdown body uses progressive disclosure:
 
@@ -463,14 +491,17 @@ When in doubt, default to **Power Mode**. See [`docs/concepts.md`](docs/concepts
 
 ## Creating a New Skill
 
-1. Create a directory `skills/<category>/<skill-name>/` where `<skill-name>` is lowercase with hyphens.
+1. Create a directory under the right domain: `skills/100-engineering/<NN-phase>/<skill-name>/` (or `skills/000-foundation/<skill-name>/` for a universal skill). `<skill-name>` is lowercase with hyphens and must match the `name` frontmatter exactly.
 2. Copy `templates/skill-template.md` into that directory as `SKILL.md`.
-3. Fill in the YAML frontmatter — `name` must match the directory name exactly:
+3. Fill in the YAML frontmatter (full schema under [Skill Format](#skill-format-skillmd)) — including `domain`, `tags`, `keywords`, and `status`:
    ```yaml
    name: skill-name
    description: What it does and when to use it (1-1024 chars).
    license: Apache-2.0
-   compatibility: Designed for Claude Code and compatible AI agent environments
+   domain: engineering
+   tags: [category, build, coding, reversible]
+   keywords: [synonyms, for, search]
+   status: published
    metadata:
      version: "0.1.0"
      dependencies: "constitution, scratchpad"
@@ -478,8 +509,13 @@ When in doubt, default to **Power Mode**. See [`docs/concepts.md`](docs/concepts
      skill_type: standard           # use 'master' for orchestration-only skills
    ```
 4. Write the markdown body following the section list under [Skill Format](#skill-format-skillmd). For master skills, additionally follow the hard rules in [`docs/master-skills.md`](docs/master-skills.md).
-5. Add an entry to `registry.yaml` pointing to `skills/<category>/<skill-name>/SKILL.md`. Tags must follow the closed taxonomy in [`docs/tags.md`](docs/tags.md).
-6. The Librarian will auto-discover it on next invocation.
+5. **No registry edit needed** — frontmatter is the source of truth. Run `python scripts/validate.py --strict` to check it, then `python scripts/build.py` to regenerate the index + `registry.yaml`. The Librarian auto-discovers it via the tiered index.
+
+> **Drafting in another repo?** Author the skill under that repo's
+> `.agentskills/drafts/<name>/SKILL.md` with `status: draft`, flip to
+> `status: ready` when done, and run [`scripts/promote-skills.ps1`](scripts/promote-skills.ps1)
+> (or [`scripts/gather-skills.ps1`](scripts/gather-skills.ps1) from the garden)
+> to push it up. See [`docs/skills-bridge.md`](docs/skills-bridge.md) §9.
 
 ---
 
