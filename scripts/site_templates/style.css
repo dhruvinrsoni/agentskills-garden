@@ -496,13 +496,14 @@ th { background: var(--bg-muted); }
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+/* down → bottom-right; up → top-right, tucked just under the 56px sticky header */
 #scroll-bottom { bottom: max(18px, env(safe-area-inset-bottom)); }
-#scroll-top    { bottom: calc(max(18px, env(safe-area-inset-bottom)) + 56px); }
+#scroll-top    { top: 68px; }
 @media (min-width: 700px) {
   .scroll-fab { width: 50px; height: 50px; right: max(24px, env(safe-area-inset-right)); }
   .scroll-fab svg { width: 24px; height: 24px; }
   #scroll-bottom { bottom: max(24px, env(safe-area-inset-bottom)); }
-  #scroll-top    { bottom: calc(max(24px, env(safe-area-inset-bottom)) + 62px); }
+  #scroll-top    { top: 72px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .scroll-fab { transition: opacity 0.18s ease; transform: none; }
