@@ -115,7 +115,7 @@ the menu. When you don't pass `-Target`, the script tries to be helpful:
    highlighted default in the menu.
 2. **Persisted preference.** If auto-detect doesn't find exactly one folder,
    it falls back to `agentskills.defaultTarget` from `~/.gitconfig` (set
-   by `setup-garden.ps1` the first time you ran it).
+   by `install-garden.ps1` the first time you ran it).
 3. **First-run default.** If neither of the above yields a value, it offers
    `claude` — the project is Claude-Code-flavoured and `.claude/` is the most
    common consumer layout for this garden's users.
@@ -152,7 +152,7 @@ if you know your target, naming it on the CLI is shorter than answering a
 menu.
 
 **Cross-script integration**: `agentskills.defaultTarget` is set by
-`setup-garden.ps1` (which asks you once during first-machine setup) and read
+`install-garden.ps1` (which asks you once during first-machine setup) and read
 by `link-skills.ps1`. You can change it any time:
 
 ```powershell
@@ -164,7 +164,7 @@ git config --global agentskills.defaultTarget claude
 The brand-new-machine flow uses PowerShell's web-install pattern:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/setup-garden.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/main/scripts/install-garden.ps1 | iex
 ```
 
 - `iwr` = `Invoke-WebRequest` (PowerShell's HTTP client, like `curl`).
@@ -179,7 +179,7 @@ and consider pinning to a commit SHA rather than `main` to freeze what gets
 executed:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/setup-garden.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/install-garden.ps1 | iex
 ```
 
 ## 6. Industry precedents
@@ -212,7 +212,7 @@ it should be a 1:1 mirror of the PowerShell one at the user-facing level.
 ## 8. Troubleshooting
 
 ### "Could not locate agentskills-garden"
-Run [scripts/setup-garden.ps1](../scripts/setup-garden.ps1), or set things manually:
+Run [scripts/install-garden.ps1](../scripts/install-garden.ps1), or set things manually:
 
 ```powershell
 git config --global agentskills.path "C:\path\to\agentskills-garden"
@@ -241,7 +241,7 @@ prompt works because your terminal's stdin is still attached even through
 the `iex` pipe. For unattended runs (CI, provisioning), pass `-Yes`:
 
 ```powershell
-$s = (iwr https://.../setup-garden.ps1).Content
+$s = (iwr https://.../install-garden.ps1).Content
 & ([scriptblock]::Create("$s -GhUser yourname -Yes"))
 ```
 
@@ -270,18 +270,18 @@ Reverse order of operations:
 Replace `/main/` in the `iwr` URL with the commit SHA:
 
 ```powershell
-iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/setup-garden.ps1 | iex
+iwr https://raw.githubusercontent.com/dhruvinrsoni/agentskills-garden/<sha>/scripts/install-garden.ps1 | iex
 ```
 
 ### Where is the full reference for each script?
 Both scripts ship with extensive comment-based help:
 
 ```powershell
-Get-Help .\scripts\setup-garden.ps1 -Detailed   # full reference
-Get-Help .\scripts\setup-garden.ps1 -Examples   # just examples
+Get-Help .\scripts\install-garden.ps1 -Detailed   # full reference
+Get-Help .\scripts\install-garden.ps1 -Examples   # just examples
 Get-Help .\scripts\link-skills.ps1   -Full      # absolutely everything
 
-.\scripts\setup-garden.ps1 -Help                # short usage block
+.\scripts\install-garden.ps1 -Help                # short usage block
 .\scripts\link-skills.ps1   -h                  # same, short form
 ```
 
@@ -289,8 +289,71 @@ Get-Help .\scripts\link-skills.ps1   -Full      # absolutely everything
 the long comment-based help. `-h`, `--help`, `-Help`, and `/?` show the
 short usage block.
 
-## 9. Related files
+## 9. Promotion: drafting in a repo and pushing up to the garden
+
+The bridge link (sections 1–8) is the **download** direction: the garden is the
+canonical source, consumers see it live. Promotion is the **upload** direction —
+draft a skill while working in a repo, then push it up when it's ready. It's
+deliberately git-like: edit locally, "commit" by setting a status, "push" with
+one command.
+
+### Why drafts need their own folder
+
+If `.github/skills` (or `.claude/skills`) is a **junction** to the garden, then
+writing a file there writes straight into the garden — there is no local-only
+place to experiment. So drafts live in a separate, real (non-junction) folder:
+
+```
+<consumer-repo>/
+  .github/skills/         -> junction to <garden>/skills   (canonical, read-mostly)
+  .agentskills/drafts/    real folder, your work-in-progress skills
+    my-new-skill/SKILL.md   (status: draft → ready)
+```
+
+A draft's frontmatter drives everything: `status` (`draft` → `ready`), `domain`
+(required — routes it to the right namespace), and optional `category` (the
+phase folder for non-foundation domains).
+
+### Two commands
+
+| Direction | Command | Run from | What it does |
+|-----------|---------|----------|--------------|
+| push (one repo) | [`promote-skills.ps1`](../scripts/promote-skills.ps1) | a consumer repo | copies every `status: ready` draft into the garden, marks the copy `published` and the source `promoted` |
+| pull (all repos) | [`gather-skills.ps1`](../scripts/gather-skills.ps1) | the garden | discovers all consumer repos and bulk-imports their ready drafts in one shot |
+
+Both **print a plan and ask before changing anything** (`-DryRun` to preview,
+`-Yes` for unattended), are **idempotent** (an already-`promoted` draft is
+skipped, so re-running is safe), and never clobber an existing garden skill
+unless you pass `-OnConflict overwrite|rename` (default `skip`).
+
+```powershell
+# In a consumer repo, after setting a draft to status: ready:
+& "<garden>\scripts\promote-skills.ps1" -DryRun      # preview
+& "<garden>\scripts\promote-skills.ps1"              # promote (asks y/N)
+
+# From the garden, sweep every repo at once:
+.\scripts\gather-skills.ps1 -DryRun
+.\scripts\gather-skills.ps1 -Yes
+```
+
+`gather-skills.ps1` discovers consumers from explicit `-Repos`, from
+`git config --global --get-all agentskills.consumers`, and from siblings under
+`<root>\github\<ghUser>\*` that have a `.agentskills\drafts` folder. Register a
+repo outside the default root with:
+
+```powershell
+git config --global --add agentskills.consumers "C:\path\to\repo"
+```
+
+Shared discovery/confirm/import logic lives in
+[`scripts/_common.ps1`](../scripts/_common.ps1), reused
+by both promotion scripts.
+
+## 10. Related files
 
 - [scripts/link-skills.ps1](../scripts/link-skills.ps1) — per-consumer link/unlink/status.
-- [scripts/setup-garden.ps1](../scripts/setup-garden.ps1) — first-machine setup.
-- `~/.gitconfig` — stores the `[agentskills]` section.
+- [scripts/install-garden.ps1](../scripts/install-garden.ps1) — first-machine setup.
+- [scripts/promote-skills.ps1](../scripts/promote-skills.ps1) — push ready drafts from a repo into the garden.
+- [scripts/gather-skills.ps1](../scripts/gather-skills.ps1) — bulk-pull ready drafts from every consumer repo.
+- [scripts/_common.ps1](../scripts/_common.ps1) — shared helpers for the promotion scripts.
+- `~/.gitconfig` — stores the `[agentskills]` section (`path`, `root`, `ghUser`, `defaultTarget`, `consumers`).
