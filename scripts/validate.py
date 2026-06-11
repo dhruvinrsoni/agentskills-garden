@@ -124,6 +124,21 @@ def validate_legacy() -> int:
 # Strict (frontmatter-driven, v2) validation
 # ---------------------------------------------------------------------------
 
+def strict_warnings(fm: dict) -> List[str]:
+    """Non-fatal advisories for the strict path. These never affect the exit
+    code; they nudge authors toward better discovery without blocking drafts
+    or CI."""
+    warnings: List[str] = []
+    keywords = fm.get("keywords")
+    status = str(fm.get("status", "published"))
+    if isinstance(keywords, list) and not keywords and status != "draft":
+        warnings.append(
+            "keywords is empty ([]) — add a few search keywords so the skill is "
+            "discoverable via the index + site search (drafts are exempt)"
+        )
+    return warnings
+
+
 def validate_strict() -> int:
     print(f"Validating skill garden (strict/frontmatter mode) at: {REPO_ROOT}\n")
     if not os.path.isdir(SKILLS_DIR):
@@ -137,6 +152,7 @@ def validate_strict() -> int:
     print(f"Tree: {len(records)} skills under skills/\n")
 
     error_count = 0
+    warn_count = 0
     for r in records:
         name = r["fm"].get("name", r["dir_name"])
         prefix = f"  [{r['domain']}{('/' + r['category']) if r['category'] else ''}] {name}"
@@ -151,15 +167,23 @@ def validate_strict() -> int:
                 category_from_path=r["category"],
                 known_categories=known_categories_for(records, r["domain"]),
             ))
+        warnings = strict_warnings(r["fm"]) if r["fm"] else []
+        warn_count += len(warnings)
         if errors:
             error_count += len(errors)
             print(f"  [FAIL] {prefix}:")
             for err in errors:
                 print(f"         - {err}")
+            for warn in warnings:
+                print(f"         ! {warn}")
+        elif warnings:
+            print(f"  [WARN] {prefix}:")
+            for warn in warnings:
+                print(f"         ! {warn}")
         else:
             print(f"  [ OK ] {prefix}")
 
-    return _summary(len(records), error_count, 0)
+    return _summary(len(records), error_count, warn_count)
 
 
 def _summary(checked: int, error_count: int, warn_count: int) -> int:
@@ -168,7 +192,10 @@ def _summary(checked: int, error_count: int, warn_count: int) -> int:
     print(f"  Errors:   {error_count}")
     print(f"  Warnings: {warn_count}")
     if error_count == 0:
-        print("\nAll skills passed validation.")
+        if warn_count:
+            print(f"\nAll skills passed validation ({warn_count} warning(s), non-blocking).")
+        else:
+            print("\nAll skills passed validation.")
         return 0
     print(f"\n{error_count} error(s) found. Fix them before merging.")
     return 1
