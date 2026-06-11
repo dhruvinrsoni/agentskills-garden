@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, principles, advisory]
-keywords: []
+keywords: [satya, dharma, ahimsa, pillar, amendment, cognitive mode, conflict resolution, governance, truth, non-destruction, right action]
 metadata:
   version: 1.0.0
   reasoning_mode: linear

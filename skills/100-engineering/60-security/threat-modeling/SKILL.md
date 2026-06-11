@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, security, safety-critical]
-keywords: []
+keywords: [stride, dfd, trust boundary, attack surface, risk assessment, data flow diagram, spoofing, tampering, elevation of privilege, entry point, defense in depth, mitigations]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, system-design"

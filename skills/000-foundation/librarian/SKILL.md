@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, routing, advisory]
-keywords: []
+keywords: [fuzzy match, intent parsing, skill lookup, typo tolerance, search, discovery, registry, dependency order, layered index, semantic search]
 metadata:
   version: 1.0.0
   dependencies: constitution

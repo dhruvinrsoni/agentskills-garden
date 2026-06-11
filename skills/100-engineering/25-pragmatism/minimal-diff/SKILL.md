@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, pragmatism, advisory]
-keywords: []
+keywords: [surgical change, no drive-by, diff size, scope statement, git revert, reversibility, commit splitting, surgical-before-sweeping, blast radius, forbidden zones]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism, auditor, style-conformance"

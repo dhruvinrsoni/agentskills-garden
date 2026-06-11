@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, debugging, reversible]
-keywords: []
+keywords: [exception hierarchy, retry logic, circuit breaker, graceful degradation, backoff jitter, idempotency, silent swallow, resilience4j, polly, tenacity, catch-all, fallback]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, error-handling"

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, debugging, advisory]
-keywords: []
+keywords: [log parsing, correlation id, trace id, anomaly detection, frequency spike, clock skew, syslog, json logs, pii redaction, distributed tracing, pattern recognition, event correlation]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

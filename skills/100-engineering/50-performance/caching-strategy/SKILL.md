@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, performance, reversible]
-keywords: []
+keywords: [redis, memcached, ttl, cache invalidation, cache-aside, write-through, lru, thundering herd, cache stampede, key naming, in-memory cache]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, data-access"

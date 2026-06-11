@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, operate, maintenance, safety-critical]
-keywords: []
+keywords: [orchestration, master workflow, triage, root cause analysis, log analysis, adr, escalation, pragya, sev1, end-to-end response]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragya, librarian, auditor"

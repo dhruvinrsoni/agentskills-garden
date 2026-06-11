@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, resilience, reversible]
-keywords: []
+keywords: [error taxonomy, rfc 7807, problem details, structured logging, correlation id, exponential backoff, circuit breaker, exception hierarchy, http status codes, json logging, pii scrubbing]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

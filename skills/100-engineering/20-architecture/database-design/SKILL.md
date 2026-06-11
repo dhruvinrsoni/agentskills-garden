@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, db, irreversible]
-keywords: []
+keywords: [normalization, migration, ddl, erd, index strategy, foreign key, 3nf, postgresql, mongodb, idempotent, uuid, mermaid]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, domain-modeling"

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, refactoring, reversible]
-keywords: []
+keywords: [extract function, simplify conditionals, guard clause, cyclomatic complexity, move code, cohesion coupling, baseline tests, revert on fail, rename identifier, dependency injection]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, unit-testing"

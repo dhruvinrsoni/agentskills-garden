@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, reversible]
-keywords: []
+keywords: [shared context, pre-computation, immutability, stage contract, middleware, lazy getter, context lifecycle, dependency graph, memoization, multi-stage processing]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, coding, db, reversible]
-keywords: []
+keywords: [repository pattern, n+1 query, orm, unit of work, pagination, eager loading, dataloader, transaction, explain analyze, soft delete, query optimization, dto]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, database-design"

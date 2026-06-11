@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, security, safety-critical]
-keywords: []
+keywords: [jwt, oauth2, oidc, rbac, mfa, bcrypt, argon2id, token revocation, csrf, session management, rate limiting, access control]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, api-contract-design, threat-modeling"

@@ -12,7 +12,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, pragmatism, advisory]
-keywords: []
+keywords: [house style profile, conform-before-improve, naming conventions, inferred idioms, local beats global, deviation surfacing, formatter, linter, inconsistency report, brownfield]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism"

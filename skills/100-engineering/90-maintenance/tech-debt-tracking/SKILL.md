@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, advisory]
-keywords: []
+keywords: [technical debt, debt registry, impact scoring, debt budget, sprint capacity, dry violation, todo fixme, compound debt, prioritization, refactoring]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

@@ -12,7 +12,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, discovery, pragmatism, advisory]
-keywords: []
+keywords: [cheatsheet, existing codebase, hot zones, entry points, git history, build commands, ci pipeline, test layout, adr, first touch]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism"

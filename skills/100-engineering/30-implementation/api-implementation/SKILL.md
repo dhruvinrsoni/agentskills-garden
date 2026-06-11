@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, coding, backend, reversible]
-keywords: []
+keywords: [openapi, route handler, request validation, response dto, middleware, zod, pydantic, rfc 7807, dependency injection, smoke test, cors, serialization]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, api-contract-design, error-handling"

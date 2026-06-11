@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, irreversible]
-keywords: []
+keywords: [openapi, protobuf, grpc, contract first, rest, json schema, swagger, spectral, versioning, pagination, rfc 7807, endpoint]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, domain-modeling"

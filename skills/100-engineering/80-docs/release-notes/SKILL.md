@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, docs, reversible]
-keywords: []
+keywords: [changelog, conventional commits, semver, version bump, keep a changelog, git log, git tag, breaking change, package.json, pyproject.toml, commit parsing]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

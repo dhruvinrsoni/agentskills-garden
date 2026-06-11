@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, build, coding, reversible]
-keywords: []
+keywords: [end to end delivery, prd, task dag, acceptance criteria, release pipeline, orchestration, red green refactor, audit trail, semver, changelog, pr review]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragya, librarian, auditor"

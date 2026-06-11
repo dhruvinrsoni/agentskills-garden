@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, review, advisory]
-keywords: []
+keywords: [pull request, defect classification, severity, dry, single responsibility, code smell, error handling, naming conventions, diff analysis, changeset]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, test-strategy"

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, irreversible]
-keywords: []
+keywords: [sunset, eol, api retirement, backward compatibility, migration guide, deprecated annotation, runtime warning, consumer notification, codemod, feature removal]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, api-contract-design"

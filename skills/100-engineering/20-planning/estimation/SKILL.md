@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, planning, advisory]
-keywords: []
+keywords: [pert, three-point estimation, confidence interval, story points, relative sizing, calibration, optimism bias, uncertainty, effort estimate, t-shirt size, historical data, planning poker]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, task-decomposition"

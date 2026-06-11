@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, testing, reversible]
-keywords: []
+keywords: [red green refactor, test first, failing test, coverage gate, minimal implementation, test framework, behavior increment, unit test, coverage threshold, test driven development]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, unit-testing"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, ship, devops, irreversible]
-keywords: []
+keywords: [release workflow, semver, changelog generation, version bump, artifact signing, conventional commits, release orchestration, audit trail, test plan, gate]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragya, librarian, auditor"

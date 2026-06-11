@@ -11,7 +11,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, reasoning, advisory]
-keywords: []
+keywords: [direction seeking, uncertainty detection, human in the loop, strategy pivot, confidence threshold, irreversible action, options with tradeoffs, assumption, checkpoint cadence]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, review, advisory]
-keywords: []
+keywords: [metric collection, threshold gating, ratchet pattern, trend analysis, sarif, build artifact, pass fail separation, regression detection, bundle size, linting pipeline]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

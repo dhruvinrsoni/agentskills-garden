@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, devops, infra, safety-critical]
-keywords: []
+keywords: [k8s, helm chart, manifest, deployment, hpa, pod disruption budget, rbac, network policy, kustomize, security context, rolling update, values.yaml]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, docker-containerization"

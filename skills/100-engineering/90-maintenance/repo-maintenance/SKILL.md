@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, reversible]
-keywords: []
+keywords: [cleanup, dead code, dormant files, value assessment, git mv, orphaned tests, doc rot, stale config, consolidation, adaptive strategy]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, token-efficiency, pragya"

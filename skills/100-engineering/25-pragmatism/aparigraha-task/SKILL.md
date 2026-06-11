@@ -11,7 +11,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, build, pragmatism, advisory]
-keywords: []
+keywords: [orchestration, workflow, gate, aparigraha, six steps, audit trail, plan-execute, reversibility, out-of-scope suggestions, onboarding cheatsheet]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragmatism, pragya, librarian, auditor"

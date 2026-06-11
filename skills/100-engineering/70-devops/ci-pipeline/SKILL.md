@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, devops, infra, reversible]
-keywords: []
+keywords: [cicd, github actions, gitlab ci, azure pipelines, pipeline stages, artifact management, matrix build, branch protection, dependency caching, deployment gate, actionlint]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, test-strategy"

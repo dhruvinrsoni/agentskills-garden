@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, testing, advisory]
-keywords: []
+keywords: [pyramid health, ice cream cone, coverage gap, boundary conditions, equivalence classes, tdd, property-based testing, snapshot testing, branch coverage, risk prioritization]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, test-strategy"

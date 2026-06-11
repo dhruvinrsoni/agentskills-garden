@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, docs, reversible]
-keywords: []
+keywords: [openapi, swagger, api spec, yaml, spectral, drift detection, code to spec, linting, json schema, components schemas, securityschemes]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, api-contract-design"

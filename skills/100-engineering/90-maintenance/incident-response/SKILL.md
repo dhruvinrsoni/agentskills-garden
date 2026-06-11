@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, maintenance, safety-critical]
-keywords: []
+keywords: [sev1, sev2, outage, rollback, blameless postmortem, mttr, incident commander, feature flag, on-call, severity classification]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

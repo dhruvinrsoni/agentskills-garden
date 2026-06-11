@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, debugging, advisory]
-keywords: []
+keywords: [rca, five whys, fault tree, git bisect, heisenbug, regression, stack trace, minimal cut set, symptom mapping, defect isolation, causal chain]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

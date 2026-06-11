@@ -12,7 +12,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, build, refactoring, reversible]
-keywords: []
+keywords: [cosmetic micro meso architectural, ladder principle, chesterton fence, style conformance, characterisation tests, minimal diff, scope guard, orchestration, behaviour preservation, depth levels]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragmatism, pragya, librarian, auditor"

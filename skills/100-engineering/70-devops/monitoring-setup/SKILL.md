@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, devops, infra, reversible]
-keywords: []
+keywords: [observability, prometheus, grafana, opentelemetry, distributed tracing, sli, slo, error budget, alerting, structured logging, jaeger, red metrics]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, system-design"

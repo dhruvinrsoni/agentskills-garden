@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, reversible]
-keywords: []
+keywords: [decision record, nygard template, knowledge management, supersede, deprecate, technical debt, trade-off, docs/adr, sequential numbering, index maintenance, rationale]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

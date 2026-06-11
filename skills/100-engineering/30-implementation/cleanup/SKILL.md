@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, refactoring, reversible]
-keywords: []
+keywords: [dead code removal, unused imports, formatting, prettier, eslint, black, ruff, rename, intent markers, whitespace, linter, identifier]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

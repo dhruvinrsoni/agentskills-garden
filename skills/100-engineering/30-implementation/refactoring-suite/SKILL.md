@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, refactoring, reversible]
-keywords: []
+keywords: [extract method, extract class, dependency inversion, srp violation, dead code inline, rename symbol, iron rule, revert on fail, test verification, structural transformation, module boundary]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, unit-testing"

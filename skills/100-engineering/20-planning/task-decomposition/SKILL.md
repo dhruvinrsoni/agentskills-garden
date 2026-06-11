@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, planning, advisory]
-keywords: []
+keywords: [wbs, dag, subtask breakdown, critical path, topological order, parallel execution, milestone, dependency ordering, t-shirt sizing, work breakdown structure, cycle detection]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, requirements-elicitation"
