@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, collaboration, reversible]
-keywords: []
+keywords: [pull request, pr template, codeowners, reviewer assignment, branch protection, stale pr, merge queue, auto-merge, draft pr, merge criteria, code review lifecycle]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, code-review"

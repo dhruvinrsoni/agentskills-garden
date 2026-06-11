@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, coding, reversible]
-keywords: []
+keywords: [scaffolding, template expansion, dry principle, spec to code, protobuf, json schema, boilerplate, idioms, type annotations, cookiecutter, plop, deduplication]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"

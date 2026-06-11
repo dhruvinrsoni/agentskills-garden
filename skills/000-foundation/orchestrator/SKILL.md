@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, routing, advisory]
-keywords: []
+keywords: [domain shift, mid-task injection, context monitoring, activation trigger, keyword tracking, task evolution, proactive suggestion, checkpoint fatigue, modular]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, librarian, pragya"

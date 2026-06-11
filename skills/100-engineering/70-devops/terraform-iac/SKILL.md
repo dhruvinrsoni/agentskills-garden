@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, devops, infra, irreversible]
-keywords: []
+keywords: [terraform, opentofu, infrastructure as code, hcl, state management, remote backend, tfsec, checkov, terragrunt, pulumi, cloud provisioning, drift detection]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, system-design"

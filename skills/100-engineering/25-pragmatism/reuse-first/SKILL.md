@@ -11,7 +11,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, pragmatism, advisory]
-keywords: []
+keywords: [check-before-create, validate-before-trust, existing utilities, rule of three, no thin wrappers, fit comparison, edge case validation, write fresh, codebase scan, premature generalisation]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism, dependency-utility-scout"

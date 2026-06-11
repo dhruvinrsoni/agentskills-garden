@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, collaboration, advisory]
-keywords: []
+keywords: [driver navigator, mob programming, ping-pong tdd, strong-style pairing, live share, tuple, co-authorship, rotation, remote pairing, timeboxing, session debrief]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

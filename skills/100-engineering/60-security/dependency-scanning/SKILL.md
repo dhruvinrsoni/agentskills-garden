@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, security, safety-critical]
-keywords: []
+keywords: [cve, cvss, sbom, spdx, cyclonedx, supply chain, transitive dependencies, npm audit, pip-audit, govulncheck, license compliance, vulnerability remediation]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

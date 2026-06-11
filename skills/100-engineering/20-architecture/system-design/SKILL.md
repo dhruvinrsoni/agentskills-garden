@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, advisory]
-keywords: []
+keywords: [component diagram, bounded context, mermaid, trade-off analysis, scalability, cqrs, monolith, microservices, data flow, spof, decision matrix, bottleneck]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, requirements-elicitation"

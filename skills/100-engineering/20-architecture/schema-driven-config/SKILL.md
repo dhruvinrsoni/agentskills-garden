@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, reversible]
-keywords: []
+keywords: [single source of truth, validation, feature flags, defaults, settings management, storage adapter, pluggable backend, ui generation, configuration drift, json schema]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

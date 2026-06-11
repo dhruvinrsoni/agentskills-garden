@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [master, ship, review, advisory]
-keywords: []
+keywords: [orchestration, parallel review, merge decision, master workflow, aggregated findings, auto-merge, owasp, pr verdict, multi-lens, audit]
 metadata:
   version: "0.1.0"
   dependencies: "constitution, scratchpad, pragya, librarian, auditor"

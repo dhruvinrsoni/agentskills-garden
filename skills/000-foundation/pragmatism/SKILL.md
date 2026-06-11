@@ -12,7 +12,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, principles, pragmatism, advisory]
-keywords: []
+keywords: [aparigraha, non-accumulation, reuse first, minimal diff, edge case validation, brownfield, style conformance, check before create, surgical change, 95% fit trap]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragya"

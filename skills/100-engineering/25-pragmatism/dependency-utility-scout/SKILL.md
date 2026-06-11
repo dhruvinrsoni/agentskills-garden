@@ -11,7 +11,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, pragmatism, advisory]
-keywords: []
+keywords: [utility inventory, manifest discovery, package.json, pom.xml, leverage report, capability index, transitive deps, curated knowledge base, avoid reinventing, check-before-create]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, pragmatism"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, collaboration, reversible]
-keywords: []
+keywords: [runbook, bus factor, onboarding, tribal knowledge, wiki, docs as code, adr, documentation culture, knowledge transfer, post-mortem, confluence]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, inline-documentation"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, auditing, safety-critical]
-keywords: []
+keywords: [compliance check, plan vs diff, guardrail, violation, destructive operation, approval gate, enforcement, post-execution, protected terms, constitutional pillars]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

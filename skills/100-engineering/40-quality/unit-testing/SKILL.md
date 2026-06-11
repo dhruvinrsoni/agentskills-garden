@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, testing, reversible]
-keywords: []
+keywords: [aaa pattern, arrange act assert, mocking, jest, mockito, pytest-mock, sinon, stubs, test doubles, boundary values, snapshot testing]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, test-strategy"

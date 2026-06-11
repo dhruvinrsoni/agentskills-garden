@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, irreversible]
-keywords: []
+keywords: [framework upgrade, runtime migration, strangler fig, big bang, codemods, jscodeshift, openrewrite, pyupgrade, adr, end of life]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, test-strategy"

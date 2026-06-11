@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, planning, advisory]
-keywords: []
+keywords: [risk register, probability impact matrix, heat map, mitigation strategy, risk scoring, contingency plan, leading indicators, avoid transfer mitigate accept, compliance risk, schedule risk, risk monitoring]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, requirements-elicitation"

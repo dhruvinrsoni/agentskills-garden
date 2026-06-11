@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, discovery, requirements, advisory]
-keywords: []
+keywords: [glossary, entity extraction, er diagram, mermaid, aggregates, bounded context, ddd, protected terms, ubiquitous language, naming conventions, value object]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, requirements-elicitation"

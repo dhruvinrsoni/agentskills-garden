@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, reasoning, advisory]
-keywords: []
+keywords: [chain of thought, internal monologue, private reasoning, eco mode, power mode, deductive, inductive, abductive, analogical, planning, cognitive mode selection]
 metadata:
   version: 1.0.0
   dependencies: constitution

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, testing, reversible]
-keywords: []
+keywords: [mutation score, pitest, stryker, mutmut, cosmic-ray, fault injection, test gap, killed mutant, survived mutant, equivalent mutant]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, unit-testing"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, performance, advisory]
-keywords: []
+keywords: [memory pressure, cpu quota, rate limiting, adaptive degradation, load shedding, hysteresis, backpressure, oom, budget allocation, graceful degradation]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, token-efficiency"

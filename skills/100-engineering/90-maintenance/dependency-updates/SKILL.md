@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, reversible]
-keywords: []
+keywords: [semver, lockfile, npm audit, pip-audit, transitive dependency, breaking change, peer dependency, vulnerability, cve, package manager, version pinning]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, test-strategy"

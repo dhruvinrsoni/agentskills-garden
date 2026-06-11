@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, discovery, requirements, reversible]
-keywords: []
+keywords: [product requirements document, working backwards, hypothesis driven, moscow, invest, rice scoring, smart metrics, stakeholder, acceptance criteria, versioning, lean one-pager]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, requirements-elicitation"

@@ -14,7 +14,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, planning, advisory]
-keywords: []
+keywords: [plan.md, plan format, exact-diff, file-by-file, trace-before-patch, hybrid plan, implementation plan, lift-out, signal detection, format selection, agentic coding, plan mode]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, task-decomposition, risk-assessment, root-cause-analysis, style-conformance"

@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, performance, db, reversible]
-keywords: []
+keywords: [slow query, explain analyze, index optimization, n+1, connection pooling, query plan, sequential scan, composite index, work mem, migration, postgresql]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, database-design"

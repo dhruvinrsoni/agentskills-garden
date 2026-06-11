@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, build, resilience, reversible]
-keywords: []
+keywords: [circuit breaker, retry backoff, bulkhead, fallback chain, timeout budget, graceful degradation, thundering herd, half open probe, jitter, cascading failure, stale cache]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad, error-handling"

@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: foundation
 status: published
 tags: [core, efficiency, advisory]
-keywords: []
+keywords: [model tier, resource optimization, cost reduction, parallelization, delegation, tool waterfall, context window, sub-agent, progressive disclosure, speculative read]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

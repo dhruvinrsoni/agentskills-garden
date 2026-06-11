@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, operate, performance, advisory]
-keywords: []
+keywords: [flame graph, cpu profiling, memory leak, heap snapshot, pprof, py-spy, opentelemetry, distributed tracing, hotspot, p99, load testing]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, collaboration, reversible]
-keywords: []
+keywords: [branching strategy, conventional commits, rebase, squash merge, merge conflict, gitflow, trunk based development, commitlint, branch protection, atomic commits, version control]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

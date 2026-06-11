@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, docs, reversible]
-keywords: []
+keywords: [openapi, rest, graphql, endpoint catalog, request response, swagger, authentication, versioning, migration guide, error codes, schema validation]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, openapi-specs"

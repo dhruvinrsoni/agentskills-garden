@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, architecture, reversible]
-keywords: []
+keywords: [ranking, weighted scoring, composable, micro-scorer, relevance, bm25, weight calibration, booster, normalization, multi-factor, signal decomposition]
 metadata:
   version: "1.0.0"
   dependencies: "constitution, scratchpad"

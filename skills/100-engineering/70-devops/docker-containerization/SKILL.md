@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, devops, infra, reversible]
-keywords: []
+keywords: [dockerfile, multi-stage build, alpine, distroless, buildkit, trivy, docker scout, dockerignore, image hardening, non-root user, docker compose, layer caching]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, design, planning, advisory]
-keywords: []
+keywords: [dependency graph, circular dependencies, transitive deps, cve, vulnerability audit, staleness, upgrade plan, package manifest, mermaid, lock file, version conflict, phased migration]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad"

@@ -513,6 +513,21 @@ implementation:
   - reversible
   reasoning_mode: linear
   status: published
+- name: responsive-design
+  path: skills/100-engineering/30-implementation/responsive-design/SKILL.md
+  description: Make a web page work on every screen — phone to ultrawide — without text or media ever
+    escaping its container. Invoke whenever building or changing any page/CSS that will be viewed on more
+    than one screen size (i.e. always). Overflow and word-wrap bugs are treated as correctness bugs, not
+    polish.
+  domain: engineering
+  tags:
+  - category
+  - build
+  - coding
+  - frontend
+  - reversible
+  reasoning_mode: linear
+  status: published
 - name: tdd-workflow
   path: skills/100-engineering/30-implementation/tdd-workflow/SKILL.md
   description: Drive implementation through the Red-Green-Refactor cycle. Write failing tests first, implement

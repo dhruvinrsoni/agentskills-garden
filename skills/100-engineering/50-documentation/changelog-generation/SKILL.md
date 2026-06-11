@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, docs, reversible]
-keywords: []
+keywords: [semver, conventional commits, keep a changelog, release notes, breaking changes, git log, version bump, migration guide, commit parsing, major minor patch]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, release-notes"

@@ -9,7 +9,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, performance, advisory]
-keywords: []
+keywords: [big-o, n+1 query, flame graph, bottleneck, latency, caching, memoization, redis, complexity analysis, eager loading, heap snapshot]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, profiling-analysis"

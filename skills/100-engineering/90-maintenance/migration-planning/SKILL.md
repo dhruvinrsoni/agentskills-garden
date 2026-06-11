@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, maintain, maintenance, irreversible]
-keywords: []
+keywords: [blue-green, canary, rolling deployment, expand-contract, dual-write, schema migration, rollback plan, data integrity, runbook, point of no return]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor, database-design, risk-assessment"

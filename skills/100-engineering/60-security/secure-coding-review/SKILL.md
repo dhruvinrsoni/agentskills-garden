@@ -8,7 +8,7 @@ compatibility: Designed for Claude Code and compatible AI agent environments
 domain: engineering
 status: published
 tags: [category, ship, security, safety-critical]
-keywords: []
+keywords: [owasp, xss, sqli, injection, xxe, secret detection, hardcoded secrets, deserialization, cwe, input validation, attack surface, static analysis]
 metadata:
   version: 1.0.0
   dependencies: "constitution, scratchpad, auditor"
