@@ -694,13 +694,16 @@ def render_site(base_url: str, canonical_root: str) -> None:
     os.makedirs(assets_dir, exist_ok=True)
     shutil.copy(os.path.join(TEMPLATES_DIR, "style.css"), os.path.join(assets_dir, "style.css"))
     shutil.copy(os.path.join(TEMPLATES_DIR, "filter.js"), os.path.join(assets_dir, "filter.js"))
-    # Web app manifest sits at site root, not under assets/
+    # Web app manifest + service worker sit at site root, not under assets/
     shutil.copy(os.path.join(TEMPLATES_DIR, "manifest.webmanifest"), os.path.join(OUTPUT_DIR, "manifest.webmanifest"))
-    # OG image for social sharing and apple touch icon
+    if os.path.exists(os.path.join(TEMPLATES_DIR, "sw.js")):
+        shutil.copy(os.path.join(TEMPLATES_DIR, "sw.js"), os.path.join(OUTPUT_DIR, "sw.js"))
+    # PWA icons (192/512/maskable + apple-touch)
+    if os.path.isdir(os.path.join(TEMPLATES_DIR, "icons")):
+        shutil.copytree(os.path.join(TEMPLATES_DIR, "icons"), os.path.join(OUTPUT_DIR, "icons"), dirs_exist_ok=True)
+    # OG image for social sharing
     if os.path.exists(os.path.join(TEMPLATES_DIR, "og-image.png")):
         shutil.copy(os.path.join(TEMPLATES_DIR, "og-image.png"), os.path.join(OUTPUT_DIR, "og-image.png"))
-    if os.path.exists(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png")):
-        shutil.copy(os.path.join(TEMPLATES_DIR, "apple-touch-icon.png"), os.path.join(OUTPUT_DIR, "apple-touch-icon.png"))
 
     # ── Search index (client-side fuzzy search) ────────────────────────────
     generate_search_index(skills, base_url)

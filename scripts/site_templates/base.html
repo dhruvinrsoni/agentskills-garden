@@ -47,8 +47,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Skills Garden">
   <meta name="format-detection" content="telephone=no">
-  <!-- TODO: replace with real 180x180 PNG once available -->
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ base_url }}/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ base_url }}/icons/apple-touch-180.png">
 
   <!-- ===== Windows / Microsoft Tile ===== -->
   <meta name="msapplication-TileColor" content="#0a84ff">
@@ -154,5 +153,12 @@
   </button>
 
   <script src="{{ base_url }}/assets/filter.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('{{ base_url }}/sw.js', { scope: '{{ base_url }}/' }).catch(function () {});
+      });
+    }
+  </script>
 </body>
 </html>
